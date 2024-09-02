@@ -1,9 +1,21 @@
+using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+using Taller1.src.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Cargar las variables de entorno
+Env.Load();
 
+// Configurar la cadena de conexión
+string connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "Data Source=app.db";
+
+// Registrar el DbContext en el contenedor de servicios
+builder.Services.AddDbContext<AplicationDbContext>(options =>
+    options.UseSqlite(connectionString));
+
+// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -17,7 +29,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();

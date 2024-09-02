@@ -1,7 +1,12 @@
 # Archivos de compilación
 bin/
 obj/
+# IDES
+.vscode/
+.idea/
 
+#Enviroment
+.env
 # Archivos temporales
 *.tmp
 *.log

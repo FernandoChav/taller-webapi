@@ -20,7 +20,7 @@ namespace Taller1.src.Models
         public int Id {get;set;}
         public string Name {get;set;} = string.Empty;
 
-        public ProductType ProductType {get;set;} = string.Empty;
+        public ProductType ProductType {get;set;}
 
         public int Price {get;set;}
 

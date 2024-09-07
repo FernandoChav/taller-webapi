@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:src\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\taller1.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:taller1.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\data\\aplicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,6 +15,14 @@
       "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:src\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\taller1.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:taller1.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
@@ -23,12 +31,8 @@
       "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:.env.example||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:src\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:src\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\src\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|solutionrelative:src\\model\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{378BF0C7-82E9-4B3D-8426-71307843E6B2}|Taller1.csproj|c:\\users\\benja\\documents\\.net\\taller-webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -46,19 +50,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Taller1.http",
+              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\Taller1.http",
+              "RelativeDocumentMoniker": "Taller1.http",
+              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\Taller1.http",
+              "RelativeToolTip": "Taller1.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-09-07T15:02:45.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\WeatherForecast.cs",
+              "RelativeToolTip": "WeatherForecast.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T14:42:12.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Taller1",
               "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\Taller1.csproj",
               "RelativeDocumentMoniker": "Taller1.csproj",
               "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\Taller1.csproj",
               "RelativeToolTip": "Taller1.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-09-07T04:29:09.674Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:29:09.674Z"
             },
             {
               "$type": "Document",
@@ -70,25 +98,11 @@
               "RelativeToolTip": "src\\Data\\AplicationDbContext.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T04:28:52.406Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:28:52.406Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "src\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "src\\Controllers\\WeatherForecastController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T04:28:45.871Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -96,12 +110,11 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-09-07T04:28:02.109Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:28:02.109Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
@@ -109,12 +122,11 @@
               "RelativeToolTip": ".gitignore",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-07T04:28:00.619Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:28:00.619Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": ".env.example",
               "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\.env.example",
               "RelativeDocumentMoniker": ".env.example",
@@ -122,34 +134,31 @@
               "RelativeToolTip": ".env.example",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-09-07T04:27:59.132Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:27:59.132Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Models\\User.cs",
-              "RelativeDocumentMoniker": "src\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Models\\User.cs",
-              "RelativeToolTip": "src\\Models\\User.cs",
+              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Model\\User.cs",
+              "RelativeDocumentMoniker": "src\\Model\\User.cs",
+              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Model\\User.cs",
+              "RelativeToolTip": "src\\Model\\User.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAAAcAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T04:27:37.752Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:27:37.752Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Models\\Product.cs",
-              "RelativeDocumentMoniker": "src\\Models\\Product.cs",
-              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Models\\Product.cs",
-              "RelativeToolTip": "src\\Models\\Product.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwBYAAAAaAAAA",
+              "DocumentMoniker": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "src\\Model\\Product.cs",
+              "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\src\\Model\\Product.cs",
+              "RelativeToolTip": "src\\Model\\Product.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAQwBcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T04:24:01.708Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:24:01.708Z"
             },
             {
               "$type": "Document",
@@ -159,10 +168,9 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\benja\\Documents\\.NET\\taller-webapi\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAiwCQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-07T04:23:43.32Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-07T04:23:43.32Z"
             }
           ]
         }

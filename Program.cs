@@ -1,6 +1,8 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Taller1.src.Data;
+using Taller1.src.Models;
+using Taller1.src.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ string connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ??
 builder.Services.AddDbContext<AplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
+builder.Services.AddScoped<IObjectService<Product>, ProductDbSetObjectService>();
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -21,12 +25,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-/*// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}*/
+}
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

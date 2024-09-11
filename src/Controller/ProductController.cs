@@ -24,6 +24,14 @@ namespace Taller1.src.Controller
             return product;
         }
 
+
+        [HttpGet]
+        [Route("/get/")]
+        public ActionResult<Product> Get(int id){
+            return _service.FindById(id);
+        }
+
+
     }
 
 }

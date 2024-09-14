@@ -1,23 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Taller1.Service;
 using Taller1.src.Models;
-using Taller1.src.Service;
 
-namespace Taller1.src.Controller
+namespace Taller1.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
-
         private readonly IObjectService<Product> _service;
 
         private readonly ImageService _imageService;
-        public ProductController(IObjectService<Product> _service, ImageService imageService)
-        {
-            this._service = _service;
 
-             _imageService = imageService;
+        public ProductController(IObjectService<Product> service, ImageService imageService)
+        {
+            _service = service;
+            _imageService = imageService;
         }
 
         [HttpPost]
@@ -28,5 +26,4 @@ namespace Taller1.src.Controller
             return product;
         }
     }
-
 }

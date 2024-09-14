@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Taller1.src.Data;
+using Taller1.Data;
 using Taller1.src.Models;
 
-namespace Taller1.src.Service
+namespace Taller1.Service
 {
     public class ProductDbSetObjectService : IObjectService<Product>
     {
@@ -23,10 +23,11 @@ namespace Taller1.src.Service
             _products.Add(entity);
         }
 
-        public Product FindById(int id) {
+        public Product FindById(int id)
+        {
             return _products
-            .Where(p => p.Id == id)
-            .Single();
+                .Where(p => p.Id == id)
+                .First();
         }
 
 

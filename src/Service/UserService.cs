@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Taller1.src.Models;
+using Taller1.Model;
 
-namespace Taller1.src.Service
+namespace Taller1.Service
 {
     public class UserService : IObjectService<User>
     {
@@ -32,6 +28,16 @@ namespace Taller1.src.Service
         {
             _users.Add(user);
             Console.WriteLine("Entity added successfully.");
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User FindById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public void Delete(string rut)

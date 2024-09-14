@@ -1,14 +1,13 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Taller1.src.Model;
-namespace Taller1.src.Service
+using Taller1.Model;
+
+namespace Taller1.Service
 {
     public class ImageService
     {
+        private const int MaxSize = 10 * 1024 * 1024;
         private readonly Cloudinary _cloudinary;
 
         public ImageService(IOptions<CloudinarySettings> config)
@@ -30,7 +29,7 @@ namespace Taller1.src.Service
                 throw new Exception("Invalid file format. Only .jpg and .png are allowed.");
             }
 
-            if (fileStream.Length > 10 * 1024 * 1024)
+            if (fileStream.Length > MaxSize)
             {
                 throw new Exception("File size exceeds the 10 MB limit.");
             }
@@ -50,5 +49,28 @@ namespace Taller1.src.Service
 
             throw new Exception("Error uploading image to Cloudinary.");
         }
+        
+       /* [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            try
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var imageUrl = await _cloudinary.UploadImageAsync(stream, file.FileName);
+                    return Ok(new { Url = imageUrl });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }*/
+        
     }
 }

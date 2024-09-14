@@ -11,27 +11,22 @@ namespace Taller1.src.Controller
     {
 
         private readonly IObjectService<Product> _service;
-        public ProductController(IObjectService<Product> _service)
+
+        private readonly ImageService _imageService;
+        public ProductController(IObjectService<Product> _service, ImageService imageService)
         {
             this._service = _service;
+
+             _imageService = imageService;
         }
 
         [HttpPost]
-        [Route("/create/")]
+        [Route("/create/")] // falta agregar la ruta de acceso del id api/create/{id}
         public ActionResult<Product> Post(Product product)
         {
             _service.Push(product);
             return product;
         }
-
-
-        [HttpGet]
-        [Route("/get/")]
-        public ActionResult<Product> Get(int id){
-            return _service.FindById(id);
-        }
-
-
     }
 
 }

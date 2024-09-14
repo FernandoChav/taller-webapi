@@ -1,6 +1,7 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Taller1.src.Data;
+using Taller1.src.Model;
 using Taller1.src.Models;
 using Taller1.src.Service;
 
@@ -17,6 +18,10 @@ builder.Services.AddDbContext<AplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<IObjectService<Product>, ProductDbSetObjectService>();
+
+// Configurar la sección de Cloudinary desde appsettings.json
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
+builder.Services.AddScoped<ImageService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

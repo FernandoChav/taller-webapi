@@ -13,7 +13,7 @@ namespace Taller1.src.Service
             this._products = aplicationDbContext.Products;
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -22,6 +22,13 @@ namespace Taller1.src.Service
         {
             _products.Add(entity);
         }
+
+        public Product FindById(int id) {
+            return _products
+            .Where(p => p.Id == id)
+            .Single();
+        }
+
 
     }
 }

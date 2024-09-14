@@ -27,28 +27,6 @@ namespace Taller1.src.Controller
             _service.Push(product);
             return product;
         }
-
-        [HttpPost("upload-image")]
-        public async Task<IActionResult> UploadImage(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded.");
-            }
-
-            try
-            {
-                using (var stream = file.OpenReadStream())
-                {
-                    var imageUrl = await _imageService.UploadImageAsync(stream, file.FileName);
-                    return Ok(new { Url = imageUrl });
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Error = ex.Message });
-            }
-        }
     }
 
 }

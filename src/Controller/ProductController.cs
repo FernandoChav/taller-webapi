@@ -9,7 +9,6 @@ namespace Taller1.Controller
     public class ProductController : ControllerBase
     {
         private readonly IObjectService<Product> _service;
-
         private readonly ImageService _imageService;
 
         public ProductController(IObjectService<Product> service, ImageService imageService)

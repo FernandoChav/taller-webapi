@@ -6,7 +6,7 @@ namespace Taller1.Data
 {
     public class AplicationDbContext(DbContextOptions options) : DbContext
     {
-        public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; } = null!;
+        public DbSet<User> Users { get;  } = null!;
     }
 }

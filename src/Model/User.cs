@@ -15,11 +15,13 @@ namespace Taller1.src.Models
     
     public class User
     {
+        public int Id {get;set;}
+        
         [StringLength(255, MinimumLength = 8, ErrorMessage = "The lenth name should be between 8 and 255 characters")]
         [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
         public string Name {get;set;} = string.Empty;
         
-        [Key]  // Clave primaria, RUT debe ser único
+        
         [Required(ErrorMessage = "RUT is required")]
         public string Rut {get;set;} = string.Empty;
 
@@ -39,13 +41,6 @@ namespace Taller1.src.Models
         [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$", ErrorMessage = "La contraseña debe ser alfanumérica.")]
         public string Password {get;set;} = string.Empty;
 
-         public static ValidationResult ValidateBirthdate(DateTime birthdate, ValidationContext context)
-        {
-            if (birthdate >= DateTime.Now)
-            {
-                return new ValidationResult("Birthdate must be in the past.");
-            }
-            return ValidationResult.Success;
-        }
+         
     }
 }

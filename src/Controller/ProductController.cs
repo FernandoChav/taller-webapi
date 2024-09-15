@@ -21,7 +21,7 @@ namespace Taller1.src.Controller
         }
 
         [HttpPost]
-        [Route("/create/")] // falta agregar la ruta de acceso del id api/create/{id}
+        [Route("/create/")]
         public ActionResult<Product> Post(Product product)
         {
             _service.Push(product);

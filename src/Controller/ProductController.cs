@@ -15,7 +15,9 @@ namespace Taller1.Controller
         private readonly ImageService _imageService;
         private readonly DbSet<Product> _products;
 
-        public ProductController(IObjectService<Product> service, ImageService imageService,
+        public ProductController(
+            IObjectService<Product> service, 
+            ImageService imageService,
             AplicationDbContext aplicationDbContext)
         {
             _service = service;
@@ -24,25 +26,38 @@ namespace Taller1.Controller
         }
 
         [HttpPost]
-        [Route("/create")] 
+        [Route("/create")]
         public ActionResult<Product> Post([FromBody] Product product)
         {
             _service.Push(product);
             return product;
         }
 
+        [HttpDelete]
+        [Route("/delete/{id}")]
+        public void Delete(int id)
+        { 
+            _service.Delete(id);
+        }
+
+        [HttpGet]
+        [Route("/find/{id}")]
+        public ActionResult<Product> Find(int id)
+        {
+            return _service.FindById(id);
+        }
+
         [HttpGet]
         [Route("/all")]
         public ActionResult<IEnumerable<Product>> All(
-                [FromQuery] int page,
+            [FromQuery] int page,
             [FromQuery] int elements
-            )
+        )
         {
             return DbSetSearchBuilder<Product>.NewBuilder(
                     _products
                 ).Page(page, elements)
                 .BuildAndGetAll();
         }
-
     }
 }

@@ -17,7 +17,9 @@ namespace Taller1.Service
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var product = FindById(id);
+            _products.Remove(product);
+            _aplicationDbContext.SaveChanges();
         }
 
         public void Push(Product entity)
@@ -29,8 +31,9 @@ namespace Taller1.Service
         public Product FindById(int id)
         {
             return _products
-                .Where(p => p.Id == id)
-                .First();
+                .SingleOrDefault(
+                    product => product.Id == id
+                );
         }
     }
 }

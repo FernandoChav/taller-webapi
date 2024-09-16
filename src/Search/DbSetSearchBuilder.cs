@@ -4,34 +4,32 @@ namespace Taller1.Search;
 
 public class DbSetSearchBuilder<T> where T : class
 {
-    private Func<T, bool> _predicate;
-    private int _page;
-    private int _elements = 10;
-
     private readonly DbSet<T> _dbSet;
+    private IEnumerable<T> _enumerable;
 
     public DbSetSearchBuilder(DbSet<T> dbSet)
     {
         _dbSet = dbSet;
+        _enumerable = _dbSet;
     }
 
     public DbSetSearchBuilder<T> Filter(Func<T, bool> predicate)
     {
-        _predicate = predicate;
+        _enumerable = _dbSet.Where(predicate);
         return this;
     }
 
     public DbSetSearchBuilder<T> Page(int page,
         int elements)
     {
-        _page = page;
-        _elements = elements;
-        return this;
+        var countElements = (page - 1) * elements;
+        _enumerable = _enumerable.Skip(countElements);
+        return Elements(elements);
     }
 
     public DbSetSearchBuilder<T> Elements(int elements)
     {
-        _elements = elements;
+        _enumerable = _enumerable.Take(elements);
         return this;
     }
 
@@ -42,21 +40,18 @@ public class DbSetSearchBuilder<T> where T : class
 
     public List<T> BuildAndGetAll()
     {
-        return Build()
+        return _enumerable
             .ToList();
     }
 
     public T BuildAndGetFirst()
     {
-        return Build()
+        return _enumerable
             .First();
     }
 
-    private IEnumerable<T> Build()
+    public static DbSetSearchBuilder<T> NewBuilder(DbSet<T> dbSet)
     {
-        var countElements = (_page - 1) * _elements;
-        return _dbSet.Where(_predicate)
-            .Skip(countElements)
-            .Take(_elements);
+        return new DbSetSearchBuilder<T>(dbSet);
     }
 }

@@ -23,21 +23,20 @@ namespace Taller1.src.Models
         [StringLength(
             64, 
             MinimumLength = 10, 
-            ErrorMessage = "The lenth name should be between 10 and 64 characters")
+            ErrorMessage = "The length name should be between 10 and 64 characters")
         ]
         public string Name { get; set; } = string.Empty;
 
         public ProductType ProductType { get; set; } = ProductType.Book;
         
-        [Range(1, 
-            99999999, 
+        [Range(
+            1, 99999999, 
             ErrorMessage = "The price must be a positive integer less than 100 million.")
         ]
         public int Price { get; set; }
         
         [Range(
-            0,
-            99999, 
+            0, 99999, 
             ErrorMessage = "The stock must be a non-negative integer less than 100,000.")
         ]
         public int Stock { get; set; }

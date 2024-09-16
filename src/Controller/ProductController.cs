@@ -35,20 +35,22 @@ namespace Taller1.Controller
 
         [HttpDelete]
         [Route("/delete/{id}")]
-        public void Delete(int id)
+        public void Delete(
+            [FromQuery] int id)
         { 
             _service.Delete(id);
         }
 
         [HttpGet]
         [Route("/find/{id}")]
-        public ActionResult<Product> Find(int id)
+        public ActionResult<Product> Find(
+            [FromQuery] int id)
         {
             return _service.FindById(id);
         }
 
         [HttpGet]
-        [Route("/all")]
+        [Route("/all-available")]
         public ActionResult<IEnumerable<Product>> All(
             [FromQuery] int page,
             [FromQuery] int elements
@@ -57,7 +59,9 @@ namespace Taller1.Controller
             return DbSetSearchBuilder<Product>.NewBuilder(
                     _products
                 ).Page(page, elements)
+                .Filter(product => product.StockAvailable())
                 .BuildAndGetAll();
         }
     }
+    
 }

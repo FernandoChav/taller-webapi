@@ -24,25 +24,24 @@ namespace Taller1.Controller
         }
 
         [HttpPost]
-        [Route("/create/")] // falta agregar la ruta de acceso del id api/create/{id}
-        public ActionResult<Product> Post(Product product)
+        [Route("/create")] 
+        public ActionResult<Product> Post([FromBody] Product product)
         {
             _service.Push(product);
             return product;
         }
 
         [HttpGet]
-        [Route("/all/")]
+        [Route("/all")]
         public ActionResult<IEnumerable<Product>> All(
                 [FromQuery] int page,
             [FromQuery] int elements
             )
         {
-            return _products.ToList();
-            /*return DbSetSearchBuilder<Product>.NewBuilder(
+            return DbSetSearchBuilder<Product>.NewBuilder(
                     _products
                 ).Page(page, elements)
-                .BuildAndGetAll();*/
+                .BuildAndGetAll();
         }
 
     }

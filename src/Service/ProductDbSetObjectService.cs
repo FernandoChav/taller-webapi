@@ -6,11 +6,13 @@ namespace Taller1.Service
 {
     public class ProductDbSetObjectService : IObjectService<Product>
     {
-
         private readonly DbSet<Product> _products;
+        private readonly AplicationDbContext _aplicationDbContext;
+
         public ProductDbSetObjectService(AplicationDbContext aplicationDbContext)
         {
-            this._products = aplicationDbContext.Products;
+            _aplicationDbContext = aplicationDbContext;
+            _products = aplicationDbContext.Products;
         }
 
         public void Delete(int id)
@@ -21,6 +23,7 @@ namespace Taller1.Service
         public void Push(Product entity)
         {
             _products.Add(entity);
+            _aplicationDbContext.SaveChanges();
         }
 
         public Product FindById(int id)
@@ -29,7 +32,5 @@ namespace Taller1.Service
                 .Where(p => p.Id == id)
                 .First();
         }
-
-
     }
 }

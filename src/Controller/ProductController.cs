@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
@@ -10,27 +11,27 @@ namespace Taller1.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(
+        IObjectService<Product> service,
+        ImageService imageService,
+        AplicationDbContext aplicationDbContext)
+        : ControllerBase
     {
-        private readonly IObjectService<Product> _service;
-        private readonly ImageService _imageService;
-        private readonly DbSet<Product> _products;
+        private readonly ImageService _imageService = imageService;
+        private readonly DbSet<Product> _products = aplicationDbContext.Products;
 
-        public ProductController(
-            IObjectService<Product> service,
-            ImageService imageService,
-            AplicationDbContext aplicationDbContext)
-        {
-            _service = service;
-            _imageService = imageService;
-            _products = aplicationDbContext.Products;
-        }
+        private readonly IObjectMapper<CreationProduct, Product> _productCreationDtoMapper
+            = new CreationProductObjectMapper();
 
         [HttpPost]
         [Route("/create")]
-        public ActionResult<Product> Post([FromBody] Product product)
+        public ActionResult<Product> Post([FromBody]
+            CreationProduct creationProduct)
         {
-            _service.Push(product);
+            var product = _productCreationDtoMapper.
+                Mapper(creationProduct);
+            
+            service.Push(product);
             return product;
         }
 
@@ -39,7 +40,7 @@ namespace Taller1.Controller
         public void Delete(
             [FromQuery] int id)
         {
-            _service.Delete(id);
+            service.Delete(id);
         }
 
         [HttpGet]
@@ -47,7 +48,7 @@ namespace Taller1.Controller
         public ActionResult<Product> Find(
             [FromQuery] int id)
         {
-            return _service.FindById(id);
+            return service.FindById(id);
         }
         
         [HttpGet]
@@ -64,7 +65,7 @@ namespace Taller1.Controller
                         ).Page(page, elements)
                         .Filter(product => product.StockAvailable())
                         .BuildAndGetAll(),
-                    new Dictionary<string, string>()
+                    new Dictionary<string, string>
                     {
                         ["Page"] = page.ToString(),
                         ["Elements"] = elements.ToString()

@@ -37,11 +37,26 @@ namespace Taller1.src.Models
         
     }
 
-    public class ProductDto
+    public class ProductView
     {
-     
         public int Id { get; set; } = 0;
+        
+        [StringLength(64)]
+        public string Name { get; set; } = string.Empty;
+        
+        public ProductType ProductType { get; set; } = ProductType.Book;
+        
+        public int Price { get; set; }
+        
+        public int Stock { get; set; }
+        
+        public string ImageUrl { get; set; }
 
+    }
+
+    public class CreationProduct
+    {
+        
         [StringLength(
             64,
             MinimumLength = 10,

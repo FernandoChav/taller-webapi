@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
+using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
 using Taller1.src.Models;
@@ -16,7 +17,7 @@ namespace Taller1.Controller
         private readonly DbSet<Product> _products;
 
         public ProductController(
-            IObjectService<Product> service, 
+            IObjectService<Product> service,
             ImageService imageService,
             AplicationDbContext aplicationDbContext)
         {
@@ -37,7 +38,7 @@ namespace Taller1.Controller
         [Route("/delete/{id}")]
         public void Delete(
             [FromQuery] int id)
-        { 
+        {
             _service.Delete(id);
         }
 
@@ -48,20 +49,29 @@ namespace Taller1.Controller
         {
             return _service.FindById(id);
         }
-
+        
         [HttpGet]
         [Route("/all-available")]
-        public ActionResult<IEnumerable<Product>> All(
+        public ActionResult<EntityGroup<Product>> All(
             [FromQuery] int page,
             [FromQuery] int elements
         )
         {
-            return DbSetSearchBuilder<Product>.NewBuilder(
-                    _products
-                ).Page(page, elements)
-                .Filter(product => product.StockAvailable())
-                .BuildAndGetAll();
+            return EntityGroup<Product>
+                .Create(
+                    DbSetSearchBuilder<Product>.NewBuilder(
+                            _products
+                        ).Page(page, elements)
+                        .Filter(product => product.StockAvailable())
+                        .BuildAndGetAll(),
+                    new Dictionary<string, string>()
+                    {
+                        ["Page"] = page.ToString(),
+                        ["Elements"] = elements.ToString()
+                    }
+                );
         }
+        
+        
     }
-    
 }

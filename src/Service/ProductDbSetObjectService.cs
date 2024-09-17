@@ -6,30 +6,34 @@ namespace Taller1.Service
 {
     public class ProductDbSetObjectService : IObjectService<Product>
     {
-
         private readonly DbSet<Product> _products;
+        private readonly AplicationDbContext _aplicationDbContext;
+
         public ProductDbSetObjectService(AplicationDbContext aplicationDbContext)
         {
-            this._products = aplicationDbContext.Products;
+            _aplicationDbContext = aplicationDbContext;
+            _products = aplicationDbContext.Products;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var product = FindById(id);
+            _products.Remove(product);
+            _aplicationDbContext.SaveChanges();
         }
 
         public void Push(Product entity)
         {
             _products.Add(entity);
+            _aplicationDbContext.SaveChanges();
         }
 
         public Product FindById(int id)
         {
             return _products
-                .Where(p => p.Id == id)
-                .First();
+                .SingleOrDefault(
+                    product => product.Id == id
+                );
         }
-
-
     }
 }

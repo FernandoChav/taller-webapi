@@ -9,6 +9,7 @@ namespace Taller1.Service
 
         public bool Add(User user)
         {
+            
             // Simulación de validación de RUT único
             if (_users.Any(u => u.Rut == user.Rut))
             {

@@ -1,4 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Taller1.Data;
+using Taller1.Mapper;
+using Taller1.Model;
+using Taller1.Search;
 using Taller1.Service;
 using Taller1.src.Models;
 
@@ -6,24 +11,68 @@ namespace Taller1.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(
+        IObjectService<Product> service,
+        ImageService imageService,
+        AplicationDbContext aplicationDbContext)
+        : ControllerBase
     {
-        private readonly IObjectService<Product> _service;
+        private readonly ImageService _imageService = imageService;
+        private readonly DbSet<Product> _products = aplicationDbContext.Products;
 
-        private readonly ImageService _imageService;
-
-        public ProductController(IObjectService<Product> service, ImageService imageService)
-        {
-            _service = service;
-            _imageService = imageService;
-        }
+        private readonly IObjectMapper<CreationProduct, Product> _productCreationDtoMapper
+            = new CreationProductObjectMapper();
 
         [HttpPost]
-        [Route("/create/")] // falta agregar la ruta de acceso del id api/create/{id}
-        public ActionResult<Product> Post(Product product)
+        [Route("/create")]
+        public ActionResult<Product> Post([FromBody]
+            CreationProduct creationProduct)
         {
-            _service.Push(product);
+            var product = _productCreationDtoMapper.
+                Mapper(creationProduct);
+            
+            service.Push(product);
             return product;
         }
+
+        [HttpDelete]
+        [Route("/delete/{id}")]
+        public void Delete(
+            [FromQuery] int id)
+        {
+            service.Delete(id);
+        }
+
+        [HttpGet]
+        [Route("/find/{id}")]
+        public ActionResult<Product> Find(
+            [FromQuery] int id)
+        {
+            return service.FindById(id);
+        }
+        
+        [HttpGet]
+        [Route("/all-available")]
+        public ActionResult<EntityGroup<Product>> All(
+            [FromQuery] int page,
+            [FromQuery] int elements
+        )
+        {
+            return EntityGroup<Product>
+                .Create(
+                    DbSetSearchBuilder<Product>.NewBuilder(
+                            _products
+                        ).Page(page, elements)
+                        .Filter(product => product.StockAvailable())
+                        .BuildAndGetAll(),
+                    new Dictionary<string, string>
+                    {
+                        ["Page"] = page.ToString(),
+                        ["Elements"] = elements.ToString()
+                    }
+                );
+        }
+        
+        
     }
 }

@@ -47,6 +47,7 @@ namespace Taller1.Controller
         [Route("/find/{id}")]
         public ActionResult<Product> Find(
             [FromQuery] int id)
+
         {
             return service.FindById(id);
         }

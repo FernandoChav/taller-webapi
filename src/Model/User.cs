@@ -15,6 +15,9 @@ namespace Taller1.Model
     
     public class User
     {
+        [Key]
+        public int Id {get;set;}
+        
         [StringLength(255, MinimumLength = 8, ErrorMessage = "The lenth name should be between 8 and 255 characters")]
         [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
         public string Name {get;set;} = string.Empty;
@@ -46,5 +49,6 @@ namespace Taller1.Model
              return birthdate >= DateTime.Now ?
                  new ValidationResult("Birthdae must be in the past") : ValidationResult.Success;
         }
+
     }
 }

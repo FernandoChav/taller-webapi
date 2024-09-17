@@ -52,6 +52,8 @@ namespace Taller1.src.Models
         
         public string ImageUrl { get; set; }
 
+        public string ImageUrl { get; set; } = string.Empty;
+      
     }
 
     public class CreationProduct

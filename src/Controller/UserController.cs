@@ -14,13 +14,13 @@ namespace Taller1.src.Controller
     {
         private readonly IObjectService<User> _userService;
 
-        // Inyección de dependencias del servicio de usuario
+        
         public UserController(IObjectService<User> userService)
         {
             _userService = userService;
         }
 
-        // Crear un nuevo usuario
+        
         [HttpPost("add")]
         public IActionResult AddUser([FromBody] User newUser)
         {
@@ -39,7 +39,7 @@ namespace Taller1.src.Controller
             return BadRequest(ModelState);
         }
 
-        // Obtener un usuario por su ID
+        
         [HttpGet("get/{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -54,7 +54,7 @@ namespace Taller1.src.Controller
             }
         }
 
-        // Eliminar un usuario por su ID
+        
         [HttpDelete("delete/{id}")]
         public IActionResult DeleteUser(int id)
         {

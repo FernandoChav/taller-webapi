@@ -30,7 +30,7 @@ namespace Taller1.src.Models
         [Range(0, 99999, ErrorMessage = "The stock must be a non-negative integer less than 100,000.")]
         public int Stock { get; set; }
 
-        public string ImageUrl { get; set; } // URL de la imagen cargada
+        public string ImageUrl { get; set; } = string.Empty;
 
 
 

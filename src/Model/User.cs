@@ -15,6 +15,7 @@ namespace Taller1.src.Models
     
     public class User
     {
+        [Key]
         public int Id {get;set;}
         
         [StringLength(255, MinimumLength = 8, ErrorMessage = "The lenth name should be between 8 and 255 characters")]

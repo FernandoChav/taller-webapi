@@ -50,8 +50,6 @@ namespace Taller1.src.Models
         
         public int Stock { get; set; }
         
-        public string ImageUrl { get; set; }
-
         public string ImageUrl { get; set; } = string.Empty;
       
     }

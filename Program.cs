@@ -14,7 +14,7 @@ Env.Load();
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "Data Source=app.db";
 
 // Registrar el DbContext en el contenedor de servicios
-builder.Services.AddDbContext<AplicationDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 builder.Services.AddScoped<IObjectService<Product>, ProductDbSetObjectService>();

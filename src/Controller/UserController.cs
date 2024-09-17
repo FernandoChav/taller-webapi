@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Taller1.src.Models;
-using Taller1.src.Service;
+using Taller1.Model;
+using Taller1.Service;
 
 namespace Taller1.src.Controller
 {

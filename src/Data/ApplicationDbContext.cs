@@ -4,9 +4,9 @@ using Taller1.src.Models;
 
 namespace Taller1.Data
 {
-    public class AplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public AplicationDbContext(DbContextOptions options)
+        public ApplicationDbContext(DbContextOptions options)
          :   base(options) {
         }
 

@@ -1,15 +1,6 @@
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Taller1.src.Models;
-using Taller1.src.Data;
-namespace Taller1.src.Service
-
-using Microsoft.EntityFrameworkCore;
+using Taller1.Data;
 using Taller1.Model;
 
 namespace Taller1.Service
@@ -19,20 +10,20 @@ namespace Taller1.Service
     {
         private readonly DbSet<User> _users;
 
-        public UserService(AplicationDbContext aplicationDbContext)
+        public UserService(ApplicationDbContext applicationDbContext)
         {
 
-            this._users = aplicationDbContext.Users;
+            this._users = applicationDbContext.Users;
 
             
             // Simulación de validación de RUT único
-            if (_users.Any(u => u.Rut == user.Rut))
+            /*if (_users.Any(u => u.Rut == user.Rut))
             {
                 return false;
             }
             
             _users.Add(user);
-            return true;
+            return true;*/
 
         }
 
@@ -51,15 +42,15 @@ namespace Taller1.Service
         public void Delete(int id)
 
         {
-            throw new NotImplementedException();
+            var user = _users.FirstOrDefault(u => u.Id == id);
+            if (user != null)
+            {
+                _users.Remove(user);
+                
+            }
         }
-
-        public User FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(string rut)
+        
+       /* public void Delete(string rut)
 
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
@@ -68,7 +59,7 @@ namespace Taller1.Service
                 _users.Remove(user);
                 
             }
-        }
+        }*/
 
         private bool IsBirthdateValid(DateTime birthdate)
         {

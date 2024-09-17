@@ -14,11 +14,11 @@ namespace Taller1.Controller
     public class ProductController(
         IObjectService<Product> service,
         ImageService imageService,
-        AplicationDbContext aplicationDbContext)
+        ApplicationDbContext applicationDbContext)
         : ControllerBase
     {
         private readonly ImageService _imageService = imageService;
-        private readonly DbSet<Product> _products = aplicationDbContext.Products;
+        private readonly DbSet<Product> _products = applicationDbContext.Products;
 
         private readonly IObjectMapper<CreationProduct, Product> _productCreationDtoMapper
             = new CreationProductObjectMapper();

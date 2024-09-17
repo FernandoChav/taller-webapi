@@ -10,10 +10,10 @@ namespace Taller1.Service
     {
         private readonly DbSet<User> _users;
 
-        public UserService(AplicationDbContext aplicationDbContext)
+        public UserService(ApplicationDbContext applicationDbContext)
         {
 
-            this._users = aplicationDbContext.Users;
+            this._users = applicationDbContext.Users;
 
             
             // Simulación de validación de RUT único

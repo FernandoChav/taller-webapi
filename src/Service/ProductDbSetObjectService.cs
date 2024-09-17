@@ -7,25 +7,25 @@ namespace Taller1.Service
     public class ProductDbSetObjectService : IObjectService<Product>
     {
         private readonly DbSet<Product> _products;
-        private readonly AplicationDbContext _aplicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public ProductDbSetObjectService(AplicationDbContext aplicationDbContext)
+        public ProductDbSetObjectService(ApplicationDbContext applicationDbContext)
         {
-            _aplicationDbContext = aplicationDbContext;
-            _products = aplicationDbContext.Products;
+            _applicationDbContext = applicationDbContext;
+            _products = applicationDbContext.Products;
         }
 
         public void Delete(int id)
         {
             var product = FindById(id);
             _products.Remove(product);
-            _aplicationDbContext.SaveChanges();
+            _applicationDbContext.SaveChanges();
         }
 
         public void Push(Product entity)
         {
             _products.Add(entity);
-            _aplicationDbContext.SaveChanges();
+            _applicationDbContext.SaveChanges();
         }
 
         public Product FindById(int id)

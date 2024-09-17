@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Taller1.src.Models;
 using Taller1.src.Data;
 namespace Taller1.src.Service
+
+using Microsoft.EntityFrameworkCore;
+using Taller1.Model;
+
+namespace Taller1.Service
+
 {
     public class UserService : IObjectService<User>
     {
@@ -14,7 +21,19 @@ namespace Taller1.src.Service
 
         public UserService(AplicationDbContext aplicationDbContext)
         {
+
             this._users = aplicationDbContext.Users;
+
+            
+            // Simulación de validación de RUT único
+            if (_users.Any(u => u.Rut == user.Rut))
+            {
+                return false;
+            }
+            
+            _users.Add(user);
+            return true;
+
         }
 
         public User FindById(int id)
@@ -30,6 +49,18 @@ namespace Taller1.src.Service
         }
 
         public void Delete(int id)
+
+        {
+            throw new NotImplementedException();
+        }
+
+        public User FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string rut)
+
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
             if (user != null)

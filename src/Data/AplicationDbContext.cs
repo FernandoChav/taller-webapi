@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Taller1.Model;
 using Taller1.src.Models;
 
-namespace Taller1.src.Data
+namespace Taller1.Data
 {
     public class AplicationDbContext : DbContext
     {
-        public AplicationDbContext(DbContextOptions<AplicationDbContext> options)
-            : base(options)
-        {
+        public AplicationDbContext(DbContextOptions options)
+         :   base(options) {
         }
 
         public DbSet<Product> Products { get; set; } = null!;

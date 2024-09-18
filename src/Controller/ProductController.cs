@@ -25,12 +25,10 @@ namespace Taller1.Controller
 
         [HttpPost]
         [Route("/create")]
-        public ActionResult<Product> Post([FromBody]
-            CreationProduct creationProduct)
+        public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
-            var product = _productCreationDtoMapper.
-                Mapper(creationProduct);
-            
+            var product = _productCreationDtoMapper.Mapper(creationProduct);
+
             service.Push(product);
             return product;
         }
@@ -49,9 +47,10 @@ namespace Taller1.Controller
             [FromQuery] int id)
 
         {
+            Console.WriteLine(HttpContext.Session.Id);
             return service.FindById(id);
         }
-        
+
         [HttpGet]
         [Route("/all-available")]
         public ActionResult<EntityGroup<Product>> All(
@@ -73,7 +72,5 @@ namespace Taller1.Controller
                     }
                 );
         }
-        
-        
     }
 }

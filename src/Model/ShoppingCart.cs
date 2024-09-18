@@ -2,7 +2,7 @@
 
 public class ShoppingCart
 {
-    public Dictionary<int, ProductShoppingCart> Elements { get; } = [];
+    public Dictionary<int, ProductShoppingCart?> Elements { get; } = [];
 
     public void Add(ProductShoppingCart productShoppingCart)
     {

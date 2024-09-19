@@ -31,12 +31,12 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 
         if (userSelected is null)
         {
-            return "";
+            throw new Exception("User is null");
         }
 
         if (!_encryptService.Verify(password, userSelected.Password))
         {
-            return "User no authorized";
+            throw new UnauthorizedAccessException("Is invalid");
         }
         
         

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Taller1.Model;
 using Taller1.Service;
 
-namespace Taller1.src.Controller
+namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]

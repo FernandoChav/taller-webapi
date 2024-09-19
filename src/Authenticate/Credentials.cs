@@ -21,7 +21,7 @@ public class Credentials
 
     public string Email()
     {
-        return Get("Mail");
+        return Get("Email");
     }
 
     public string Get(string key)

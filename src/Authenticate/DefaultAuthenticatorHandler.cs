@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Taller1.Authenticate.Token;
 using Taller1.Data;
 using Taller1.Model;
 using Taller1.Search;
@@ -11,12 +12,15 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 {
     private readonly DbSet<User> _users;
     private readonly IEncryptService _encryptService;
+    private readonly IUserTokenProvider _tokenProvider;
 
     public DefaultAuthenticatorHandler(ApplicationDbContext applicationDbContext,
-        IEncryptService encryptService)
+        IEncryptService encryptService,
+        IUserTokenProvider tokenProvider)
     {
         _users = applicationDbContext.Users;
         _encryptService = encryptService;
+        _tokenProvider = tokenProvider;
     }
 
     public string Authenticate(Credentials credentials)
@@ -38,7 +42,9 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
         {
             throw new UnauthorizedAccessException("Is invalid");
         }
-        
-        
+
+        return _tokenProvider.
+            Token(userSelected);
     }
+    
 }

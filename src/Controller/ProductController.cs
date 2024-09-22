@@ -12,6 +12,7 @@ namespace Taller1.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class ProductController(
         IObjectService<Product> service,
         ImageService imageService,
@@ -26,13 +27,10 @@ namespace Taller1.Controller
 
         [HttpPost]
         [Route("/create")]
-        [Authorize(Roles = "User")]
-        public ActionResult<Product> Post([FromBody]
-            CreationProduct creationProduct)
+        public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
-            var product = _productCreationDtoMapper.
-                Mapper(creationProduct);
-            
+            var product = _productCreationDtoMapper.Mapper(creationProduct);
+
             service.Push(product);
             return product;
         }
@@ -53,7 +51,7 @@ namespace Taller1.Controller
         {
             return service.FindById(id);
         }
-        
+
         [HttpGet]
         [Route("/all-available")]
         public ActionResult<EntityGroup<Product>> All(
@@ -75,7 +73,5 @@ namespace Taller1.Controller
                     }
                 );
         }
-        
-        
     }
 }

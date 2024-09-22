@@ -21,35 +21,14 @@ namespace Taller1.Model
         public int RoleId { get; set; } = 0;
 
         [Key] public int Id { get; set; }
-
-        [StringLength(255, MinimumLength = 8, ErrorMessage = "The length name should be between 8 and 255 characters")]
-        [RegularExpression(Constants.NamePatterns,
-            ErrorMessage = "El nombre solo puede contener letras y espacios.")]
         public string Name { get; set; } = string.Empty;
-        
-        [Required(ErrorMessage = "RUT is required")]
-        [MaxLength(16)]
         public string Rut { get; set; } = string.Empty;
 
         public DateTime Birthdate { get; set; } = DateTime.Now;
-
-        [Required]
-        [EmailAddress(ErrorMessage = "The mail address is invalid.")]
-        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Formato de correo electrónico no válido.")]
         public string Email { get; set; } = string.Empty;
-
-
-        [Required(ErrorMessage = "Gender is required")]
         public GenderType Gender { get; set; } = GenderType.NotSpecified;
-
-
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$",
-            ErrorMessage = "La contraseña debe ser alfanumérica.")]
         public string Password { get; set; } = string.Empty;
 
-        // No es responsabbilidad del Usuario esta verificación
         public static ValidationResult ValidateBirthdate(DateTime birthdate, ValidationContext context)
         {
             return birthdate >= DateTime.Now
@@ -60,14 +39,30 @@ namespace Taller1.Model
 
     public class UserCreation
     {
-        public string Rut { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string RepeatPassword { get; set; } = string.Empty;
 
-        public DateTime Birthday { get; set; } = DateTime.Now;
-        public GenderType GenderType { get; set; } = GenderType.NotSpecified;
+        [Required] [MaxLength(16)] public string Rut { get; set; } = string.Empty;
+
+        [StringLength(255, MinimumLength = 8,
+            ErrorMessage = "The length name should be between 8 and 255 characters")]
+        [RegularExpression(Constants.NamePattern,
+            ErrorMessage = "Name just can contains letter and spaces.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required] 
+        [RegularExpression(Constants.EmailPattern, 
+            ErrorMessage = "Email format not valid")]
+        public string Email { get; set; } = string.Empty;
+        
+        [Required] 
+        [RegularExpression(Constants.PasswordPattern,
+            ErrorMessage = "Password format not valid")]
+        public string Password { get; set; } = string.Empty;
+        
+        [Required] public string RepeatPassword { get; set; } = string.Empty;
+
+        [Required] public DateTime Birthday { get; set; } = DateTime.Now;
+        
+        [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;
         
     }
 

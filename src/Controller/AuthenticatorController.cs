@@ -51,4 +51,5 @@ public class AuthenticatorController : ControllerBase
 
         return Ok(message);
     }
+    
 }

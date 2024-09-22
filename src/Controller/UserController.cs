@@ -6,7 +6,7 @@ using Taller1.Service;
 namespace Taller1.Controller
 {
     [ApiController]
-    [Route("api/[controller]")
+    [Route("api/[controller]")]
     [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {

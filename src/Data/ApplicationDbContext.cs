@@ -13,5 +13,8 @@ namespace Taller1.Data
 
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+
+        public DbSet<Role> Roles { get; set; } = null!;  
+
     }
 }

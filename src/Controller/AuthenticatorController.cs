@@ -8,17 +8,19 @@ namespace Taller1.Controller;
 [Route("api/[controller]")]
 public class AuthenticatorController : ControllerBase
 {
-
     private IAuthenticatorHandler _authenticator;
+    private IRegistrationHandler _registrationHandler;
 
-    public AuthenticatorController(IAuthenticatorHandler authenticator)
+    public AuthenticatorController(IAuthenticatorHandler authenticator,
+        IRegistrationHandler registrationHandler)
     {
         _authenticator = authenticator;
+        _registrationHandler = registrationHandler;
     }
 
     [HttpPost]
     [Route("/authenticate")]
-    public ActionResult<Token> Authenticate(AuthenticationCredential authenticationCredential)
+    public ActionResult<Token> Authenticate([FromBody] AuthenticationCredential authenticationCredential)
     {
         var credentials = new Credentials(
             new Dictionary<string, string>
@@ -35,4 +37,18 @@ public class AuthenticatorController : ControllerBase
         };
     }
 
+    [HttpPost]
+    [Route("/register")]
+    public ActionResult<string> Register([FromBody] UserCreation userCreation)
+    {
+        var response = _registrationHandler.Register(userCreation);
+        var message = response.GetMessage();
+
+        if (!response.IsSuccessful())
+        {
+            return BadRequest(message);
+        }
+
+        return Ok(message);
+    }
 }

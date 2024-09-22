@@ -34,7 +34,7 @@ namespace Taller1.src.Authenticate.Token
             };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
-            DateTime? expiration = DateTime.UtcNow.AddHours(3);
+            DateTime? expiration = DateTime.UtcNow.AddHours(1);
             var credentials = new SigningCredentials(
                 authSigningKey,
                 SecurityAlgorithms.HmacSha256

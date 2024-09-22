@@ -40,7 +40,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 
         if (!_encryptService.Verify(password, userSelected.Password))
         {
-            throw new UnauthorizedAccessException("Is invalid");
+            throw new UnauthorizedAccessException("Password is not invalid");
         }
 
         return _tokenProvider.

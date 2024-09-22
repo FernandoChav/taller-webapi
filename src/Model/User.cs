@@ -49,8 +49,8 @@ namespace Taller1.Model
         public string Name { get; set; } = string.Empty;
 
         [Required] 
-        [RegularExpression(Constants.EmailPattern, 
-            ErrorMessage = "Email format not valid")]
+        /*[RegularExpression(Constants.EmailPattern, 
+            ErrorMessage = "Email format not valid")]*/
         public string Email { get; set; } = string.Empty;
         
         [Required] 

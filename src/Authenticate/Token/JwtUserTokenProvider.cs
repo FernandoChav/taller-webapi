@@ -2,35 +2,41 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Taller1.Authenticate.Token;
 using Taller1.Model;
-
-namespace Taller1.src.Authenticate.Token
+using Taller1.Service;
+namespace Taller1.Authenticate.Token
 {
     public class JwtUserTokenProvider : IUserTokenProvider
     {
         private readonly string _jwtSecret;
         private readonly string _validIssuer;
         private readonly string _validAudience;
+        private readonly IObjectService<Role> _roleService;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
 
-        public JwtUserTokenProvider(IConfiguration configuration)
+        public JwtUserTokenProvider(IConfiguration configuration,
+            IObjectService<Role> roleService)
         {
             _jwtSecret = configuration["JWT:Secret"];
             _validIssuer = configuration["JWT:ValidIssuer"];
             _validAudience = configuration["JWT:ValidAudience"];
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            _roleService = roleService;
         }
 
         public string Token(User user)
         {
+            var role = _roleService.FindById(user.RoleId);
+            Console.WriteLine("Role:::: " + role.Name);
+            
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti,
                     Guid.NewGuid()
-                        .ToString())
+                        .ToString()),
+                new Claim(ClaimTypes.Role, role.Name)
             };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));

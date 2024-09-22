@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Mapper;
@@ -25,6 +26,7 @@ namespace Taller1.Controller
 
         [HttpPost]
         [Route("/create")]
+        [Authorize]
         public ActionResult<Product> Post([FromBody]
             CreationProduct creationProduct)
         {

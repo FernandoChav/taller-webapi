@@ -8,7 +8,6 @@ using Taller1.Authenticate.Token;
 using Taller1.Data;
 using Taller1.Model;
 using Taller1.Service;
-using Taller1.src.Authenticate.Token;
 using Taller1.src.Models;
 using Taller1.Util;
 
@@ -30,6 +29,7 @@ builder.Services.AddScoped<IUserTokenProvider, JwtUserTokenProvider>();
 builder.Services.AddScoped<IEncryptService, BcryptEncryptService>();
 builder.Services.AddScoped<IAuthenticatorHandler, DefaultAuthenticatorHandler>();
 builder.Services.AddScoped<IRegistrationHandler, DefaultRegistrationHandler>();
+builder.Services.AddScoped<IObjectService<Role>, RoleService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

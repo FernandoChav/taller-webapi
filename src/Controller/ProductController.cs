@@ -26,7 +26,7 @@ namespace Taller1.Controller
 
         [HttpPost]
         [Route("/create")]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public ActionResult<Product> Post([FromBody]
             CreationProduct creationProduct)
         {

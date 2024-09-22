@@ -27,15 +27,11 @@ namespace Taller1.Authenticate.Token
         public string Token(User user)
         {
             var role = _roleService.FindById(user.RoleId);
-            Console.WriteLine("Role:::: " + role.Name);
             
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti,
-                    Guid.NewGuid()
-                        .ToString()),
                 new Claim(ClaimTypes.Role, role.Name)
             };
 
@@ -47,12 +43,9 @@ namespace Taller1.Authenticate.Token
             );
 
             var token = new JwtSecurityToken(
-                _validIssuer,
-                _validAudience,
-                claims,
-                null,
-                expiration,
-                credentials
+                claims: claims,
+                expires: expiration,
+                signingCredentials: credentials
             );
 
             return _jwtSecurityTokenHandler

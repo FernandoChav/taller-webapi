@@ -31,19 +31,19 @@ builder.Services.AddScoped<IAuthenticatorHandler, DefaultAuthenticatorHandler>()
 builder.Services.AddScoped<IRegistrationHandler, DefaultRegistrationHandler>();
 builder.Services.AddScoped<IObjectService<Role>, RoleService>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])),
-            ClockSkew = TimeSpan.Zero
         };
     });
+
+builder.Services.AddAuthorization();
 
 // Configurar la sección de Cloudinary desde appsettings.json
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));

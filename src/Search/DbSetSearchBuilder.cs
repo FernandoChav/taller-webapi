@@ -44,7 +44,7 @@ public class DbSetSearchBuilder<T> where T : class
             .ToList();
     }
 
-    public T BuildAndGetFirst()
+    public T? BuildAndGetFirst()
     {
         return _enumerable
             .First();

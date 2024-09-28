@@ -1,9 +1,15 @@
+using System.Text;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Taller1.Authenticate;
+using Taller1.Authenticate.Token;
 using Taller1.Data;
 using Taller1.Model;
 using Taller1.Service;
 using Taller1.src.Models;
+using Taller1.Util;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +23,27 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "D
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
+builder.Services.AddScoped<IObjectService<User>, UserService>();
 builder.Services.AddScoped<IObjectService<Product>, ProductDbSetObjectService>();
+builder.Services.AddScoped<IUserTokenProvider, JwtUserTokenProvider>();
+builder.Services.AddScoped<IEncryptService, BcryptEncryptService>();
+builder.Services.AddScoped<IAuthenticatorHandler, DefaultAuthenticatorHandler>();
+builder.Services.AddScoped<IRegistrationHandler, DefaultRegistrationHandler>();
+builder.Services.AddScoped<IObjectService<Role>, RoleService>();
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])),
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // Configurar la sección de Cloudinary desde appsettings.json
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));

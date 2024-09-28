@@ -8,20 +8,22 @@ namespace Taller1.Service
 {
     public class UserService : IObjectService<User>
     {
+        
+        private readonly ApplicationDbContext _applicationDb;
         private readonly DbSet<User> _users;
 
         public UserService(ApplicationDbContext applicationDbContext)
         {
 
-            this._users = applicationDbContext.Users;
+            _applicationDb = applicationDbContext;
+            _users = applicationDbContext.Users;
 
-            
             // Simulación de validación de RUT único
             /*if (_users.Any(u => u.Rut == user.Rut))
             {
                 return false;
             }
-            
+
             _users.Add(user);
             return true;*/
 
@@ -36,7 +38,7 @@ namespace Taller1.Service
         public void Push(User user)
         {
             _users.Add(user);
-            Console.WriteLine("Entity added successfully.");
+            _applicationDb.SaveChanges();
         }
 
         public void Delete(int id)

@@ -1,11 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Taller1.Model;
 using Taller1.Service;
 
-namespace Taller1.src.Controller
+namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
         private readonly IObjectService<User> _userService;

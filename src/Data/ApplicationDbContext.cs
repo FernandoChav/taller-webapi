@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Model;
 using Taller1.src.Models;
@@ -12,5 +13,8 @@ namespace Taller1.Data
 
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
+
+        public DbSet<Role> Roles { get; set; } = null!;  
+
     }
 }

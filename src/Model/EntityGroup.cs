@@ -3,8 +3,8 @@
 public class EntityGroup<T>
 {
 
-    public IEnumerable<T> _entities { get; }
-    public Dictionary<string, string> _metadata { get; }
+    private readonly IEnumerable<T> _entities;
+    private readonly Dictionary<string, string> _metadata;
 
     public EntityGroup(
         IEnumerable<T> entities,
@@ -13,6 +13,16 @@ public class EntityGroup<T>
     {
         _entities = entities;
         _metadata = metadata;
+    }
+
+    public IEnumerable<T> GetEntities()
+    {
+        return _entities;
+    }
+
+    public Dictionary<string, string> GetMetadata()
+    {
+        return _metadata;
     }
 
     public static EntityGroup<T> Create(

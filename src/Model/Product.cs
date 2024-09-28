@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Taller1.src.Models
 {
+
+    /// <summary>
+    /// This class represent a type product defined 
+    /// </summary>
+    
     public enum ProductType
     {
         TShirt,
@@ -15,21 +20,40 @@ namespace Taller1.src.Models
         Book
     }
 
+    /// <summary>
+    /// This class represent a product model database for UCN Store
+    /// </summary>
+
     public class Product
     {
+
+        /// <value> This attribute is a integer identifier</value>
+
         public int Id { get; set; } = 0;
-        
-        [StringLength(64)]
+
+        /// <value> Represent name product</value>
+        [StringLength(64)] 
         public string Name { get; set; } = string.Empty;
-        
+
+        /// <value> This attribute represent the type product identifier by this product</value>
         public ProductType ProductType { get; set; } = ProductType.Book;
-        
+
+        /// <value> This attribute represent the type product identifier by this product</value>
         public int Price { get; set; }
-        
+
+        /// <value> This attribute is a integer that represent the number quantity elements for this product</value>
+
         public int Stock { get; set; }
-        
+
+        /// <value> This attribute is a string url that contains the product image</value>
+
         public string ImageUrl { get; set; } 
         
+        /// <summary>
+        /// Check if the product has stock avaible
+        /// </summary>
+        /// <returns>A boolean in state True if there is stock available</returns>
+
         public bool StockAvailable()
         {
             return Stock > 0;

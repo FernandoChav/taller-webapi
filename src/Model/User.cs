@@ -8,6 +8,11 @@ using Taller1.Util;
 
 namespace Taller1.Model
 {
+
+    /// <summary>
+    /// This is a enum class that represent all gender types defined
+    /// </summary>
+
     public enum GenderType
     {
         Female,
@@ -16,17 +21,40 @@ namespace Taller1.Model
         NotSpecified
     }
 
+    /// <summary>
+    /// This is a class that represent a model user, a user is a client in UCN Store
+    /// </summary>
+
     public class User
     {
+
+        /// <value> This attribute is a integer that represent a Role assigned to User</value>
         public int RoleId { get; set; } = 0;
 
+        /// <value> This attribute is a auto incremental Identifier</value>
+
         [Key] public int Id { get; set; }
+
+        /// <value> This attribute is string that represent the username</value>
         public string Name { get; set; } = string.Empty;
+
+        /// <value> This attribute is a string that represent a 
+        /// Rut, this is a code unique for chileans,
+        /// This following this follow format:
+        /// [numbers]-[1,2,3,4,5,6,7,8,9,0,K]</value>
         public string Rut { get; set; } = string.Empty;
 
+        /// <value> This attribute is a date that represent a birthdate user</value>
         public DateTime Birthdate { get; set; } = DateTime.Now;
+
+        /// <value> This attribute is a string that represent email user</value>
         public string Email { get; set; } = string.Empty;
+
+        /// <value> This attribute is a GenderType that represent gender user</value>
+
         public GenderType Gender { get; set; } = GenderType.NotSpecified;
+
+        /// <value> This attribute is a password user encrypt</value>
         public string Password { get; set; } = string.Empty;
 
         public static ValidationResult ValidateBirthdate(DateTime birthdate, ValidationContext context)

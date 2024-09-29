@@ -6,13 +6,13 @@ using Taller1.Model;
 namespace Taller1.Service
 
 {
-    public class UserService : IObjectService<User>
+    public class UserRepository : IObjectRepository<User>
     {
         
         private readonly ApplicationDbContext _applicationDb;
         private readonly DbSet<User> _users;
 
-        public UserService(ApplicationDbContext applicationDbContext)
+        public UserRepository(ApplicationDbContext applicationDbContext)
         {
 
             _applicationDb = applicationDbContext;

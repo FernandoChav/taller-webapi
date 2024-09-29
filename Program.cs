@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Taller1.Authenticate;
 using Taller1.Authenticate.Token;
 using Taller1.Data;
+using Taller1.Data.Seeder;
 using Taller1.Model;
 using Taller1.Service;
 using Taller1.src.Models;
@@ -23,13 +24,16 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "D
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<IObjectService<User>, UserService>();
-builder.Services.AddScoped<IObjectService<Product>, ProductDbSetObjectService>();
+builder.Services.AddScoped<IObjectRepository<User>, UserRepository>();
+builder.Services.AddScoped<IObjectRepository<Product>, ProductDbSetObjectRepository>();
 builder.Services.AddScoped<IUserTokenProvider, JwtUserTokenProvider>();
-builder.Services.AddScoped<IEncryptService, BcryptEncryptService>();
+builder.Services.AddScoped<IEncryptStrategy, BcryptEncryptStrategy>();
 builder.Services.AddScoped<IAuthenticatorHandler, DefaultAuthenticatorHandler>();
 builder.Services.AddScoped<IRegistrationHandler, DefaultRegistrationHandler>();
-builder.Services.AddScoped<IObjectService<Role>, RoleService>();
+builder.Services.AddScoped<IObjectRepository<Role>, RoleRepository>();
+builder.Services.AddScoped<IDataSeeder<User>, UserDataSeeder>();
+builder.Services.AddScoped<IDataSeeder<Role>, RoleDataSeeder>();
+builder.Services.AddScoped<IDataSeeder<Product>, ProductDataSeeder>();
 
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
@@ -61,6 +65,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    
+    var services = scope.ServiceProvider;
+    var roleDataSeeder = services.GetRequiredService<IDataSeeder<Role>>();
+    var userDataSeeder = services.GetRequiredService<IDataSeeder<User>>();
+    var productDataSeeder = services.GetRequiredService<IDataSeeder<Product>>();
+    
+    roleDataSeeder.Seed();
+    userDataSeeder.Seed();
+    productDataSeeder.Seed();
+
 }
 
 app.UseHttpsRedirection();

@@ -4,6 +4,10 @@ using Taller1.Model;
 
 namespace Taller1.Controller;
 
+/// <summary>
+/// This controller manage all endpoints associated with authenticate user 
+/// </summary>
+
 [ApiController]
 [Route("api/[controller]")]
 public class AuthenticatorController : ControllerBase
@@ -17,6 +21,12 @@ public class AuthenticatorController : ControllerBase
         _authenticator = authenticator;
         _registrationHandler = registrationHandler;
     }
+
+    /// <summary>
+    /// Generate a authentication from user, this method retrieve a token that contains session user
+    /// </summary>
+    /// <param name="authenticationCredential">A set parameters for make the authenticaton</param>
+    /// <returns>A token wrapped with autentication</returns>
 
     [HttpPost]
     [Route("/authenticate")]
@@ -36,6 +46,12 @@ public class AuthenticatorController : ControllerBase
             TokenContent = token
         };
     }
+
+    /// <summary>
+    /// Register a new user based a set properties 
+    /// </summary>
+    /// <param name="userCreation">a set properties from a user</param>
+    /// <returns>A wrapper string with message response</returns>
 
     [HttpPost]
     [Route("/register")]

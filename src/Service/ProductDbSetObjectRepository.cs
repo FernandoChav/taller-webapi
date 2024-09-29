@@ -4,12 +4,12 @@ using Taller1.src.Models;
 
 namespace Taller1.Service
 {
-    public class ProductDbSetObjectService : IObjectService<Product>
+    public class ProductDbSetObjectRepository : IObjectRepository<Product>
     {
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
 
-        public ProductDbSetObjectService(ApplicationDbContext applicationDbContext)
+        public ProductDbSetObjectRepository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
             _products = applicationDbContext.Products;

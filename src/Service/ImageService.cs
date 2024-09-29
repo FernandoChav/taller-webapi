@@ -5,6 +5,7 @@ using Taller1.Model;
 
 namespace Taller1.Service
 {
+    
     public class ImageService
     {
         private const int MaxSize = 10 * 1024 * 1024;
@@ -46,7 +47,7 @@ namespace Taller1.Service
             {
                 return uploadResult.SecureUrl.ToString();
             }
-
+            
             throw new Exception("Error uploading image to Cloudinary.");
         }
         

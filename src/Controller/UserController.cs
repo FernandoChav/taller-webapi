@@ -10,10 +10,10 @@ namespace Taller1.Controller
     [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
-        private readonly IObjectService<User> _userService;
+        private readonly IObjectRepository<User> _userService;
 
         
-        public UserController(IObjectService<User> userService)
+        public UserController(IObjectRepository<User> userService)
         {
             _userService = userService;
         }

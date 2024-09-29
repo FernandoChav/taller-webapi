@@ -1,6 +1,6 @@
 ﻿namespace Taller1.Util;
 
-public class BcryptEncryptService : IEncryptService 
+public class BcryptEncryptStrategy : IEncryptStrategy 
 {
 
     public string Encrypt(string password)

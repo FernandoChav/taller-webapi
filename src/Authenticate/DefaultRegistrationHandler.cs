@@ -8,14 +8,14 @@ public class DefaultRegistrationHandler : IRegistrationHandler
 {
 
     private readonly Random _random = new Random();
-    private readonly IObjectService<User> _userService;
-    private readonly IEncryptService _encryptService;
+    private readonly IObjectRepository<User> _userRepository;
+    private readonly IEncryptStrategy _encryptStrategy;
 
-    public DefaultRegistrationHandler(IObjectService<User> userService,
-        IEncryptService encryptService)
+    public DefaultRegistrationHandler(IObjectRepository<User> userRepository,
+        IEncryptStrategy encryptStrategy)
     {
-        _userService = userService;
-        _encryptService = encryptService;
+        _userRepository = userRepository;
+        _encryptStrategy = encryptStrategy;
     }
     
     public RegistrationResponse Register(UserCreation userCreation)
@@ -29,7 +29,7 @@ public class DefaultRegistrationHandler : IRegistrationHandler
                 Error("The password is not same");
         }
 
-        var passwordEncrypt = _encryptService.Encrypt(password);
+        var passwordEncrypt = _encryptStrategy.Encrypt(password);
         
         var user = new User
         {
@@ -42,7 +42,7 @@ public class DefaultRegistrationHandler : IRegistrationHandler
             RoleId = 0
         };
         
-        _userService.Push(user);
+        _userRepository.Push(user);
         return RegistrationResponse.
             Success("Registered");
     }

@@ -8,14 +8,14 @@ using Taller1.Search;
 
 namespace Taller1.Service;
 
-public class RoleService : IObjectService<Role>
+public class RoleRepository : IObjectRepository<Role>
 {
     
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly DbSet<Role> _roles;
     private readonly Dictionary<int, Role?> _cache;
 
-    public RoleService(ApplicationDbContext applicationDbContext)
+    public RoleRepository(ApplicationDbContext applicationDbContext)
     {
         _applicationDbContext = applicationDbContext;
         _roles = applicationDbContext.Roles;

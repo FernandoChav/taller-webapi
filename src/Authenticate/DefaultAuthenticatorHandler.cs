@@ -11,15 +11,15 @@ namespace Taller1.Authenticate;
 public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 {
     private readonly DbSet<User> _users;
-    private readonly IEncryptService _encryptService;
+    private readonly IEncryptStrategy _encryptStrategy;
     private readonly IUserTokenProvider _tokenProvider;
 
     public DefaultAuthenticatorHandler(ApplicationDbContext applicationDbContext,
-        IEncryptService encryptService,
+        IEncryptStrategy encryptStrategy,
         IUserTokenProvider tokenProvider)
     {
         _users = applicationDbContext.Users;
-        _encryptService = encryptService;
+        _encryptStrategy = encryptStrategy;
         _tokenProvider = tokenProvider;
     }
 
@@ -38,7 +38,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
             throw new Exception("User is null");
         }
 
-        if (!_encryptService.Verify(password, userSelected.Password))
+        if (!_encryptStrategy.Verify(password, userSelected.Password))
         {
             throw new UnauthorizedAccessException("Password is not invalid");
         }

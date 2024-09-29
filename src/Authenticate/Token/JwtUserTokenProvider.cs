@@ -11,22 +11,22 @@ namespace Taller1.Authenticate.Token
         private readonly string _jwtSecret;
         private readonly string _validIssuer;
         private readonly string _validAudience;
-        private readonly IObjectService<Role> _roleService;
+        private readonly IObjectRepository<Role> _roleRepository;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
 
         public JwtUserTokenProvider(IConfiguration configuration,
-            IObjectService<Role> roleService)
+            IObjectRepository<Role> roleRepository)
         {
             _jwtSecret = configuration["JWT:Secret"];
             _validIssuer = configuration["JWT:ValidIssuer"];
             _validAudience = configuration["JWT:ValidAudience"];
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-            _roleService = roleService;
+            _roleRepository = roleRepository;
         }
 
         public string Token(User user)
         {
-            var role = _roleService.FindById(user.RoleId);
+            var role = _roleRepository.FindById(user.RoleId);
             
             var claims = new List<Claim>
             {

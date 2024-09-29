@@ -17,4 +17,5 @@ namespace Taller1.Model
         public string ApiSecret { get; set; }
 
     }
+    
 }

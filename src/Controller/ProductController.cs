@@ -84,28 +84,45 @@ namespace Taller1.Controller
         /// </summary>
         /// <param name="page">number page to search</param>
         /// <param name="elements">number elements for show</param>
+        /// <param name="isOrderingByPrice">number elements for show</param>
+        /// <param name="ascending">number elements for show</param>
+        /// <param name="filteringByNameProduct">number elements for show</param>        
         /// <returns>A wrapper that contains a set elements product</returns>
 
         [HttpGet]
         [Route("/all-available")]
         public ActionResult<EntityGroup<Product>> All(
             [FromQuery] int page,
-            [FromQuery] int elements
+            [FromQuery] int elements,
+            [FromQuery] bool isOrderingByPrice,
+            [FromQuery] bool ascending,
+            [FromQuery] string filteringByNameProduct
         )
         {
-            return EntityGroup<Product>
-                .Create(
+            var builder = 
                     DbSetSearchBuilder<Product>.NewBuilder(
                             _products
                         ).Page(page, elements)
-                        .Filter(product => product.StockAvailable())
-                        .BuildAndGetAll(),
-                    new Dictionary<string, string>
-                    {
-                        ["Page"] = page.ToString(),
-                        ["Elements"] = elements.ToString()
-                    }
-                );
+                        .Filter(product => product.StockAvailable());
+
+            if (filteringByNameProduct != "")
+            {
+                builder = builder.Filter(product => product.Name == filteringByNameProduct);
+            }
+            
+            if (isOrderingByPrice)
+            {
+                builder = builder.OrderBy(product => product.Price, ascending);
+            }
+            
+            return EntityGroup<Product>.Create(
+                builder.BuildAndGetAll(),
+                new Dictionary<string, string>
+                {
+                    ["Page"] = page.ToString(),
+                    ["Elements"] = elements.ToString()
+                }
+            );
         }
     }
 }

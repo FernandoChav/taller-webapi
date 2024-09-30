@@ -33,8 +33,20 @@ public class DbSetSearchBuilder<T> where T : class
         return this;
     }
 
-    public DbSetSearchBuilder<T> OrderBy()
+    public DbSetSearchBuilder<T> OrderBy(Func<T, object> predicate, bool ascending)
     {
+        return ascending ? OrderByAscending(predicate) : OrderByDescending(predicate);
+    }
+
+    public DbSetSearchBuilder<T> OrderByDescending(Func<T, object> predicate)
+    {
+        _enumerable = _enumerable.OrderByDescending(predicate);
+        return this;
+    }
+    
+    public DbSetSearchBuilder<T> OrderByAscending(Func<T, object> predicate)
+    {
+        _enumerable = _enumerable.OrderBy(predicate);
         return this;
     }
 

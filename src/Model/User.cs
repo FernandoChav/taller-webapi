@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Bogus.DataSets;
 using System.ComponentModel.DataAnnotations;
 using Taller1.Util;
+using Taller1.Validation;
 
 namespace Taller1.Model
 {
@@ -56,19 +57,14 @@ namespace Taller1.Model
 
         /// <value> This attribute is a password user encrypt</value>
         public string Password { get; set; } = string.Empty;
-
-        public static ValidationResult ValidateBirthdate(DateTime birthdate, ValidationContext context)
-        {
-            return birthdate >= DateTime.Now
-                ? new ValidationResult("Birthdae must be in the past")
-                : ValidationResult.Success;
-        }
+        
     }
 
     public class UserCreation
     {
 
-        [Required] [MaxLength(16)] public string Rut { get; set; } = string.Empty;
+        [Required] [MaxLength(16)] [RutValidator]
+        public string Rut { get; set; } = string.Empty;
 
         [StringLength(255, MinimumLength = 8,
             ErrorMessage = "The length name should be between 8 and 255 characters")]
@@ -77,8 +73,8 @@ namespace Taller1.Model
         public string Name { get; set; } = string.Empty;
 
         [Required] 
-        /*[RegularExpression(Constants.EmailPattern, 
-            ErrorMessage = "Email format not valid")]*/
+        [RegularExpression(Constants.EmailPattern, 
+            ErrorMessage = "Email format not valid")]
         public string Email { get; set; } = string.Empty;
         
         [Required] 
@@ -88,6 +84,7 @@ namespace Taller1.Model
         
         [Required] public string RepeatPassword { get; set; } = string.Empty;
 
+        [PastDateValidation]
         [Required] public DateTime Birthday { get; set; } = DateTime.Now;
         
         [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;

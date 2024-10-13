@@ -38,12 +38,9 @@ public class UserDataSeeder : IDataSeeder<User>
             Gender = GenderType.Male,
             Password = _strategy.Encrypt("P4sswOrd")
         });
-
-        var idIncremental = 0;
         
         var userFaker = new Faker<User>()
             .RuleFor(u => u.Name, f => f.Internet.UserName())
-            .RuleFor(u => u.Id, f => idIncremental++)
             .RuleFor(u => u.Email, f => f.Internet.Email())
             .RuleFor(u => u.Birthdate, f => f.Date.Recent())
             .RuleFor(u => u.RoleId, f => 0)

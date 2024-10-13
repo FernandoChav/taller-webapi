@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bogus.DataSets;
+using Microsoft.EntityFrameworkCore;
 using Taller1.Model;
 
 namespace Taller1.Data.Seeder;
@@ -24,12 +25,10 @@ public class RoleDataSeeder : IDataSeeder<Role>
 
         _dbSet.AddRange(new Role
             {
-                Id = 0,
                 Name = "User"
             },
             new Role
             {
-                Id = 1,
                 Name = "Administrator"
             });
 

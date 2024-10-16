@@ -2,6 +2,12 @@
 
 namespace Taller1.Search;
 
+/// <summary>
+/// This class is used for create a query
+/// this use a build design pattern
+/// </summary>
+/// <typeparam name="T">A Object retrieve</typeparam>
+
 public class DbSetSearchBuilder<T> where T : class
 {
     private readonly DbSet<T> _dbSet;
@@ -13,6 +19,12 @@ public class DbSetSearchBuilder<T> where T : class
         _enumerable = _dbSet;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    
     public DbSetSearchBuilder<T> Filter(Func<T, bool> predicate)
     {
         _enumerable = _dbSet.Where(predicate);

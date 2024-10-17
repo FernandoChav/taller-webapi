@@ -71,7 +71,7 @@ public class DbSetSearchBuilder<T> where T : class
     public T? BuildAndGetFirst()
     {
         return _enumerable
-            .First();
+            .FirstOrDefault();
     }
 
     public static DbSetSearchBuilder<T> NewBuilder(DbSet<T> dbSet)

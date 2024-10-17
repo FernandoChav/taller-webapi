@@ -29,7 +29,7 @@ public class AuthenticatorController : ControllerBase
     /// <returns>A token wrapped with autentication</returns>
 
     [HttpPost]
-    [Route("/authenticate")]
+    [Route("/api/authenticate")]
     public ActionResult<Token> Authenticate([FromBody] AuthenticationCredential authenticationCredential)
     {
         var credentials = new Credentials(
@@ -54,7 +54,7 @@ public class AuthenticatorController : ControllerBase
     /// <returns>A wrapper string with message response</returns>
 
     [HttpPost]
-    [Route("/register")]
+    [Route("/api/register")]
     public ActionResult<string> Register([FromBody] UserCreation userCreation)
     {
         var response = _registrationHandler.Register(userCreation);

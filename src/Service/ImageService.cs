@@ -6,9 +6,17 @@ using Taller1.Model;
 namespace Taller1.Service
 {
     
-    public class ImageService
+    public class ImageService : IImageService 
     {
         private const int MaxSize = 10 * 1024 * 1024;
+        private const int MinSize = 0;
+        
+        private const int Height = 500;
+        private const int Width = 500;
+        private const string Crop = "fill";
+        private const string Gravity = "face";
+        private const string Folder = "ucn-store";
+        
         private readonly Cloudinary _cloudinary;
 
         public ImageService(IOptions<CloudinarySettings> config)
@@ -22,7 +30,33 @@ namespace Taller1.Service
             _cloudinary = new Cloudinary(account);
         }
 
-        public async Task<string> UploadImageAsync(Stream fileStream, string fileName)
+        public async Task<ImageUploadResult> Upload(IFormFile formFile)
+        {
+
+            var result = new ImageUploadResult();
+            var length = formFile.Length;
+            
+            if (!(MinSize <= length &&  length <= MaxSize))
+            {
+                return result;
+            }
+
+            await using var stream = formFile.OpenReadStream();
+            var parameters = new ImageUploadParams
+            {
+                File = new FileDescription(formFile.FileName, stream),
+                Transformation = new Transformation()
+                    .Width(500)
+                    .Height(500)
+                    .Crop(Crop)
+                    .Gravity(Gravity),
+                Folder = Folder
+            };
+            
+            return await _cloudinary.UploadAsync(parameters);
+        }
+
+        /*public async Task<string> UploadImageAsync(Stream fileStream, string fileName)
         {
             var extension = Path.GetExtension(fileName).ToLower();
             if (extension != ".jpg" && extension != ".png")
@@ -47,9 +81,9 @@ namespace Taller1.Service
             {
                 return uploadResult.SecureUrl.ToString();
             }
-            
+
             throw new Exception("Error uploading image to Cloudinary.");
-        }
+        }*/
         
        /* [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImage(IFormFile file)
@@ -72,6 +106,6 @@ namespace Taller1.Service
                 return BadRequest(new { Error = ex.Message });
             }
         }*/
-        
+       
     }
 }

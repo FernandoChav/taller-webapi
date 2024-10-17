@@ -86,23 +86,23 @@ namespace Taller1.src.Models
             MinimumLength = 10,
             ErrorMessage = "The length name should be between 10 and 64 characters")
         ]
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; } = string.Empty;
 
-        public ProductType ProductType { get; set; } = ProductType.Book;
+        public required ProductType ProductType { get; set; } = ProductType.Book;
 
         [Range(
             1, 99999999,
             ErrorMessage = "The price must be a positive integer less than 100 million.")
         ]
-        public int Price { get; set; }
+        public required int Price { get; set; }
 
         [Range(
             0, 99999,
             ErrorMessage = "The stock must be a non-negative integer less than 100,000.")
         ]
-        public int Stock { get; set; }
+        public required int Stock { get; set; }
 
-        public string ImageUrl { get; set; } // URL de la imagen cargada
+        public required IFormFile Image { get; set; }
         
     }
     

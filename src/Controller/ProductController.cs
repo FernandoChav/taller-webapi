@@ -42,7 +42,7 @@ namespace Taller1.Controller
         /// <returns>A wrapper from product created</returns>
 
         [HttpPost]
-        [Route("/create")]
+        [Route("/product/create")]
         public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
             var product = _productCreationDtoMapper.Mapper(creationProduct);
@@ -57,7 +57,7 @@ namespace Taller1.Controller
         /// <param name="id">a string id product</param>
 
         [HttpDelete]
-        [Route("/delete/{id}")]
+        [Route("/product/delete/{id}")]
         public void Delete(
             [FromQuery] int id)
         {
@@ -71,7 +71,7 @@ namespace Taller1.Controller
         /// <returns></returns>
 
         [HttpGet]
-        [Route("/find/{id}")]
+        [Route("/product/find/{id}")]
         public ActionResult<Product> Find(
             [FromQuery] int id)
 
@@ -90,7 +90,7 @@ namespace Taller1.Controller
         /// <returns>A wrapper that contains a set elements product</returns>
 
         [HttpGet]
-        [Route("/all-available")]
+        [Route("/product/all-available")]
         public ActionResult<EntityGroup<Product>> All(
             [FromQuery] int page,
             [FromQuery] int elements,

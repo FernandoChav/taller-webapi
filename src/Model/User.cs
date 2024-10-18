@@ -58,6 +58,10 @@ namespace Taller1.Model
         /// <value> This attribute is a password user encrypt</value>
         public string Password { get; set; } = string.Empty;
         
+        /// <value> This attribute is a boolean that determine if a user is active</value>
+
+        public bool IsActive { get; set; } = true;
+
     }
 
     public class UserCreation

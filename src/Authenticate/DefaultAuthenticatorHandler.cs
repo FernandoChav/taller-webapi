@@ -38,6 +38,11 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
             throw new Exception("User is null");
         }
 
+        if (!userSelected.IsActive)
+        {
+            throw new Exception("The user is not active");
+        }
+
         if (!_encryptStrategy.Verify(password, userSelected.Password))
         {
             throw new UnauthorizedAccessException("Password is not invalid");

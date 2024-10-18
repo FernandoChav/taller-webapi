@@ -17,14 +17,14 @@ public class ProductDataSeeder : IDataSeeder<Product>
         _applicationDbContext = applicationDbContext;
         _products = applicationDbContext.Products;
     }
-    
+
     public void Seed()
     {
         if (_products.Any())
         {
             return;
         }
-        
+
         var idIncremental = 0;
 
         var productFaker = new Faker<Product>()
@@ -32,9 +32,10 @@ public class ProductDataSeeder : IDataSeeder<Product>
             .RuleFor(u => u.Price, _random.Next(2000, 20000))
             .RuleFor(u => u.Stock, _random.Next(0, 100))
             .RuleFor(u => u.ProductType, ProductType.Book)
-            .RuleFor(u => u.ImageUrl, f => f.Internet.Url());
-        
-        productFaker.Generate(QuantityProducts)
+            .RuleFor(u => u.AbsoluteUri, f => f.Internet.Url())
+            .RuleFor(u => u.AbsoluteUri, f => "d");
+
+    productFaker.Generate(QuantityProducts)
             .ForEach(product =>
             {
                 Console.WriteLine(product.Id);

@@ -4,30 +4,31 @@ namespace Taller1.Mapper;
 
 public class CreationProductObjectMapper : IObjectMapper<CreationProduct, Product>
 {
+
+    private readonly string _absoluteUri;
+    private readonly string _idImage;
+
+    public CreationProductObjectMapper(
+        string absoluteUri,
+        string idImage
+    )
+    {
+        _absoluteUri = absoluteUri;
+        _idImage = idImage;
+    }
     
-    public CreationProduct Mapper(Product entity)
+    public Product Mapper(CreationProduct creationProduct)
     {
-        return new CreationProduct
+        return new Product
         {
-            ImageUrl = entity.ImageUrl,
-            Name = entity.Name,
-            Price = entity.Price,
-            ProductType = entity.ProductType,
-            Stock = entity.Stock
+            Name = creationProduct.Name,
+            Price = creationProduct.Price,
+            ProductType = creationProduct.ProductType,
+            Stock = creationProduct.Stock,
+            AbsoluteUri = _absoluteUri,
+            IdImage =  _idImage
         };
+        
     }
-
-    public Product Mapper(CreationProduct entity)
-    {
-        return new Product()
-        {
-            Id = 0,
-            ImageUrl = entity.ImageUrl,
-            Price = entity.Price,
-            ProductType = entity.ProductType,
-            Name = entity.Name,
-            Stock = entity.Stock
-        };
-    }
-
+    
 }

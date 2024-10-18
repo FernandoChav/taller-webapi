@@ -18,15 +18,6 @@ public interface IObjectMapper<TE1, TE2>
     /// <param name="entity">Object any</param>
     /// <returns>A object T2</returns>
     
-    TE1 Mapper(TE2 entity);
-
-    /// <summary>
-    /// Transform object TE1 to object TE2
-    /// </summary>
-    /// <param name="entity">Object any</param>
-    /// <returns>A object T1</returns>
-
-    
     TE2 Mapper(TE1 entity);
 
 }

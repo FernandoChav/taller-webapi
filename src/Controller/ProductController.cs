@@ -32,9 +32,6 @@ namespace Taller1.Controller
         private readonly ImageService _imageService = imageService;
         private readonly DbSet<Product> _products = applicationDbContext.Products;
 
-        private readonly IObjectMapper<CreationProduct, Product> _productCreationDtoMapper
-            = new CreationProductObjectMapper();
-
         /// <summary>
         /// Store a product based a new request product
         /// </summary>
@@ -45,7 +42,19 @@ namespace Taller1.Controller
         [Route("/product/create")]
         public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
-            var product = _productCreationDtoMapper.Mapper(creationProduct);
+
+            var task = _imageService.Upload(creationProduct.Image);
+            var result = task.Result;
+
+            var publicId = result.PublicId;
+            var absoluteUri = result.SecureUrl.AbsoluteUri;
+            
+            var productCreationDtoMapper
+                = new CreationProductObjectMapper(
+                    publicId,
+                    absoluteUri);
+            
+            var product = productCreationDtoMapper.Mapper(creationProduct);
 
             service.Push(product);
             return product;

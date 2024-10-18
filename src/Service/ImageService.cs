@@ -50,8 +50,8 @@ namespace Taller1.Service
             {
                 File = new FileDescription(formFile.FileName, stream),
                 Transformation = new Transformation()
-                    .Width(500)
-                    .Height(500)
+                    .Width(Width)
+                    .Height(Height)
                     .Crop(Crop)
                     .Gravity(Gravity),
                 Folder = Folder

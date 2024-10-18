@@ -47,7 +47,9 @@ namespace Taller1.src.Models
 
         /// <value> This attribute is a string url that contains the product image</value>
 
-        public string ImageUrl { get; set; } 
+        [MaxLength(250)] public required string AbsoluteUri { get; set; } 
+        
+        [MaxLength(250)] public required string IdImage { get; set; }
         
         /// <summary>
         /// Check if the product has stock avaible

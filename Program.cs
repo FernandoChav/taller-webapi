@@ -33,14 +33,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 InstallServices(
-    ServiceMember.NewInstance<IObjectRepository<User>, UserRepository>(),
-    ServiceMember.NewInstance<IObjectRepository<Product>, ProductDbSetObjectRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<User, UserEdit>, UserRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductDbSetObjectRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),
     ServiceMember.NewInstance<ImageService, ImageService>(),
     ServiceMember.NewInstance<IAuthenticatorHandler, DefaultAuthenticatorHandler>(),
     ServiceMember.NewInstance<IRegistrationHandler, DefaultRegistrationHandler>(),
-    ServiceMember.NewInstance<IObjectRepository<Role>, RoleRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<Role, RoleEdit>, RoleRepository>(),
     ServiceMember.NewInstance<IDataSeeder<User>, UserDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Role>, RoleDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Product>, ProductDataSeeder>()

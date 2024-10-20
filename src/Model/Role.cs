@@ -18,5 +18,12 @@ public class Role
     /// <value> This attribute represent role name</value>
     [MaxLength(16)]
     public string Name { get; set; } = string.Empty;
+    
+}
+
+public class RoleEdit
+{
+    
+    public string? Name { get; set; } 
 
 }

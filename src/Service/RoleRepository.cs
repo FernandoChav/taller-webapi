@@ -1,5 +1,4 @@
 ﻿using Taller1.Model;
-
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Model;
@@ -8,9 +7,8 @@ using Taller1.Search;
 
 namespace Taller1.Service;
 
-public class RoleRepository : IObjectRepository<Role>
+public class RoleRepository : IObjectRepository<Role, RoleEdit>
 {
-    
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly DbSet<Role> _roles;
     private readonly Dictionary<int, Role?> _cache;
@@ -21,7 +19,7 @@ public class RoleRepository : IObjectRepository<Role>
         _roles = applicationDbContext.Roles;
         _cache = new Dictionary<int, Role?>();
     }
-    
+
     public void Push(Role entity)
     {
         _roles.Add(entity);
@@ -38,9 +36,8 @@ public class RoleRepository : IObjectRepository<Role>
         _applicationDbContext.SaveChanges();
     }
 
-    public Role FindById(int roleId)
+    public Role? FindById(int roleId)
     {
-        
         if (_cache.TryGetValue(roleId, out Role? roleCached))
         {
             return roleCached;
@@ -53,4 +50,18 @@ public class RoleRepository : IObjectRepository<Role>
         _cache[roleId] = role;
         return role;
     }
+
+    public void Edit(int id,
+        RoleEdit entityEdit)
+    {
+        var role = FindById(id);
+        if (role == null)
+        {
+            return;
+        }
+
+        role.Name = entityEdit.Name;
+        _applicationDbContext.SaveChanges();
+    }
+    
 }

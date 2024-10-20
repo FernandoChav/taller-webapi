@@ -2,37 +2,79 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Model;
+using Taller1.Util;
 
 namespace Taller1.Service
 
 {
-    public class UserRepository : IObjectRepository<User>
+    public class UserRepository : IObjectRepository<User, UserEdit>
     {
-        
         private readonly ApplicationDbContext _applicationDb;
         private readonly DbSet<User> _users;
+        private readonly IEncryptStrategy _encryptStrategy;
 
-        public UserRepository(ApplicationDbContext applicationDbContext)
+        public UserRepository(ApplicationDbContext applicationDbContext,
+            IEncryptStrategy encryptStrategy)
         {
-
             _applicationDb = applicationDbContext;
             _users = applicationDbContext.Users;
-
-            // Simulación de validación de RUT único
-            /*if (_users.Any(u => u.Rut == user.Rut))
-            {
-                return false;
-            }
-
-            _users.Add(user);
-            return true;*/
-
+            _encryptStrategy = encryptStrategy;
         }
 
-        public User FindById(int id)
+        public User? FindById(int id)
         {
             return _users.FirstOrDefault(u => u.Id == id)
                    ?? throw new KeyNotFoundException("Usuario no encontrado.");
+        }
+
+        public void Edit(int id, UserEdit entityEdit)
+        {
+            var user = FindById(id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (entityEdit.Name != null)
+            {
+                user.Name = entityEdit.Name;
+            }
+
+            if (entityEdit.RoleId != null)
+            {
+                user.RoleId = entityEdit.RoleId.Value;
+            }
+
+            if (entityEdit.Birthdate != null)
+            {
+                user.Birthdate = entityEdit.Birthdate.Value;
+            }
+
+            if (entityEdit.Gender != null)
+            {
+                user.Gender = entityEdit.Gender.Value;
+            }
+
+            if (entityEdit.Rut != null)
+            {
+                user.Rut = entityEdit.Rut;
+            }
+
+            if (entityEdit.Email != null)
+            {
+                user.Email = entityEdit.Email;
+            }
+
+            if (entityEdit.Password != null)
+            {
+                if (entityEdit.Password != entityEdit.RepeatPassword)
+                {
+                    return;
+                }
+
+                user.Password = _encryptStrategy.Encrypt(entityEdit.Password);
+            }
+            
         }
 
         public void Push(User user)
@@ -48,20 +90,19 @@ namespace Taller1.Service
             if (user != null)
             {
                 _users.Remove(user);
-                
             }
         }
-        
-       /* public void Delete(string rut)
 
-        {
-            var user = _users.FirstOrDefault(u => u.Id == id);
-            if (user != null)
-            {
-                _users.Remove(user);
-                
-            }
-        }*/
+        /* public void Delete(string rut)
+
+         {
+             var user = _users.FirstOrDefault(u => u.Id == id);
+             if (user != null)
+             {
+                 _users.Remove(user);
+
+             }
+         }*/
 
         private bool IsBirthdateValid(DateTime birthdate)
         {
@@ -96,7 +137,8 @@ namespace Taller1.Service
             // Comparar el dígito verificador esperado con el ingresado
             return verificationDigit == expectedVerificationDigit;
         }
-         private string CalculateVerificationDigit(string rutNumber)
+
+        private string CalculateVerificationDigit(string rutNumber)
         {
             int sum = 0;
             int multiplier = 2;
@@ -118,6 +160,5 @@ namespace Taller1.Service
 
             return verificationDigit.ToString();
         }
-       
     }
 }

@@ -8,7 +8,8 @@ namespace Taller1.Service
     /// </summary>
     /// <typeparam name="TEntity">This is a Type Object for handle</typeparam>
     
-    public interface IObjectRepository<TEntity>
+    public interface IObjectRepository<TEntity,
+        TEntityEdit>
     {
 
         /// <summary>
@@ -31,8 +32,13 @@ namespace Taller1.Service
         /// <param name="id"></param>
         /// <returns>integer that represent her id</returns>
         
-        TEntity FindById(int id);
+        TEntity? FindById(int id);
+
         
+        
+        void Edit(int id, 
+            TEntityEdit entityEdit);
+
     }
 
 }

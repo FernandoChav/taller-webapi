@@ -4,7 +4,7 @@ using Taller1.src.Models;
 
 namespace Taller1.Service
 {
-    public class ProductDbSetObjectRepository : IObjectRepository<Product>
+    public class ProductDbSetObjectRepository : IObjectRepository<Product, ProductEdit>
     {
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
@@ -28,12 +28,17 @@ namespace Taller1.Service
             _applicationDbContext.SaveChanges();
         }
 
-        public Product FindById(int id)
+        public Product? FindById(int id)
         {
             return _products
                 .SingleOrDefault(
                     product => product.Id == id
                 );
+        }
+
+        public void Edit(int id, ProductEdit productEdit)
+        {
+            throw new NotImplementedException();
         }
     }
 }

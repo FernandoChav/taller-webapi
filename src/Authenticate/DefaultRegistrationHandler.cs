@@ -8,10 +8,10 @@ public class DefaultRegistrationHandler : IRegistrationHandler
 {
 
     private readonly Random _random = new Random();
-    private readonly IObjectRepository<User> _userRepository;
+    private readonly IObjectRepository<User, UserEdit> _userRepository;
     private readonly IEncryptStrategy _encryptStrategy;
 
-    public DefaultRegistrationHandler(IObjectRepository<User> userRepository,
+    public DefaultRegistrationHandler(IObjectRepository<User, UserEdit> userRepository,
         IEncryptStrategy encryptStrategy)
     {
         _userRepository = userRepository;
@@ -38,7 +38,6 @@ public class DefaultRegistrationHandler : IRegistrationHandler
             Gender = userCreation.GenderType,
             Password = passwordEncrypt,
             Email = userCreation.Email,
-            Id = _random.Next(1,500),
             RoleId = 0
         };
         

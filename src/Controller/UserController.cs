@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Taller1.Data;
 using Taller1.Model;
+using Taller1.Search;
 using Taller1.Service;
 
 namespace Taller1.Controller
@@ -10,61 +13,34 @@ namespace Taller1.Controller
     [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
-        private readonly IObjectRepository<User> _userService;
-
-        
-        public UserController(IObjectRepository<User> userService)
+        private readonly IObjectRepository<User, UserEdit> _userService;
+        private readonly DbSet<User> _dbSet;
+        public UserController(IObjectRepository<User, UserEdit> userService,
+            ApplicationDbContext applicationDbContext)
         {
             _userService = userService;
+            _dbSet = applicationDbContext.Users;
         }
 
-        
-        [HttpPost("add")]
-        public IActionResult AddUser([FromBody] User newUser)
+        [HttpGet]
+        [Route("/user/all/")]
+        public ActionResult<EntityGroup<User>> All(
+           [FromQuery] int page = 1,
+            [FromQuery] int elements = 10
+        )
         {
-            if (ModelState.IsValid)
-            {
-                try
+            var entities = new DbSetSearchBuilder<User>(_dbSet)
+                .Page(page, elements)
+                .BuildAndGetAll();
+
+            return EntityGroup<User>.Create(
+                entities, new Dictionary<string, string>
                 {
-                    _userService.Push(newUser);
-                    return Ok(new { message = "User created successfully." });
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = $"Error: {ex.Message}" });
-                }
-            }
-            return BadRequest(ModelState);
+                    ["Page"] = page.ToString(),
+                    ["Elements"] = elements.ToString()
+                });
         }
-
         
-        [HttpGet("get/{id}")]
-        public IActionResult GetUserById(int id)
-        {
-            try
-            {
-                var user = _userService.FindById(id);
-                return Ok(user);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-        }
-
-        
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteUser(int id)
-        {
-            try
-            {
-                _userService.Delete(id);
-                return Ok(new { message = "User deleted successfully." });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-        }
     }
+    
 }

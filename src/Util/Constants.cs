@@ -8,4 +8,9 @@ public class Constants
     public const string PasswordPattern = @"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$";
     public const string EmptyString = "";
 
+    private Constants()
+    {
+        
+    }
+
 }

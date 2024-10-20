@@ -15,6 +15,7 @@ namespace Taller1.Controller
     {
         private readonly IObjectRepository<User, UserEdit> _userService;
         private readonly DbSet<User> _dbSet;
+
         public UserController(IObjectRepository<User, UserEdit> userService,
             ApplicationDbContext applicationDbContext)
         {
@@ -25,7 +26,7 @@ namespace Taller1.Controller
         [HttpGet]
         [Route("/user/all/")]
         public ActionResult<EntityGroup<User>> All(
-           [FromQuery] int page = 1,
+            [FromQuery] int page = 1,
             [FromQuery] int elements = 10
         )
         {
@@ -40,7 +41,23 @@ namespace Taller1.Controller
                     ["Elements"] = elements.ToString()
                 });
         }
+
+        [HttpPut]
+        [Route("/user/change-visibility/{id}")]
+        public ActionResult<User> ChangeVisibility(
+            int id,
+            [FromQuery] bool isActive
+        )
+        {
+            _userService.Edit(
+                   id, new UserEdit
+                   {
+                       IsActive = isActive
+                   } 
+                );
+
+            return Ok();
+        }
         
     }
-    
 }

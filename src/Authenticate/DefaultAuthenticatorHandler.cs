@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Taller1.Authenticate.Token;
 using Taller1.Data;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
+using Taller1.TException;
 using Taller1.Util;
 
 namespace Taller1.Authenticate;
@@ -35,17 +37,17 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 
         if (userSelected is null)
         {
-            throw new Exception("User is null");
+            throw new AuthenticationUserException("Credentials incorrect");
         }
 
         if (!userSelected.IsActive)
         {
-            throw new Exception("The user is not active");
+            throw new AuthenticationUserException("User is inactive");
         }
 
         if (!_encryptStrategy.Verify(password, userSelected.Password))
         {
-            throw new UnauthorizedAccessException("Password is not invalid");
+            throw new AuthenticationException("Credentials incorrect");
         }
 
         return _tokenProvider.

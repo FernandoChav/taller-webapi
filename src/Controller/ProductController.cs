@@ -7,6 +7,7 @@ using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
 using Taller1.src.Models;
+using Taller1.TException;
 using Taller1.Util;
 
 namespace Taller1.Controller
@@ -63,10 +64,18 @@ namespace Taller1.Controller
         /// <param name="id">a string id product</param>
         [HttpDelete]
         [Route("/product/delete/{id}")]
-        public void Delete(
+        public ActionResult<Product> Delete(
                  int id)
         {
-            service.Delete(id);
+            try
+            {
+                return service.Delete(id);
+            }
+            catch (ElementNotFound e)
+            {
+                return NotFound(e.Message);
+            }
+            
         }
 
         [HttpPut]
@@ -95,7 +104,7 @@ namespace Taller1.Controller
             var product = service.FindById(id);
             if (product == null)
             {
-                return NotFound("Product not found");
+                return NotFound("Element not found");
             }
 
             return product;

@@ -34,12 +34,16 @@ public class UserEditModel : IUpdateModel<UserEdit, User>
             modelObject.Gender = editObject.Gender.Value;
         }
 
-        if (editObject.Password != null && 
+        if (editObject.IsActive != null)
+        {
+            modelObject.IsActive = editObject.IsActive.Value;
+        }
+
+        if (editObject.Password != null &&
             (editObject.Password != editObject.RepeatPassword))
         {
             var newPasswordEncrypt = _encryptStrategy.Encrypt(editObject.Password);
             modelObject.Password = newPasswordEncrypt;
         }
-        
     }
 }

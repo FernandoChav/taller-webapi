@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.src.Models;
+using Taller1.TException;
 using Taller1.Update;
 
 namespace Taller1.Service
@@ -19,17 +20,18 @@ namespace Taller1.Service
             _updateModel = updateModel;
         }
 
-        public void Delete(int id)
+        public Product Delete(int id)
         {
             var product = FindById(id);
 
             if (product == null)
             {
-                throw new Exception("Product not exists");
+                throw new ElementNotFound();
             }
             
             _products.Remove(product);
             _applicationDbContext.SaveChanges();
+            return product;
         }
 
         public void Push(Product entity)
@@ -51,7 +53,7 @@ namespace Taller1.Service
             var product = FindById(id);
             if (product == null)
             {
-                throw new Exception("Product not found");
+                throw new ElementNotFound();
             }
             
             _updateModel.Edit(productEdit, product);

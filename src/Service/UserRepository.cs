@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Model;
+using Taller1.TException;
 using Taller1.Update;
 using Taller1.Util;
 
@@ -46,33 +47,20 @@ namespace Taller1.Service
             _applicationDb.SaveChanges();
         }
 
-        public void Delete(int id)
+        public User Delete(int id)
 
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
-            if (user != null)
+            if (user == null)
             {
-                _users.Remove(user);
+                throw new ElementNotFound();
             }
+
+            _users.Remove(user);
+            _applicationDb.SaveChanges();
+            return user;
         }
-
-        /* public void Delete(string rut)
-
-         {
-             var user = _users.FirstOrDefault(u => u.Id == id);
-             if (user != null)
-             {
-                 _users.Remove(user);
-
-             }
-         }*/
-
-        private bool IsBirthdateValid(DateTime birthdate)
-        {
-            // Verifica que la fecha de nacimiento sea anterior a la fecha actual
-            return birthdate < DateTime.Now;
-        }
-
+        
         private bool IsRutValid(string rut)
         {
             // Limpiar el formato del RUT (quitar puntos y guiones)

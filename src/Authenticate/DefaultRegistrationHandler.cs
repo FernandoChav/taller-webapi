@@ -26,7 +26,7 @@ public class DefaultRegistrationHandler : IRegistrationHandler
         if (password != repeatPassword)
         {
             return RegistrationResponse.
-                Error("The password is not same");
+                Error("The password is not the same");
         }
 
         var passwordEncrypt = _encryptStrategy.Encrypt(password);

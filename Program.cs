@@ -39,6 +39,7 @@ InstallServices(
     ServiceMember.NewInstance<IImageService, ImageService>(),
     ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<UserEdit, User>, UserEditModel>(),
+    ServiceMember.NewInstance<IUpdateModel<RoleEdit, Role>, RoleEditModel>(),
     ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductDbSetObjectRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),
@@ -48,22 +49,7 @@ InstallServices(
     ServiceMember.NewInstance<IDataSeeder<User>, UserDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Role>, RoleDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Product>, ProductDataSeeder>()
-    
 );
-
-/*
-
-builder.Services.AddScoped<IObjectRepository<User>, UserRepository>();
-builder.Services.AddScoped<IObjectRepository<Product>, ProductDbSetObjectRepository>();
-builder.Services.AddScoped<IUserTokenProvider, JwtUserTokenProvider>();
-builder.Services.AddScoped<IEncryptStrategy, BcryptEncryptStrategy>();
-builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IAuthenticatorHandler, DefaultAuthenticatorHandler>();
-builder.Services.AddScoped<IRegistrationHandler, DefaultRegistrationHandler>();
-builder.Services.AddScoped<IObjectRepository<Role>, RoleRepository>();
-builder.Services.AddScoped<IDataSeeder<User>, UserDataSeeder>();
-builder.Services.AddScoped<IDataSeeder<Role>, RoleDataSeeder>();
-builder.Services.AddScoped<IDataSeeder<Product>, ProductDataSeeder>();*/
 
 var jwtSecret = builder.Configuration["JWT:Secret"];
 if (jwtSecret == null)

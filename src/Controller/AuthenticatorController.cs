@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Taller1.Authenticate;
 using Taller1.Model;
+using Taller1.TException;
+using Taller1.Util;
 
 namespace Taller1.Controller;
 
 /// <summary>
 /// This controller manage all endpoints associated with authenticate user 
 /// </summary>
-
 [ApiController]
 [Route("api/[controller]")]
 public class AuthenticatorController : ControllerBase
@@ -27,7 +28,6 @@ public class AuthenticatorController : ControllerBase
     /// </summary>
     /// <param name="authenticationCredential">A set parameters for make the authenticaton</param>
     /// <returns>A token wrapped with autentication</returns>
-
     [HttpPost]
     [Route("/api/authenticate")]
     public ActionResult<Token> Authenticate([FromBody] AuthenticationCredential authenticationCredential)
@@ -39,8 +39,18 @@ public class AuthenticatorController : ControllerBase
                 ["Password"] = authenticationCredential.Password
             }
         );
+        
+        var token = "";
+        try
 
-        var token = _authenticator.Authenticate(credentials);
+        {
+            token = _authenticator.Authenticate(credentials);
+        }
+        catch (AuthenticationUserException exception)
+        {
+            return BadRequest(exception.Message);
+        }
+
         return new Token
         {
             TokenContent = token
@@ -52,7 +62,6 @@ public class AuthenticatorController : ControllerBase
     /// </summary>
     /// <param name="userCreation">a set properties from a user</param>
     /// <returns>A wrapper string with message response</returns>
-
     [HttpPost]
     [Route("/api/register")]
     public ActionResult<string> Register([FromBody] UserCreation userCreation)
@@ -67,5 +76,4 @@ public class AuthenticatorController : ControllerBase
 
         return Ok(message);
     }
-    
 }

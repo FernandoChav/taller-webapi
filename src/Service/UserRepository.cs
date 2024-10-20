@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Model;
+using Taller1.Update;
 using Taller1.Util;
 
 namespace Taller1.Service
@@ -11,14 +12,14 @@ namespace Taller1.Service
     {
         private readonly ApplicationDbContext _applicationDb;
         private readonly DbSet<User> _users;
-        private readonly IEncryptStrategy _encryptStrategy;
+        private readonly IUpdateModel<UserEdit, User> _updateModel;
 
-        public UserRepository(ApplicationDbContext applicationDbContext,
-            IEncryptStrategy encryptStrategy)
+        public UserRepository(ApplicationDbContext applicationDbContext, 
+            IUpdateModel<UserEdit, User> updateModel)
         {
             _applicationDb = applicationDbContext;
             _users = applicationDbContext.Users;
-            _encryptStrategy = encryptStrategy;
+            _updateModel = updateModel;
         }
 
         public User? FindById(int id)
@@ -34,47 +35,9 @@ namespace Taller1.Service
             {
                 throw new Exception("User not found");
             }
-
-            if (entityEdit.Name != null)
-            {
-                user.Name = entityEdit.Name;
-            }
-
-            if (entityEdit.RoleId != null)
-            {
-                user.RoleId = entityEdit.RoleId.Value;
-            }
-
-            if (entityEdit.Birthdate != null)
-            {
-                user.Birthdate = entityEdit.Birthdate.Value;
-            }
-
-            if (entityEdit.Gender != null)
-            {
-                user.Gender = entityEdit.Gender.Value;
-            }
-
-            if (entityEdit.Rut != null)
-            {
-                user.Rut = entityEdit.Rut;
-            }
-
-            if (entityEdit.Email != null)
-            {
-                user.Email = entityEdit.Email;
-            }
-
-            if (entityEdit.Password != null)
-            {
-                if (entityEdit.Password != entityEdit.RepeatPassword)
-                {
-                    return;
-                }
-
-                user.Password = _encryptStrategy.Encrypt(entityEdit.Password);
-            }
             
+            _updateModel.Edit(entityEdit, user);
+            _applicationDb.SaveChanges();
         }
 
         public void Push(User user)

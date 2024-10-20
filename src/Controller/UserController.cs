@@ -10,7 +10,7 @@ namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
         private readonly IObjectRepository<User, UserEdit> _userService;

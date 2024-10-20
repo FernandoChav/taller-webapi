@@ -38,6 +38,7 @@ InstallServices(
     ServiceMember.NewInstance<IObjectRepository<User, UserEdit>, UserRepository>(),
     ServiceMember.NewInstance<IImageService, ImageService>(),
     ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
+    ServiceMember.NewInstance<IUpdateModel<UserEdit, User>, UserEditModel>(),
     ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductDbSetObjectRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),

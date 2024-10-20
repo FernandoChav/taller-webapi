@@ -33,7 +33,7 @@ public class ProductDataSeeder : IDataSeeder<Product>
             .RuleFor(u => u.Stock, _random.Next(0, 100))
             .RuleFor(u => u.ProductType, ProductType.Book)
             .RuleFor(u => u.AbsoluteUri, f => f.Internet.Url())
-            .RuleFor(u => u.AbsoluteUri, f => "d");
+            .RuleFor(u => u.IdImage, f => "d");
 
     productFaker.Generate(QuantityProducts)
             .ForEach(product =>

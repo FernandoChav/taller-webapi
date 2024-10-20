@@ -64,7 +64,7 @@ namespace Taller1.Controller
         [HttpDelete]
         [Route("/product/delete/{id}")]
         public void Delete(
-            [FromQuery] int id)
+                 int id)
         {
             service.Delete(id);
         }
@@ -72,7 +72,7 @@ namespace Taller1.Controller
         [HttpPut]
         [Route("/product/update/{id}")]
         public ActionResult<ProductEdit> Update(
-            [FromQuery] int id,
+             int id,
             [FromBody] ProductEdit productEdit
         )
         {
@@ -89,7 +89,7 @@ namespace Taller1.Controller
         [HttpGet]
         [Route("/product/find/{id}")]
         public ActionResult<Product> Find(
-            [FromQuery] int id)
+                 int id)
 
         {
             var product = service.FindById(id);

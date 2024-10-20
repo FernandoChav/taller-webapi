@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.src.Models;
+using Taller1.Update;
 
 namespace Taller1.Service
 {
@@ -8,16 +9,25 @@ namespace Taller1.Service
     {
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IUpdateModel<ProductEdit, Product> _updateModel;
 
-        public ProductDbSetObjectRepository(ApplicationDbContext applicationDbContext)
+        public ProductDbSetObjectRepository(ApplicationDbContext applicationDbContext,
+            IUpdateModel<ProductEdit, Product> updateModel)
         {
             _applicationDbContext = applicationDbContext;
             _products = applicationDbContext.Products;
+            _updateModel = updateModel;
         }
 
         public void Delete(int id)
         {
             var product = FindById(id);
+
+            if (product == null)
+            {
+                throw new Exception("Product not exists");
+            }
+            
             _products.Remove(product);
             _applicationDbContext.SaveChanges();
         }
@@ -38,7 +48,14 @@ namespace Taller1.Service
 
         public void Edit(int id, ProductEdit productEdit)
         {
-            throw new NotImplementedException();
+            var product = FindById(id);
+            if (product == null)
+            {
+                throw new Exception("Product not found");
+            }
+            
+            _updateModel.Edit(productEdit, product);
+            _applicationDbContext.SaveChanges();
         }
     }
 }

@@ -9,6 +9,8 @@ using Taller1.Data.Seeder;
 using Taller1.Model;
 using Taller1.Service;
 using Taller1.src.Models;
+using Taller1.Update;
+using Taller1.Update.Model;
 using Taller1.Util;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,16 +36,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 InstallServices(
     ServiceMember.NewInstance<IObjectRepository<User, UserEdit>, UserRepository>(),
+    ServiceMember.NewInstance<IImageService, ImageService>(),
+    ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductDbSetObjectRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),
-    ServiceMember.NewInstance<ImageService, ImageService>(),
     ServiceMember.NewInstance<IAuthenticatorHandler, DefaultAuthenticatorHandler>(),
     ServiceMember.NewInstance<IRegistrationHandler, DefaultRegistrationHandler>(),
     ServiceMember.NewInstance<IObjectRepository<Role, RoleEdit>, RoleRepository>(),
     ServiceMember.NewInstance<IDataSeeder<User>, UserDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Role>, RoleDataSeeder>(),
     ServiceMember.NewInstance<IDataSeeder<Product>, ProductDataSeeder>()
+    
 );
 
 /*

@@ -40,7 +40,7 @@ InstallServices(
     ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<UserEdit, User>, UserEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<RoleEdit, Role>, RoleEditModel>(),
-    ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductDbSetObjectRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),
     ServiceMember.NewInstance<IAuthenticatorHandler, DefaultAuthenticatorHandler>(),

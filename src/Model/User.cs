@@ -9,11 +9,9 @@ using Taller1.Validation;
 
 namespace Taller1.Model
 {
-
     /// <summary>
     /// This is a enum class that represent all gender types defined
     /// </summary>
-
     public enum GenderType
     {
         Female,
@@ -25,16 +23,15 @@ namespace Taller1.Model
     /// <summary>
     /// This is a class that represent a model user, a user is a client in UCN Store
     /// </summary>
-
     public class User
     {
-
         /// <value> This attribute is a integer that represent a Role assigned to User</value>
         public int RoleId { get; set; } = 0;
 
         /// <value> This attribute is a auto incremental Identifier</value>
 
-        [Key] public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         /// <value> This attribute is string that represent the username</value>
         public string Name { get; set; } = string.Empty;
@@ -57,54 +54,62 @@ namespace Taller1.Model
 
         /// <value> This attribute is a password user encrypt</value>
         public string Password { get; set; } = string.Empty;
-        
+
         /// <value> This attribute is a boolean that determine if a user is active</value>
 
         public bool IsActive { get; set; } = true;
+    }
 
+    public class UserEditGeneral
+    {
+        /// <value> This attribute is string that represent the username</value>
+        public string? Name { get; set; }
+
+        /// <value> This attribute is a date that represent a birthdate user</value>
+        public DateTime? Birthdate { get; set; }
+
+        /// <value> This attribute is a GenderType that represent gender user</value>
+
+        public GenderType? Gender { get; set; }
+
+        /// <value> This attribute is a boolean that determine if a user is active</value>
+
+        public bool? IsActive { get; set; }
+
+        [RegularExpression(Constants.PasswordPattern,
+            ErrorMessage = "Password format not valid")]
+        public string? Password { get; set; } = string.Empty;
+
+        public string? RepeatPassword { get; set; } = string.Empty;
     }
 
     public class UserEdit
     {
-
-        /// <value> This attribute is a integer that represent a Role assigned to User</value>
-        public int? RoleId { get; set; }
-
         /// <value> This attribute is string that represent the username</value>
         public string? Name { get; set; }
 
-        /// <value> This attribute is a string that represent a 
-        /// Rut, this is a code unique for chileans,
-        /// This following this follow format:
-        /// [numbers]-[1,2,3,4,5,6,7,8,9,0,K]</value>
-        public string? Rut { get; set; } 
-
         /// <value> This attribute is a date that represent a birthdate user</value>
-        public DateTime? Birthdate { get; set; } 
-
-        /// <value> This attribute is a string that represent email user</value>
-        public string? Email { get; set; } 
+        public DateTime? Birthdate { get; set; }
 
         /// <value> This attribute is a GenderType that represent gender user</value>
 
-        public GenderType? Gender { get; set; } 
-        
-        /// <value> This attribute is a boolean that determine if a user is active</value>
+        public GenderType? Gender { get; set; }
+    }
 
-        public bool? IsActive { get; set; } 
-    
-        [RegularExpression(Constants.PasswordPattern,
-            ErrorMessage = "Password format not valid")]
-        public string? Password { get; set; } = string.Empty;
+    public class ChangePasswordUser
+    {
         
-        public string? RepeatPassword { get; set; } = string.Empty;
-
-}
+        public required string Password { get; set; }
+        
+        public required string RepeatPassword { get; set; }
+        
+    }
 
     public class UserCreation
     {
-
-        [Required] [MaxLength(16)] [RutValidator]
+        [Required]
+        [MaxLength(16)]
+        [RutValidator]
         public string Rut { get; set; } = string.Empty;
 
         [StringLength(255, MinimumLength = 8,
@@ -113,23 +118,21 @@ namespace Taller1.Model
             ErrorMessage = "Name just can contains letter and spaces.")]
         public string Name { get; set; } = string.Empty;
 
-        [Required] 
-        [RegularExpression(Constants.EmailPattern, 
+        [Required]
+        [RegularExpression(Constants.EmailPattern,
             ErrorMessage = "Email format not valid")]
         public string Email { get; set; } = string.Empty;
-        
-        [Required] 
+
+        [Required]
         [RegularExpression(Constants.PasswordPattern,
             ErrorMessage = "Password format not valid")]
         public string Password { get; set; } = string.Empty;
-        
+
         [Required] public string RepeatPassword { get; set; } = string.Empty;
 
-        [PastDateValidation]
-        [Required] public DateTime Birthday { get; set; } = DateTime.Now;
-        
+        [PastDateValidation] [Required] public DateTime Birthday { get; set; } = DateTime.Now;
+
         [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;
-        
     }
 
     public class AuthenticationCredential

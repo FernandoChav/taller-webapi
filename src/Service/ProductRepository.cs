@@ -6,13 +6,13 @@ using Taller1.Update;
 
 namespace Taller1.Service
 {
-    public class ProductDbSetObjectRepository : IObjectRepository<Product, ProductEdit>
+    public class ProductRepository : IObjectRepository<Product, ProductEdit>
     {
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IUpdateModel<ProductEdit, Product> _updateModel;
 
-        public ProductDbSetObjectRepository(ApplicationDbContext applicationDbContext,
+        public ProductRepository(ApplicationDbContext applicationDbContext,
             IUpdateModel<ProductEdit, Product> updateModel)
         {
             _applicationDbContext = applicationDbContext;

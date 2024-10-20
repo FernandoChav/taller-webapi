@@ -9,14 +9,14 @@ using Taller1.Util;
 namespace Taller1.Service
 
 {
-    public class UserRepository : IObjectRepository<User, UserEdit>
+    public class UserRepository : IObjectRepository<User, UserEditGeneral>
     {
         private readonly ApplicationDbContext _applicationDb;
         private readonly DbSet<User> _users;
-        private readonly IUpdateModel<UserEdit, User> _updateModel;
+        private readonly IUpdateModel<UserEditGeneral, User> _updateModel;
 
         public UserRepository(ApplicationDbContext applicationDbContext, 
-            IUpdateModel<UserEdit, User> updateModel)
+            IUpdateModel<UserEditGeneral, User> updateModel)
         {
             _applicationDb = applicationDbContext;
             _users = applicationDbContext.Users;
@@ -29,12 +29,12 @@ namespace Taller1.Service
                    ?? throw new KeyNotFoundException("Usuario no encontrado.");
         }
 
-        public void Edit(int id, UserEdit entityEdit)
+        public void Edit(int id, UserEditGeneral entityEdit)
         {
             var user = FindById(id);
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new ElementNotFound();
             }
             
             _updateModel.Edit(entityEdit, user);

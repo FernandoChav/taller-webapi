@@ -107,7 +107,7 @@ namespace Taller1.src.Models
         public required IFormFile Image { get; set; }
         
     }
-
+    
     public class ProductEdit
     {
         

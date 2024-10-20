@@ -5,6 +5,7 @@ using Taller1.Data;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
+using Taller1.TException;
 
 namespace Taller1.Controller
 {
@@ -13,10 +14,10 @@ namespace Taller1.Controller
     //[Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
-        private readonly IObjectRepository<User, UserEdit> _userService;
+        private readonly IObjectRepository<User, UserEditGeneral> _userService;
         private readonly DbSet<User> _dbSet;
 
-        public UserController(IObjectRepository<User, UserEdit> userService,
+        public UserController(IObjectRepository<User, UserEditGeneral> userService,
             ApplicationDbContext applicationDbContext)
         {
             _userService = userService;
@@ -49,12 +50,67 @@ namespace Taller1.Controller
             [FromQuery] bool isActive
         )
         {
-            _userService.Edit(
-                   id, new UserEdit
-                   {
-                       IsActive = isActive
-                   } 
+            try
+            {
+                _userService.Edit(id, new UserEditGeneral
+                    {
+                        IsActive = isActive
+                    } 
                 );
+            }
+            catch (ElementNotFound e)
+            {
+                return NotFound(e.Message);
+            }
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("/user/update-password/{id}")]
+        public ActionResult<User> UpdatePassword(
+            int id,
+            [FromBody] ChangePasswordUser changePasswordUser)
+        {
+
+            if (changePasswordUser.Password != changePasswordUser.RepeatPassword)
+            {
+                return BadRequest("The password not equals");
+            }
+            
+            try
+            {
+                _userService.Edit(
+                    id, new UserEditGeneral
+                    {
+                        Password = changePasswordUser.Password,
+                        RepeatPassword = changePasswordUser.RepeatPassword
+                    });
+            }
+            catch (ElementNotFound e)
+            {
+                return NotFound(e.Message);
+            }
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("/user/update/{id}")]
+        public ActionResult<User> Update(int id,
+            [FromBody] UserEdit userEdit)
+        {
+            try
+            {
+                _userService.Edit(id, new UserEditGeneral
+                {
+                    Name = userEdit.Name,
+                    Birthdate = userEdit.Birthdate,
+                    Gender = userEdit.Gender
+                });
+            }
+            catch (ElementNotFound e)
+            {
+                return NotFound(e.Message);
+            }
 
             return Ok();
         }

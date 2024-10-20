@@ -40,7 +40,7 @@ namespace Taller1.Controller
         [Route("/product/create")]
         public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
-            var task =  _imageService.Upload(creationProduct.Image);
+            var task = _imageService.Upload(creationProduct.Image);
             var result = task.Result;
 
             var publicId = result.PublicId;
@@ -68,6 +68,18 @@ namespace Taller1.Controller
         {
             service.Delete(id);
         }
+
+        [HttpPut]
+        [Route("/product/update/{id}")]
+        public ActionResult<ProductEdit> Update(
+            [FromQuery] int id,
+            [FromBody] ProductEdit productEdit
+        )
+        {
+            service.Edit(id, productEdit);
+            return productEdit;
+        }
+
 
         /// <summary>
         /// Find a product from her id 

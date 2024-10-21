@@ -58,6 +58,9 @@ namespace Taller1.Model
         /// <value> This attribute is a boolean that determine if a user is active</value>
 
         public bool IsActive { get; set; } = true;
+
+        public ICollection<Voucher> Vouchers { get; set; }
+
     }
 
     public class UserEditGeneral

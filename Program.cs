@@ -35,10 +35,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 InstallServices(
-    ServiceMember.NewInstance<IObjectRepository<User, UserEdit>, UserRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<User, UserEditGeneral>, UserRepository>(),
     ServiceMember.NewInstance<IImageService, ImageService>(),
     ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
-    ServiceMember.NewInstance<IUpdateModel<UserEdit, User>, UserEditModel>(),
+    ServiceMember.NewInstance<IUpdateModel<UserEditGeneral, User>, UserEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<RoleEdit, Role>, RoleEditModel>(),
     ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),

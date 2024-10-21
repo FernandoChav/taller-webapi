@@ -11,7 +11,7 @@ namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class UserController : ControllerBase
     {
         private readonly IObjectRepository<User, UserEditGeneral> _userService;
@@ -113,6 +113,20 @@ namespace Taller1.Controller
             }
 
             return Ok();
+        }
+
+        [HttpDelete]
+        [Route("/user/delete/{id}")]
+        public ActionResult<User> Delete(int id)
+        {
+            try
+            {
+                return _userService.Delete(id);
+            }
+            catch (ElementNotFound e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
     }

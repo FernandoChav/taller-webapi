@@ -7,20 +7,38 @@ namespace Taller1.Model;
 
 public class VoucherProduct
 {
-
-    public int Id { get; set; } = 0;
-    public string Name { get; set; }
     
-    public ProductType Type { get; set; }
-    public int Price { get; set; }
-    public int Elements { get; set; }
+    public int Id { get; set; }
+    
+    [MaxLength(120)]
+    public required string Name { get; set; }
+    public required ProductType Type { get; set; }
+    public required int Price { get; set; }
+    public required int Elements { get; set; }
 
     public int VoucherId { get; set; } 
-    public required Voucher Voucher { get; set; }
+    public Voucher Voucher { get; set; }
     
-    public int Total()
-    {
-        return Price * Elements;
-    }
+}
+
+public class VoucherProductCreation
+{
+    
+    [MaxLength(120)]
+    public required string Name { get; set; }
+    public required ProductType Type { get; set; }
+    public required int Price { get; set; }
+    public required int Elements { get; set; }
+    
+}
+
+public class VoucherProductResponse
+{
+    
+    [MaxLength(120)]
+    public required string Name { get; set; }
+    public required ProductType Type { get; set; }
+    public required int Price { get; set; }
+    public required int Elements { get; set; }
     
 }

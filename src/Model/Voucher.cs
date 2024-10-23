@@ -1,20 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-
-namespace Taller1.Model;
+﻿namespace Taller1.Model;
 
 public class Voucher
 {
 
-    [Key]
-    public int Id { get; set; } = 0;
+    public int Id { get; set; }
     public DateTime Date { get; set; }
-    public List<VoucherProduct> AllProducts { get; set; }
+    public ICollection<VoucherProduct> AllProducts { get; set; } = null!;
 
     public int UserId { get; set; } = 0;
-    public User User { get; set; }
+    public User User { get; set; } = null!;
     
-    private int _totalPrice =  0;
+    /*private int _totalPrice =  0;
     
     public int GetTotalPrice()
     {
@@ -31,11 +27,31 @@ public class Voucher
 
         _totalPrice = total;
         return total;
-    }
+    }*/
     
 }
 
 public class CreationVoucher
 {
+ 
+    public DateTime Date { get; set; }
+    public ICollection<VoucherProductCreation> Products { get; set; }
+    public int UserId { get; set; }
+    
+}
+
+public class VoucherResponse
+{
+    
+    public DateTime CreatedVoucherDate { get; set; }
+    public ICollection<VoucherProductResponse> Products { get; set; }
+    
+}
+
+
+public class VoucherEdit
+{
+    
+    public DateTime Date { get; set; }
     
 }

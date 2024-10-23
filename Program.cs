@@ -24,15 +24,15 @@ void InstallServices(params ServiceMember[] members)
     }
 }
 
-// Cargar las variables de entorno
 Env.Load();
 
-// Configurar la cadena de conexión
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "Data Source=app.db";
-
-// Registrar el DbContext en el contenedor de servicios
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+{
+    options.UseSqlite(connectionString);
+    options.EnableSensitiveDataLogging();
+}
+);
 
 InstallServices(
     ServiceMember.NewInstance<IObjectRepository<User, UserEditGeneral>, UserRepository>(),
@@ -41,6 +41,7 @@ InstallServices(
     ServiceMember.NewInstance<IUpdateModel<UserEditGeneral, User>, UserEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<RoleEdit, Role>, RoleEditModel>(),
     ServiceMember.NewInstance<IObjectRepository<Product, ProductEdit>, ProductRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<Voucher, VoucherEdit>, VoucherRepository>(),
     ServiceMember.NewInstance<IUserTokenProvider, JwtUserTokenProvider>(),
     ServiceMember.NewInstance<IEncryptStrategy, BcryptEncryptStrategy>(),
     ServiceMember.NewInstance<IAuthenticatorHandler, DefaultAuthenticatorHandler>(),
@@ -71,18 +72,15 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddAuthorization();
 
-// Configurar la sección de Cloudinary desde appsettings.json
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
 builder.Services.AddScoped<ImageService>();
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

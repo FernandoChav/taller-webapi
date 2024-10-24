@@ -110,6 +110,7 @@ namespace Taller1.Model
 
     public class UserCreation
     {
+        
         [Required]
         [MaxLength(16)]
         [RutValidator]

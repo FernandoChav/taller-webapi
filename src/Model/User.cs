@@ -58,6 +58,9 @@ namespace Taller1.Model
         /// <value> This attribute is a boolean that determine if a user is active</value>
 
         public bool IsActive { get; set; } = true;
+
+        public ICollection<Voucher> Vouchers { get; set; }
+
     }
 
     public class UserEditGeneral
@@ -130,7 +133,7 @@ namespace Taller1.Model
 
         [Required] public string RepeatPassword { get; set; } = string.Empty;
 
-        [PastDateValidation] [Required] public DateTime Birthday { get; set; } = DateTime.Now;
+        [PastDateValidation] [Required] public DateTime Birthdate { get; set; } = DateTime.Now;
 
         [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;
     }

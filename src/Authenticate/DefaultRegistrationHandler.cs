@@ -8,10 +8,10 @@ public class DefaultRegistrationHandler : IRegistrationHandler
 {
 
     private readonly Random _random = new Random();
-    private readonly IObjectRepository<User, UserEdit> _userRepository;
+    private readonly IObjectRepository<User, UserEditGeneral> _userRepository;
     private readonly IEncryptStrategy _encryptStrategy;
 
-    public DefaultRegistrationHandler(IObjectRepository<User, UserEdit> userRepository,
+    public DefaultRegistrationHandler(IObjectRepository<User, UserEditGeneral> userRepository,
         IEncryptStrategy encryptStrategy)
     {
         _userRepository = userRepository;

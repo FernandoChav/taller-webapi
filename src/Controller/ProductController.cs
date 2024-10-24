@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
@@ -26,11 +27,17 @@ namespace Taller1.Controller
     public class ProductController(
         IObjectRepository<Product, ProductEdit> service,
         ImageService imageService,
-        ApplicationDbContext applicationDbContext)
+        ApplicationDbContext applicationDbContext,
+        MapperFactory mapperFactory)
         : ControllerBase
     {
-        private readonly ImageService _imageService = imageService;
         private readonly DbSet<Product> _products = applicationDbContext.Products;
+
+        private readonly IObjectMapper<CreationProduct, Product> _creationProductMapper = mapperFactory
+            .Get<CreationProduct, Product>();
+
+        private readonly IObjectMapper<Product, ProductView> _productViewMapper =
+            mapperFactory.Get<Product, ProductView>();
 
         /// <summary>
         /// Store a product based a new request product
@@ -41,21 +48,20 @@ namespace Taller1.Controller
         [Route("/product/create")]
         public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
         {
-            var task = _imageService.Upload(creationProduct.Image);
+            var task = imageService.Upload(creationProduct.Image);
             var result = task.Result;
 
             var publicId = result.PublicId;
             var absoluteUri = result.SecureUrl.AbsoluteUri;
 
-            var productCreationDtoMapper
-                = new CreationProductObjectMapper(
-                    publicId,
-                    absoluteUri);
-
-            var product = productCreationDtoMapper.Mapper(creationProduct);
+            var product
+                = _creationProductMapper.Mapper(creationProduct,
+                    ObjectParameters.Create()
+                        .AddParameter("ImageId", publicId)
+                        .AddParameter("AbsoluteUri", absoluteUri));
 
             service.Push(product);
-            return product;
+            return Ok(product);
         }
 
         /// <summary>
@@ -64,29 +70,33 @@ namespace Taller1.Controller
         /// <param name="id">a string id product</param>
         [HttpDelete]
         [Route("/product/delete/{id}")]
-        public ActionResult<Product> Delete(
-                 int id)
+        public ActionResult<ProductView> Delete(
+            int id)
         {
-            try
+            var productDeleted = service.Delete(id);
+            if (productDeleted == null)
             {
-                return service.Delete(id);
+                return NotFound("Product not found"); 
             }
-            catch (ElementNotFound e)
-            {
-                return NotFound(e.Message);
-            }
-            
+
+            return _productViewMapper.
+                Mapper(productDeleted);
         }
 
         [HttpPut]
         [Route("/product/update/{id}")]
-        public ActionResult<ProductEdit> Update(
-             int id,
+        public ActionResult<ProductView> Update(
+            int id,
             [FromBody] ProductEdit productEdit
         )
         {
-            service.Edit(id, productEdit);
-            return productEdit;
+            var product = service.Edit(id, productEdit);
+            if (product == null)
+            {
+                return NotFound("Product not found");
+            }
+            
+            return _productViewMapper.Mapper(product);
         }
 
 
@@ -97,8 +107,8 @@ namespace Taller1.Controller
         /// <returns></returns>
         [HttpGet]
         [Route("/product/find/{id}")]
-        public ActionResult<Product> Find(
-                 int id)
+        public ActionResult<ProductView> Find(
+            int id)
 
         {
             var product = service.FindById(id);
@@ -107,7 +117,7 @@ namespace Taller1.Controller
                 return NotFound("Element not found");
             }
 
-            return product;
+            return _productViewMapper.Mapper(product);
         }
 
         /// <summary>
@@ -121,7 +131,7 @@ namespace Taller1.Controller
         /// <returns>A wrapper that contains a set elements product</returns>
         [HttpGet]
         [Route("/product/all")]
-        public ActionResult<EntityGroup<Product>> All(
+        public ActionResult<EntityGroup<ProductView>> All(
             [FromQuery] int page = 1,
             [FromQuery] int elements = 10,
             [FromQuery] bool isOrderingByPrice = false,
@@ -145,8 +155,11 @@ namespace Taller1.Controller
                 builder = builder.OrderBy(product => product.Price, ascending);
             }
 
-            return EntityGroup<Product>.Create(
-                builder.BuildAndGetAll(),
+            var elementsShowed = _productViewMapper.
+                Mapper(builder.BuildAndGetAll());
+
+            return EntityGroup<ProductView>.Create(
+                elementsShowed,
                 new Dictionary<string, string>
                 {
                     ["Page"] = page.ToString(),

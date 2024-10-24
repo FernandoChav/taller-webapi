@@ -20,13 +20,12 @@ namespace Taller1.Service
             _updateModel = updateModel;
         }
 
-        public Product Delete(int id)
+        public Product? Delete(int id)
         {
             var product = FindById(id);
-
             if (product == null)
             {
-                throw new ElementNotFound();
+                return null;
             }
             
             _products.Remove(product);
@@ -48,16 +47,18 @@ namespace Taller1.Service
                 );
         }
 
-        public void Edit(int id, ProductEdit productEdit)
+        public Product? Edit(int id, ProductEdit productEdit)
         {
             var product = FindById(id);
             if (product == null)
             {
-                throw new ElementNotFound();
+                return null;
             }
             
             _updateModel.Edit(productEdit, product);
             _applicationDbContext.SaveChanges();
+
+            return product;
         }
     }
 }

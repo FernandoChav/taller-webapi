@@ -24,7 +24,7 @@ namespace Taller1.Service
         /// </summary>
         /// <param name="id">integer that represent her id</param>
         
-        TEntity Delete(int id);
+        TEntity? Delete(int id);
 
         /// <summary>
         /// Retrieve a element from her id
@@ -36,7 +36,7 @@ namespace Taller1.Service
 
         
         
-        void Edit(int id, 
+        TEntity? Edit(int id, 
             TEntityEdit entityEdit);
 
     }

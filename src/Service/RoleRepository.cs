@@ -63,17 +63,18 @@ public class RoleRepository : IObjectRepository<Role, RoleEdit>
         return role;
     }
 
-    public void Edit(int id,
+    public Role? Edit(int id,
         RoleEdit entityEdit)
     {
         var role = FindById(id);
         if (role == null)
         {
-            throw new ElementNotFound();
+            return null;
         }
 
         _roleUpdate.Edit(entityEdit, role);
         _applicationDbContext.SaveChanges();
+        return role;
     }
     
 }

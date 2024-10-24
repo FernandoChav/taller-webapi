@@ -53,8 +53,6 @@ public class UserDataSeeder : IDataSeeder<User>
         });
 
         _applicationDbContext.SaveChanges();
-        Console.WriteLine("Seeding database");
-        Console.WriteLine("Added Administrator");
     }
     
     public DbSet<User> Get()

@@ -11,7 +11,6 @@ User>
     
     public User Mapper(UserCreation element, ObjectParameters? parameters)
     {
-        
         if (parameters == null)
         {
             return _userEmpty;

@@ -7,15 +7,11 @@ namespace Taller1.Controller;
 
 [ApiController]
 [Route("api/[controller]")]
-public class VoucherController : ControllerBase
+public class VoucherController(
+         IObjectRepository<Voucher, VoucherEdit> voucherRepository
+    ) : ControllerBase
 {
-    private readonly  IObjectRepository<Voucher, VoucherEdit> _voucherRepository;
-
-    public VoucherController(IObjectRepository<Voucher, VoucherEdit> voucherRepository)
-    {
-        _voucherRepository = voucherRepository;
-    }
-
+    
     [HttpPost]
     [Route("/voucher/create")]
     public CreationVoucher Create(CreationVoucher creationVoucher)
@@ -41,7 +37,7 @@ public class VoucherController : ControllerBase
             AllProducts = products
         };
 
-        _voucherRepository.Push(
+        voucherRepository.Push(
             voucher
         );
 
@@ -52,7 +48,7 @@ public class VoucherController : ControllerBase
     [Route("/voucher/find/{id}")]
     public ActionResult<VoucherResponse> Find(int id)
     {
-        var voucher = _voucherRepository
+        var voucher = voucherRepository
             .FindById(id);
 
         if (voucher == null)
@@ -88,7 +84,7 @@ public class VoucherController : ControllerBase
     [Route("/voucher/delete/{id}")]
     public ActionResult Delete(int id)
     {
-        _voucherRepository.Delete(id);
+        voucherRepository.Delete(id);
         return Ok();
     }
     

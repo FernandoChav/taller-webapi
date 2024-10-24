@@ -10,7 +10,7 @@ using Taller1.Validation;
 namespace Taller1.Model
 {
     /// <summary>
-    /// This is a enum class that represent all gender types defined
+    /// This is enum class that represent all gender types defined
     /// </summary>
     public enum GenderType
     {
@@ -25,12 +25,10 @@ namespace Taller1.Model
     /// </summary>
     public class User
     {
-        /// <value> This attribute is a integer that represent a Role assigned to User</value>
+        /// <value> This attribute is integer that represent a Role assigned to User</value>
         public int RoleId { get; set; } = 0;
 
         /// <value> This attribute is a auto incremental Identifier</value>
-
-        [Key]
         public int Id { get; set; }
 
         /// <value> This attribute is string that represent the username</value>
@@ -144,4 +142,16 @@ namespace Taller1.Model
         [Required] public string Email { get; set; } = string.Empty;
         [Required] public string Password { get; set; } = string.Empty;
     }
+
+    public class UserView
+    {
+        
+        public string Rut { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public DateTime Birthdate { get; set; }
+        public GenderType GenderType { get; set; }
+        public bool IsActive { get; set; }
+        
+    }
+    
 }

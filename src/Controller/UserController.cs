@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
@@ -12,31 +13,33 @@ namespace Taller1.Controller
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(Roles = "Administrator")]
-    public class UserController : ControllerBase
+    public class UserController(
+        IObjectRepository<User, UserEditGeneral> userService,
+        ApplicationDbContext applicationDbContext,
+        IMapperFactory mapperFactory
+    ) : ControllerBase
     {
-        private readonly IObjectRepository<User, UserEditGeneral> _userService;
-        private readonly DbSet<User> _dbSet;
 
-        public UserController(IObjectRepository<User, UserEditGeneral> userService,
-            ApplicationDbContext applicationDbContext)
-        {
-            _userService = userService;
-            _dbSet = applicationDbContext.Users;
-        }
+        private readonly DbSet<User> _users = applicationDbContext.Users;
+
+        private readonly IObjectMapper<User, UserView> _userViewMapper = mapperFactory.Get<
+            User, UserView>();
 
         [HttpGet]
         [Route("/user/all/")]
-        public ActionResult<EntityGroup<User>> All(
+        public ActionResult<EntityGroup<UserView>> All(
             [FromQuery] int page = 1,
             [FromQuery] int elements = 10
         )
         {
-            var entities = new DbSetSearchBuilder<User>(_dbSet)
+            var entities = new DbSetSearchBuilder<User>(_users)
                 .Page(page, elements)
                 .BuildAndGetAll();
 
-            return EntityGroup<User>.Create(
-                entities, new Dictionary<string, string>
+            var entitiesAsView = _userViewMapper.Mapper(entities);
+
+            return EntityGroup<UserView>.Create(
+                entitiesAsView, new Dictionary<string, string>
                 {
                     ["Page"] = page.ToString(),
                     ["Elements"] = elements.ToString()
@@ -52,16 +55,17 @@ namespace Taller1.Controller
         {
             try
             {
-                _userService.Edit(id, new UserEditGeneral
+                userService.Edit(id, new UserEditGeneral
                     {
                         IsActive = isActive
-                    } 
+                    }
                 );
             }
             catch (ElementNotFound e)
             {
                 return NotFound(e.Message);
             }
+
             return Ok();
         }
 
@@ -71,15 +75,14 @@ namespace Taller1.Controller
             int id,
             [FromBody] ChangePasswordUser changePasswordUser)
         {
-
             if (changePasswordUser.Password != changePasswordUser.RepeatPassword)
             {
                 return BadRequest("The password not equals");
             }
-            
+
             try
             {
-                _userService.Edit(
+                userService.Edit(
                     id, new UserEditGeneral
                     {
                         Password = changePasswordUser.Password,
@@ -90,6 +93,7 @@ namespace Taller1.Controller
             {
                 return NotFound(e.Message);
             }
+
             return Ok();
         }
 
@@ -100,7 +104,7 @@ namespace Taller1.Controller
         {
             try
             {
-                _userService.Edit(id, new UserEditGeneral
+                userService.Edit(id, new UserEditGeneral
                 {
                     Name = userEdit.Name,
                     Birthdate = userEdit.Birthdate,
@@ -121,13 +125,12 @@ namespace Taller1.Controller
         {
             try
             {
-                return _userService.Delete(id);
+                return userService.Delete(id);
             }
             catch (ElementNotFound e)
             {
                 return NotFound(e.Message);
             }
         }
-        
     }
 }

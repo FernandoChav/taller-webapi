@@ -1,4 +1,6 @@
-﻿namespace Taller1.Mapper;
+﻿using Taller1.Util;
+
+namespace Taller1.Mapper;
 
 /// <summary>
 /// This interface provide a way for transform a object to other.
@@ -6,18 +8,42 @@
 ///
 /// This class provider a transformation for x and y and 
 /// </summary>
-/// <typeparam name="TE1">Object type one</typeparam>
-/// <typeparam name="TE2">Object type two</typeparam>
+/// <typeparam name="TObject">Object type one</typeparam>
+/// <typeparam name="TResult">Object type two</typeparam>
 
-public interface IObjectMapper<TE1, TE2>
+public interface IObjectMapper<TObject, TResult>
 {
     
     /// <summary>
     /// Transform object TE2 to object TE1
     /// </summary>
-    /// <param name="entity">Object any</param>
+    /// <param name="element">Object any</param>
+    /// <param name="parameters">Other parameters for construcction element</param>
     /// <returns>A object T2</returns>
     
-    TE2 Mapper(TE1 entity);
+    TResult Mapper(TObject element, ObjectParameters? parameters);
 
+    IList<TResult> Mapper(IList<TObject> elements,
+        ObjectParameters? parameters)
+    {
+        var elementsMapped = new List<TResult>();
+        foreach (var element in elements)
+        {
+            elementsMapped.Add(Mapper(element, parameters));
+        }
+
+        return elementsMapped;
+    }
+    
+    TResult Mapper(TObject element)
+    {
+        return Mapper(element,
+            null);
+    }
+
+    IList<TResult> Mapper(IList<TObject> elements)
+    {
+        return Mapper(elements, null);
+    }
+    
 }

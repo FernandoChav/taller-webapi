@@ -9,7 +9,7 @@ namespace Taller1.Controller;
 [Route("api/[controller]")]
 public class VoucherController : ControllerBase
 {
-    private IObjectRepository<Voucher, VoucherEdit> _voucherRepository;
+    private readonly  IObjectRepository<Voucher, VoucherEdit> _voucherRepository;
 
     public VoucherController(IObjectRepository<Voucher, VoucherEdit> voucherRepository)
     {

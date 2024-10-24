@@ -133,7 +133,7 @@ namespace Taller1.Model
 
         [Required] public string RepeatPassword { get; set; } = string.Empty;
 
-        [PastDateValidation] [Required] public DateTime Birthday { get; set; } = DateTime.Now;
+        [PastDateValidation] [Required] public DateTime Birthdate { get; set; } = DateTime.Now;
 
         [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;
     }

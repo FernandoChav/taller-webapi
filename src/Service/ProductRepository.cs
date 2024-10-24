@@ -20,6 +20,19 @@ namespace Taller1.Service
             _updateModel = updateModel;
         }
 
+        public async Task<Product> PushAsync(Product entity)
+        {
+            await _products.AddAsync(entity);
+            return entity;
+        }
+
+        public void Push(Product entity)
+        {
+            _products.Add(entity);
+            _applicationDbContext.SaveChanges();
+        }
+
+
         public Product? Delete(int id)
         {
             var product = FindById(id);
@@ -32,13 +45,7 @@ namespace Taller1.Service
             _applicationDbContext.SaveChanges();
             return product;
         }
-
-        public void Push(Product entity)
-        {
-            _products.Add(entity);
-            _applicationDbContext.SaveChanges();
-        }
-
+        
         public Product? FindById(int id)
         {
             return _products

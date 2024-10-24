@@ -40,16 +40,15 @@ namespace Taller1.Controller
             mapperFactory.Get<Product, ProductView>();
 
         /// <summary>
-        /// Store a product based a new request product
+        /// Store a product from a new request product
         /// </summary>
         /// <param name="creationProduct">A product for create</param>
         /// <returns>A wrapper from product created</returns>
         [HttpPost]
         [Route("/product/create")]
-        public ActionResult<Product> Post([FromBody] CreationProduct creationProduct)
+        public async Task<ActionResult<ProductView>> Post([FromBody] CreationProduct creationProduct)
         {
-            var task = imageService.Upload(creationProduct.Image);
-            var result = task.Result;
+            var result = await imageService.Upload(creationProduct.Image);
 
             var publicId = result.PublicId;
             var absoluteUri = result.SecureUrl.AbsoluteUri;
@@ -60,8 +59,11 @@ namespace Taller1.Controller
                         .AddParameter("ImageId", publicId)
                         .AddParameter("AbsoluteUri", absoluteUri));
 
-            service.Push(product);
-            return Ok(product);
+            await service.PushAsync(product);
+            await applicationDbContext.SaveChangesAsync();
+            return Ok(
+                    _productViewMapper.Mapper(product)
+                );
         }
 
         /// <summary>

@@ -31,6 +31,13 @@ public class RoleRepository : IObjectRepository<Role, RoleEdit>
         _applicationDbContext.SaveChanges();
     }
 
+    public async Task<Role> PushAsync(Role entity)
+    {
+        await _roles.AddAsync(entity);
+        await _applicationDbContext.SaveChangesAsync();
+        return entity;
+    }
+
     public Role Delete(int roleId)
     {
         var role = DbSetSearchBuilder<Role>.NewBuilder(_roles)

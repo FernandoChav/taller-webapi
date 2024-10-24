@@ -18,6 +18,8 @@ namespace Taller1.Service
         /// <param name="entity">Element to save</param>
         
         void Push(TEntity entity);
+
+        Task<TEntity> PushAsync(TEntity entity);
         
         /// <summary>
         /// Delete element from a repository

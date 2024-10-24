@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
 using Taller1.Model;
@@ -25,8 +26,13 @@ namespace Taller1.Service
 
         public User? FindById(int id)
         {
-            return _users.FirstOrDefault(u => u.Id == id)
-                   ?? throw new KeyNotFoundException("Usuario no encontrado.");
+            return _users.FirstOrDefault(u => u.Id == id).
+                OrDefault(null);
+        }
+
+        User? IObjectRepository<User, UserEditGeneral>.Edit(int id, UserEditGeneral entityEdit)
+        {
+            throw new NotImplementedException();
         }
 
         public void Edit(int id, UserEditGeneral entityEdit)
@@ -45,6 +51,14 @@ namespace Taller1.Service
         {
             _users.Add(user);
             _applicationDb.SaveChanges();
+        }
+
+        public async Task<User> PushAsync(User user)
+        {
+            await _users.AddAsync(user);
+            await _applicationDb.SaveChangesAsync();
+
+            return user;
         }
 
         public User Delete(int id)

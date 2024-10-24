@@ -20,16 +20,29 @@ public class VoucherRepository : IObjectRepository<Voucher, VoucherEdit>
         _applicationDbContext = applicationDbContext;
     }
     
-    public void Push(Voucher entity)
+    public void Push(Voucher voucher)
     {
-        _vouchers.Add(entity);
+        _vouchers.Add(voucher);
         
-        foreach (var product in entity.AllProducts)
+        foreach (var product in voucher.AllProducts)
         {
-            product.VoucherId = entity.Id;
+            product.VoucherId = voucher.Id;
         }
         
         _applicationDbContext.SaveChanges();
+    }
+
+    public async Task<Voucher> PushAsync(Voucher voucher)
+    {
+        await _vouchers.AddAsync(voucher);
+
+        foreach (var product in voucher.AllProducts)
+        {
+            product.VoucherId = voucher.Id;
+        }
+
+        await _applicationDbContext.SaveChangesAsync();
+        return voucher;
     }
 
     public Voucher Delete(int id)
@@ -50,6 +63,11 @@ public class VoucherRepository : IObjectRepository<Voucher, VoucherEdit>
         return _vouchers
             .Include(v => v.AllProducts)
             .FirstOrDefault(v => v.Id == id);
+    }
+
+    Voucher? IObjectRepository<Voucher, VoucherEdit>.Edit(int id, VoucherEdit entityEdit)
+    {
+        throw new NotImplementedException();
     }
 
     public void Edit(int id, VoucherEdit entityEdit)

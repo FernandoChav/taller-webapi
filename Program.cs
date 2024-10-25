@@ -35,7 +35,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 InstallServices(
-    ServiceMember.NewInstance<IObjectRepository<User, UserEditGeneral>, UserRepository>(),
+    ServiceMember.NewInstance<IObjectRepository<User>, UserRepository>(),
     ServiceMember.NewInstance<IImageService, ImageService>(),
     ServiceMember.NewInstance<IUpdateModel<ProductEdit, Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<UserEditGeneral, User>, UserEditModel>(),

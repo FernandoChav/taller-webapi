@@ -1,9 +1,10 @@
 ﻿using Taller1.Service;
 using Taller1.src.Models;
+using Taller1.Util;
 
 namespace Taller1.Update.Model;
 
-public class ProductEditModel : IUpdateModel<ProductEdit, Product>
+public class ProductEditModel : IUpdateModel<Product>
 {
     private readonly IImageService _imageService;
 
@@ -12,32 +13,27 @@ public class ProductEditModel : IUpdateModel<ProductEdit, Product>
         _imageService = imageService;
     }
 
-    public void Edit(ProductEdit editObject, Product modelObject)
+    public async void Edit(ObjectParameters parameters
+        , Product modelObject)
     {
-        if (editObject.Name != null)
+        parameters.ExecuteIfExists("Name", obj => { modelObject.Name = (string)obj; });
+        parameters.ExecuteIfExists("Stock", obj => { modelObject.Stock = (int)obj; });
+        parameters.ExecuteIfExists("Price", obj => { modelObject.Price = (int)obj; });
+        
+        parameters.ExecuteIfExists("ProductType", obj =>
         {
-            modelObject.Name = editObject.Name;
-        }
+            var str = obj as string;
 
-        if (editObject.ProductType != null)
-        {
-            modelObject.ProductType = editObject.ProductType.Value;
-        }
+            if (Enum.TryParse(str, out ProductType productType))
+            {
+                modelObject.ProductType = productType;
+            }
+        });
 
-        if (editObject.Stock != null)
+        if (parameters.Exists("Image"))
         {
-            modelObject.Stock = editObject.Stock.Value;
-        }
-
-        if (editObject.Price != null)
-        {
-            modelObject.Price = editObject.Price.Value;
-        }
-
-        if (editObject.Image != null)
-        {
-            var task = _imageService.Upload(editObject.Image);
-            var result = task.Result;
+            var image = (IFormFile)parameters.Get("Image");
+            var result = await _imageService.Upload(image);
             
             var publicId = result.PublicId;
             var absoluteUri = result.SecureUrl.AbsoluteUri;
@@ -46,5 +42,6 @@ public class ProductEditModel : IUpdateModel<ProductEdit, Product>
             modelObject.AbsoluteUri = absoluteUri;
         }
         
+   
     }
 }

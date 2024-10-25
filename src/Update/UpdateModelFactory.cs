@@ -3,28 +3,19 @@
 public class UpdateModelFactory
 {
 
-    private readonly IDictionary<Tuple<Type, Type>, object> _factory = new Dictionary<
-        Tuple<Type, Type>, object>();
+    private readonly IDictionary<Type, object> _factory = new Dictionary<
+        Type, object>();
 
-    public IUpdateModel<TEditObject, TModelObject> Provide<TEditObject, TModelObject>()
+    public IUpdateModel<TModelObject> Provide<TModelObject>()
     {
-        return (IUpdateModel<TEditObject, TModelObject>) _factory[
-            new Tuple<Type, Type>(
-                typeof(TEditObject), 
-                typeof(TModelObject))
+        return (IUpdateModel<TModelObject>) _factory[
+            typeof(TModelObject)
         ];
     }
 
-    public void Add<TEditObject, TModelObject>(IUpdateModel<TEditObject, TModelObject> updateModel)
+    public void Add<TModelObject>(IUpdateModel<TModelObject> updateModel)
     {
-
-        var tuple = new Tuple<Type,
-            Type>(
-            typeof(TEditObject),
-            typeof(TModelObject)
-        );
-
-        _factory[tuple] = updateModel;
+        _factory[typeof(TModelObject)] = updateModel;
     }
     
 

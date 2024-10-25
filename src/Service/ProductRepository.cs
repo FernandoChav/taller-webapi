@@ -3,17 +3,18 @@ using Taller1.Data;
 using Taller1.src.Models;
 using Taller1.TException;
 using Taller1.Update;
+using Taller1.Util;
 
 namespace Taller1.Service
 {
-    public class ProductRepository : IObjectRepository<Product, ProductEdit>
+    public class ProductRepository : IObjectRepository<Product>
     {
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IUpdateModel<ProductEdit, Product> _updateModel;
+        private readonly IUpdateModel<Product> _updateModel;
 
         public ProductRepository(ApplicationDbContext applicationDbContext,
-            IUpdateModel<ProductEdit, Product> updateModel)
+            IUpdateModel<Product> updateModel)
         {
             _applicationDbContext = applicationDbContext;
             _products = applicationDbContext.Products;
@@ -54,7 +55,7 @@ namespace Taller1.Service
                 );
         }
 
-        public Product? Edit(int id, ProductEdit productEdit)
+        public Product? Edit(int id, ObjectParameters parameters)
         {
             var product = FindById(id);
             if (product == null)
@@ -62,7 +63,7 @@ namespace Taller1.Service
                 return null;
             }
             
-            _updateModel.Edit(productEdit, product);
+            _updateModel.Edit(parameters, product);
             _applicationDbContext.SaveChanges();
 
             return product;

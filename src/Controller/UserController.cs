@@ -2,28 +2,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Taller1.Data;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
 using Taller1.TException;
+using Taller1.Util;
 
 namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(Roles = "Administrator")]
-    public class UserController : ControllerBase
+    public class UserController(
+        IObjectRepository<User> userService,
+        ApplicationDbContext applicationDbContext,
+        IMapperFactory mapperFactory
+        ) : ControllerBase
     {
-        private readonly IObjectRepository<User, UserEditGeneral> _userService;
-        private readonly DbSet<User> _dbSet;
-
-        public UserController(IObjectRepository<User, UserEditGeneral> userService,
-            ApplicationDbContext applicationDbContext)
-        {
-            _userService = userService;
-            _dbSet = applicationDbContext.Users;
-        }
-
+        private readonly IObjectRepository<User> _userService;
+        private readonly DbSet<User> _dbSet = applicationDbContext.Users;
+        private readonly IObjectMapper<User, UserView>
+        
         [HttpGet]
         [Route("/user/all/")]
         public ActionResult<EntityGroup<User>> All(
@@ -50,19 +50,21 @@ namespace Taller1.Controller
             [FromQuery] bool isActive
         )
         {
-            try
+
+            var userUpdated = _userService.Edit(id, ObjectParameters
+                .Create()
+                .AddParameter("IsActive", false)
+            );
+
+            if (userUpdated == null)
             {
-                _userService.Edit(id, new UserEditGeneral
-                    {
-                        IsActive = isActive
-                    } 
+                return NotFound("User not found");
+            }
+            
+          
+            return Ok(
+                    userUpdated
                 );
-            }
-            catch (ElementNotFound e)
-            {
-                return NotFound(e.Message);
-            }
-            return Ok();
         }
 
         [HttpPut]
@@ -76,21 +78,19 @@ namespace Taller1.Controller
             {
                 return BadRequest("The password not equals");
             }
+
+            var userUpdated = _userService.Edit(
+                id, ObjectParameters.Create()
+                    .AddParameter("Password", changePasswordUser.Password)
+                    .AddParameter("RepeatPassword", changePasswordUser.RepeatPassword));
+
+            if (userUpdated == null)
+            {
+                return NotFound("User not found");
+            }
             
-            try
-            {
-                _userService.Edit(
-                    id, new UserEditGeneral
-                    {
-                        Password = changePasswordUser.Password,
-                        RepeatPassword = changePasswordUser.RepeatPassword
-                    });
-            }
-            catch (ElementNotFound e)
-            {
-                return NotFound(e.Message);
-            }
-            return Ok();
+            
+            return Ok(userUpdated);
         }
 
         [HttpPut]

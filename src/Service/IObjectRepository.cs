@@ -1,4 +1,6 @@
 ﻿
+using Taller1.Util;
+
 namespace Taller1.Service
 {
     
@@ -8,8 +10,7 @@ namespace Taller1.Service
     /// </summary>
     /// <typeparam name="TEntity">This is a Type Object for handle</typeparam>
     
-    public interface IObjectRepository<TEntity,
-        TEntityEdit>
+    public interface IObjectRepository<TEntity>
     {
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Taller1.Service
         
         
         TEntity? Edit(int id, 
-            TEntityEdit entityEdit);
+            ObjectParameters parameters);
 
     }
 

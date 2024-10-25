@@ -5,19 +5,20 @@ using Taller1.Model;
 using Taller1.Search;
 using Taller1.TException;
 using Taller1.Update;
+using Taller1.Util;
 
 
 namespace Taller1.Service;
 
-public class RoleRepository : IObjectRepository<Role, RoleEdit>
+public class RoleRepository : IObjectRepository<Role>
 {
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly DbSet<Role> _roles;
     private readonly Dictionary<int, Role?> _cache;
-    private readonly IUpdateModel<RoleEdit, Role> _roleUpdate;
+    private readonly IUpdateModel<Role> _roleUpdate;
 
     public RoleRepository(ApplicationDbContext applicationDbContext,
-        IUpdateModel<RoleEdit, Role> roleUpdate)
+        IUpdateModel<Role> roleUpdate)
     {
         _applicationDbContext = applicationDbContext;
         _roles = applicationDbContext.Roles;
@@ -71,7 +72,7 @@ public class RoleRepository : IObjectRepository<Role, RoleEdit>
     }
 
     public Role? Edit(int id,
-        RoleEdit entityEdit)
+        ObjectParameters parameters)
     {
         var role = FindById(id);
         if (role == null)
@@ -79,7 +80,7 @@ public class RoleRepository : IObjectRepository<Role, RoleEdit>
             return null;
         }
 
-        _roleUpdate.Edit(entityEdit, role);
+        _roleUpdate.Edit(parameters, role);
         _applicationDbContext.SaveChanges();
         return role;
     }

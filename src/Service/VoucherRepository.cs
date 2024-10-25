@@ -3,10 +3,11 @@ using Taller1.Data;
 using Taller1.Model;
 using Taller1.src.Models;
 using Taller1.TException;
+using Taller1.Util;
 
 namespace Taller1.Service;
 
-public class VoucherRepository : IObjectRepository<Voucher, VoucherEdit>
+public class VoucherRepository : IObjectRepository<Voucher>
 {
 
     private readonly DbSet<Voucher> _vouchers;
@@ -65,7 +66,7 @@ public class VoucherRepository : IObjectRepository<Voucher, VoucherEdit>
             .FirstOrDefault(v => v.Id == id);
     }
 
-    Voucher? IObjectRepository<Voucher, VoucherEdit>.Edit(int id, VoucherEdit entityEdit)
+    public Voucher? Edit(int id, ObjectParameters parameters)
     {
         throw new NotImplementedException();
     }

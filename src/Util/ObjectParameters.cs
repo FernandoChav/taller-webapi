@@ -1,40 +1,44 @@
 ﻿namespace Taller1.Util;
 
-public class ObjectParameters
+public class ObjectParameters(IDictionary<string, object> objects)
 {
-
-    private IDictionary<string, object>
-        _objects;
-    
-    public ObjectParameters(IDictionary<string, object> objects)
-    {
-        _objects = objects;
-    }
-
-    public ObjectParameters()
-    {
-        _objects = new Dictionary<string, object>();
-    }
-
     public string GetString(string key)
     {
-        return (string) _objects[key];
+        return (string)objects[key];
     }
 
     public int GetInt(string key)
     {
-        return (int)_objects[key];
+        return (int)objects[key];
+    }
+
+    public object Get(string key)
+    {
+        return objects[key];
+    }
+
+    public bool Exists(string key)
+    {
+        return objects.ContainsKey(key);
     }
 
     public ObjectParameters AddParameter(string key, object obj)
     {
-        _objects[key] = obj;
+        objects[key] = obj;
         return this;
+    }
+
+    public void ExecuteIfExists(string key,
+        Action<object> action)
+    {
+        if (objects.TryGetValue(key, out object? obj))
+        {
+            action.Invoke(obj);
+        }
     }
 
     public static ObjectParameters Create()
     {
-        return new ObjectParameters();
+        return new ObjectParameters(new Dictionary<string, object>());
     }
-    
 }

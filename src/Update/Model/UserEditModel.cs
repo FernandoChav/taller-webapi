@@ -3,7 +3,7 @@ using Taller1.Util;
 
 namespace Taller1.Update.Model;
 
-public class UserEditModel : IUpdateModel<UserEditGeneral, User>
+public class UserEditModel : IUpdateModel<User>
 {
     private readonly IEncryptStrategy _encryptStrategy;
 
@@ -12,28 +12,32 @@ public class UserEditModel : IUpdateModel<UserEditGeneral, User>
         _encryptStrategy = encryptStrategy;
     }
 
-    public void Edit(UserEditGeneral editObject, User modelObject)
+    public void Edit(ObjectParameters parameters, User modelObject)
     {
-        if (editObject.Name != null)
-        {
-            modelObject.Name = editObject.Name;
-        }
+        parameters.ExecuteIfExists("Name", obj => { modelObject.Name = (string)obj; });
 
-        if (editObject.Gender != null)
+        parameters.ExecuteIfExists("Gender", obj =>
         {
-            modelObject.Gender = editObject.Gender.Value;
-        }
+            var str = obj as string;
+            if (Enum.TryParse(str, out GenderType genderType))
+            {
+                modelObject.Gender = genderType;
+            }
+        });
 
-        if (editObject.IsActive != null)
+        parameters.ExecuteIfExists("IsActive", obj =>
         {
-            modelObject.IsActive = editObject.IsActive.Value;
-        }
+            var isActive = (bool)obj;
+            modelObject.IsActive = isActive;
+        });
 
-        if (editObject.Password != null &&
-            (editObject.Password != editObject.RepeatPassword))
+        parameters.ExecuteIfExists("Password", obj =>
         {
-            var newPasswordEncrypt = _encryptStrategy.Encrypt(editObject.Password);
+            var str = (string)obj;
+            var newPasswordEncrypt = _encryptStrategy.Encrypt(str);
             modelObject.Password = newPasswordEncrypt;
-        }
+            
+        });
+        
     }
 }

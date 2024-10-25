@@ -1,10 +1,11 @@
-﻿namespace Taller1.Update;
+﻿using Taller1.Util;
 
-public interface IUpdateModel<TEditObject,
-    TModelObject>
+namespace Taller1.Update;
+
+public interface IUpdateModel<TModelObject>
 {
 
-    void Edit(TEditObject editObject,
+    void Edit(ObjectParameters parameters,
         TModelObject modelObject);
 
 }

@@ -25,7 +25,7 @@ namespace Taller1.Controller
     [ApiController]
     [Authorize(Roles = "Administrator")]
     public class ProductController(
-        IObjectRepository<Product, ProductEdit> service,
+        IObjectRepository<Product> service,
         ImageService imageService,
         ApplicationDbContext applicationDbContext,
         MapperFactory mapperFactory)

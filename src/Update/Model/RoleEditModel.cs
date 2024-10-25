@@ -1,16 +1,18 @@
 ﻿using Taller1.Model;
+using Taller1.Util;
 
 namespace Taller1.Update.Model;
 
-public class RoleEditModel : IUpdateModel<RoleEdit, Role>
+public class RoleEditModel : IUpdateModel<Role>
 {
     
-    public void Edit(RoleEdit editObject, Role modelObject)
+    public void Edit(ObjectParameters parameters, Role modelObject)
     {
-        if (editObject.Name != null)
+        
+        parameters.ExecuteIfExists("Name", obj =>
         {
-            modelObject.Name = editObject.Name;
-        }   
+            modelObject.Name = (string)obj;
+        });
         
     }
     

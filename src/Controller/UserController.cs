@@ -18,25 +18,28 @@ namespace Taller1.Controller
         IObjectRepository<User> userService,
         ApplicationDbContext applicationDbContext,
         IMapperFactory mapperFactory
-        ) : ControllerBase
+    ) : ControllerBase
     {
-        private readonly IObjectRepository<User> _userService;
-        private readonly DbSet<User> _dbSet = applicationDbContext.Users;
-        private readonly IObjectMapper<User, UserView>
-        
+        private readonly DbSet<User> _users = applicationDbContext.Users;
+
+        private readonly IObjectMapper<User, UserView> _userViewerMapper = mapperFactory.Get<
+            User, UserView>();
+
         [HttpGet]
         [Route("/user/all/")]
-        public ActionResult<EntityGroup<User>> All(
+        public ActionResult<EntityGroup<UserView>> All(
             [FromQuery] int page = 1,
             [FromQuery] int elements = 10
         )
         {
-            var entities = new DbSetSearchBuilder<User>(_dbSet)
+            var entities = new DbSetSearchBuilder<User>(_users)
                 .Page(page, elements)
                 .BuildAndGetAll();
 
-            return EntityGroup<User>.Create(
-                entities, new Dictionary<string, string>
+            var entitiesAsView = _userViewerMapper.Mapper(entities);
+
+            return EntityGroup<UserView>.Create(
+                entitiesAsView, new Dictionary<string, string>
                 {
                     ["Page"] = page.ToString(),
                     ["Elements"] = elements.ToString()
@@ -45,13 +48,12 @@ namespace Taller1.Controller
 
         [HttpPut]
         [Route("/user/change-visibility/{id}")]
-        public ActionResult<User> ChangeVisibility(
+        public ActionResult<UserView> ChangeVisibility(
             int id,
             [FromQuery] bool isActive
         )
         {
-
-            var userUpdated = _userService.Edit(id, ObjectParameters
+            var userUpdated = userService.Edit(id, ObjectParameters
                 .Create()
                 .AddParameter("IsActive", false)
             );
@@ -60,26 +62,24 @@ namespace Taller1.Controller
             {
                 return NotFound("User not found");
             }
-            
-          
-            return Ok(
-                    userUpdated
-                );
+
+            return _userViewerMapper.Mapper(
+                userUpdated
+            );
         }
 
         [HttpPut]
         [Route("/user/update-password/{id}")]
-        public ActionResult<User> UpdatePassword(
+        public ActionResult<UserView> UpdatePassword(
             int id,
             [FromBody] ChangePasswordUser changePasswordUser)
         {
-
             if (changePasswordUser.Password != changePasswordUser.RepeatPassword)
             {
                 return BadRequest("The password not equals");
             }
 
-            var userUpdated = _userService.Edit(
+            var userUpdated = userService.Edit(
                 id, ObjectParameters.Create()
                     .AddParameter("Password", changePasswordUser.Password)
                     .AddParameter("RepeatPassword", changePasswordUser.RepeatPassword));
@@ -88,46 +88,40 @@ namespace Taller1.Controller
             {
                 return NotFound("User not found");
             }
-            
-            
-            return Ok(userUpdated);
+
+            return Ok(
+                _userViewerMapper.Mapper(userUpdated)
+            );
         }
 
         [HttpPut]
         [Route("/user/update/{id}")]
-        public ActionResult<User> Update(int id,
-            [FromBody] UserEdit userEdit)
+        public ActionResult<UserView> Update(int id,
+            [FromBody] ObjectParameters parameters)
         {
-            try
+            var userUpdated = userService.Edit(id, parameters);
+            if (userUpdated == null)
             {
-                _userService.Edit(id, new UserEditGeneral
-                {
-                    Name = userEdit.Name,
-                    Birthdate = userEdit.Birthdate,
-                    Gender = userEdit.Gender
-                });
-            }
-            catch (ElementNotFound e)
-            {
-                return NotFound(e.Message);
+                return NotFound("User not found");
             }
 
-            return Ok();
+            return Ok(
+                _userViewerMapper.Mapper(userUpdated)
+            );
         }
 
         [HttpDelete]
         [Route("/user/delete/{id}")]
         public ActionResult<User> Delete(int id)
         {
-            try
+            var userDeleted = userService.Delete(id);
+            if (userDeleted == null)
             {
-                return _userService.Delete(id);
+                return NotFound("User not found");
             }
-            catch (ElementNotFound e)
-            {
-                return NotFound(e.Message);
-            }
+
+            return userDeleted;
         }
-        
     }
+    
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Service;
 
@@ -7,89 +8,55 @@ namespace Taller1.Controller;
 
 [ApiController]
 [Route("api/[controller]")]
-public class VoucherController : ControllerBase
+public class VoucherController(
+    IObjectRepository<Voucher> voucherRepository,
+    IMapperFactory mapperFactory
+) : ControllerBase
 {
-    private readonly  IObjectRepository<Voucher, VoucherEdit> _voucherRepository;
-
-    public VoucherController(IObjectRepository<Voucher, VoucherEdit> voucherRepository)
-    {
-        _voucherRepository = voucherRepository;
-    }
+    
+    private readonly IObjectMapper<VoucherCreation, Voucher> _toMapperVoucher = mapperFactory.Get<
+        VoucherCreation, Voucher>();
+    private readonly IObjectMapper<Voucher, VoucherView> _toMapperVoucherView = mapperFactory.Get<
+        Voucher, VoucherView>();
 
     [HttpPost]
     [Route("/voucher/create")]
-    public CreationVoucher Create(CreationVoucher creationVoucher)
+    public VoucherCreation Create(VoucherCreation creationVoucher)
     {
-        var products = new List<VoucherProduct>();
-        foreach (var productCreation in creationVoucher.Products)
-        {
-            var voucherProduct = new VoucherProduct
-            {
-                Name = productCreation.Name,
-                Type = productCreation.Type,
-                Price = productCreation.Price,
-                Elements = productCreation.Elements,
-            };
-
-            products.Add(voucherProduct);
-        }
-
-        var voucher = new Voucher
-        {
-            Date = creationVoucher.Date,
-            UserId = creationVoucher.UserId,
-            AllProducts = products
-        };
-
-        _voucherRepository.Push(
-            voucher
-        );
+        var voucher = _toMapperVoucher.Mapper(creationVoucher);
+        voucherRepository.Push(voucher);
 
         return creationVoucher;
     }
 
     [HttpGet]
     [Route("/voucher/find/{id}")]
-    public ActionResult<VoucherResponse> Find(int id)
+    public ActionResult<VoucherView> Find(int id)
     {
-        var voucher = _voucherRepository
+        var voucher = voucherRepository
             .FindById(id);
 
         if (voucher == null)
         {
             return NotFound("Element not found");
         }
-        
-   
-        var products = new List<VoucherProductResponse>();
-        foreach (var element in voucher.AllProducts)
-        {
-            products.Add(
-                    new VoucherProductResponse
-                    {
-                           Name = element.Name,
-                           Type = element.Type,
-                           Elements = element.Elements,
-                           Price = element.Price
-                    }
-                );
-        }
-        
-        var voucherResponse = new VoucherResponse
-        {
-            CreatedVoucherDate = voucher.Date,
-            Products = products
-        };
 
-        return voucherResponse;
+        return _toMapperVoucherView.Mapper(voucher);
     }
 
     [HttpDelete]
     [Route("/voucher/delete/{id}")]
-    public ActionResult Delete(int id)
+    public ActionResult<VoucherView> Delete(int id)
     {
-        _voucherRepository.Delete(id);
-        return Ok();
+        var voucherDeleted = voucherRepository.Delete(id);
+        if (voucherDeleted == null)
+        {
+            return NotFound("Element not found");
+        }
+
+        return Ok(
+            _toMapperVoucherView.Mapper(voucherDeleted)
+        );
     }
     
 }

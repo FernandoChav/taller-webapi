@@ -10,28 +10,9 @@ public class Voucher
     public int UserId { get; set; } = 0;
     public User User { get; set; } = null!;
     
-    /*private int _totalPrice =  0;
-    
-    public int GetTotalPrice()
-    {
-        if (_totalPrice != 0)
-        {
-            return _totalPrice;
-        }
-        
-        var total = 0;
-        foreach (var product in AllProducts)
-        {
-            total += product.Total();
-        }
-
-        _totalPrice = total;
-        return total;
-    }*/
-    
 }
 
-public class CreationVoucher
+public class VoucherCreation
 {
  
     public DateTime Date { get; set; }
@@ -40,11 +21,11 @@ public class CreationVoucher
     
 }
 
-public class VoucherResponse
+public class VoucherView
 {
     
     public DateTime CreatedVoucherDate { get; set; }
-    public ICollection<VoucherProductResponse> Products { get; set; }
+    public ICollection<VoucherProductView> Products { get; set; }
     
 }
 

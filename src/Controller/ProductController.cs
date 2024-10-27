@@ -89,10 +89,10 @@ namespace Taller1.Controller
         [Route("/product/update/{id}")]
         public ActionResult<ProductView> Update(
             int id,
-            [FromBody] ProductEdit productEdit
+            [FromBody] ObjectParameters parameters
         )
         {
-            var product = service.Edit(id, productEdit);
+            var product = service.Edit(id, parameters);
             if (product == null)
             {
                 return NotFound("Product not found");

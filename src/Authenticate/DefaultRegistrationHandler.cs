@@ -4,19 +4,14 @@ using Taller1.Util;
 
 namespace Taller1.Authenticate;
 
-public class DefaultRegistrationHandler : IRegistrationHandler
+public class DefaultRegistrationHandler(
+    IObjectRepository<User> userRepository,
+    IEncryptStrategy encryptStrategy
+    ) : IRegistrationHandler
 {
 
     private readonly Random _random = new Random();
-    private readonly IObjectRepository<User, UserEditGeneral> _userRepository;
-    private readonly IEncryptStrategy _encryptStrategy;
 
-    public DefaultRegistrationHandler(IObjectRepository<User, UserEditGeneral> userRepository,
-        IEncryptStrategy encryptStrategy)
-    {
-        _userRepository = userRepository;
-        _encryptStrategy = encryptStrategy;
-    }
     
     public RegistrationResponse Register(UserCreation userCreation)
     {
@@ -29,7 +24,7 @@ public class DefaultRegistrationHandler : IRegistrationHandler
                 Error("The password is not the same");
         }
 
-        var passwordEncrypt = _encryptStrategy.Encrypt(password);
+        var passwordEncrypt = encryptStrategy.Encrypt(password);
         
         var user = new User
         {
@@ -41,7 +36,7 @@ public class DefaultRegistrationHandler : IRegistrationHandler
             RoleId = 0
         };
         
-        _userRepository.Push(user);
+        userRepository.Push(user);
         return RegistrationResponse.
             Success("Registered");
     }

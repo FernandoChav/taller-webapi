@@ -32,7 +32,7 @@ public class VoucherProductCreation
     
 }
 
-public class VoucherProductResponse
+public class VoucherProductView
 {
     
     [MaxLength(120)]

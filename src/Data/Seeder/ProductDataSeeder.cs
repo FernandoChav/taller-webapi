@@ -6,7 +6,6 @@ namespace Taller1.Data.Seeder;
 
 public class ProductDataSeeder : IDataSeeder<Product>
 {
-
     private const int QuantityProducts = 50;
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly DbSet<Product> _products;
@@ -25,8 +24,6 @@ public class ProductDataSeeder : IDataSeeder<Product>
             return;
         }
 
-        var idIncremental = 0;
-
         var productFaker = new Faker<Product>()
             .RuleFor(u => u.Name, f => f.Commerce.ProductName())
             .RuleFor(u => u.Price, _random.Next(2000, 20000))
@@ -35,7 +32,7 @@ public class ProductDataSeeder : IDataSeeder<Product>
             .RuleFor(u => u.AbsoluteUri, f => f.Internet.Url())
             .RuleFor(u => u.IdImage, f => "d");
 
-    productFaker.Generate(QuantityProducts)
+        productFaker.Generate(QuantityProducts)
             .ForEach(product =>
             {
                 Console.WriteLine(product.Id);
@@ -43,12 +40,10 @@ public class ProductDataSeeder : IDataSeeder<Product>
             });
 
         _applicationDbContext.SaveChanges();
-        Console.WriteLine("Seeding products");
     }
 
     public DbSet<Product> Get()
     {
         return _products;
     }
-    
 }

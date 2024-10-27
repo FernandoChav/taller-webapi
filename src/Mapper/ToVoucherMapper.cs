@@ -3,11 +3,12 @@ using Taller1.Util;
 
 namespace Taller1.Mapper;
 
-public class ToVoucherMapper : IObjectMapper<CreationVoucher,
+public class ToVoucherMapper : IObjectMapper<VoucherCreation,
 Voucher>
 {
     
-    public Voucher Mapper(CreationVoucher element, ObjectParameters? parameters)
+    public Voucher Mapper(VoucherCreation element,
+        ObjectParameters? parameters)
     {
 
         var products = new List<VoucherProduct>();

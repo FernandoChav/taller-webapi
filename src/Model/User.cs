@@ -111,7 +111,7 @@ namespace Taller1.Model
         
         [Required]
         [MaxLength(16)]
-        /*[RutValidator]*/
+        [RutValidator]
         public string Rut { get; set; } = string.Empty;
 
         [StringLength(255, MinimumLength = 8,

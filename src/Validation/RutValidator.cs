@@ -18,11 +18,12 @@ public class RutValidator : ValidationAttribute
     /// <returns></returns>
     public override bool IsValid(object? rutAsObject)
     {
+        
         if (rutAsObject == null)
         {
             return false;
         }
-
+        
         var rut = (string)rutAsObject;
         return CheckIfIsARutValid(rut);
     }

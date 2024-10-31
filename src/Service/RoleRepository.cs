@@ -71,6 +71,11 @@ public class RoleRepository : IObjectRepository<Role>
         return role;
     }
 
+    public Task<Role?> FindByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public Role? Edit(int id,
         ObjectParameters parameters)
     {

@@ -111,7 +111,7 @@ namespace Taller1.Model
         
         [Required]
         [MaxLength(16)]
-        [RutValidator]
+        /*[RutValidator]*/
         public string Rut { get; set; } = string.Empty;
 
         [StringLength(255, MinimumLength = 8,
@@ -121,13 +121,13 @@ namespace Taller1.Model
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        [RegularExpression(Constants.EmailPattern,
-            ErrorMessage = "Email format not valid")]
+        /*[RegularExpression(Constants.EmailPattern,
+            ErrorMessage = "Email format not valid")]*/
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [RegularExpression(Constants.PasswordPattern,
-            ErrorMessage = "Password format not valid")]
+        /*[RegularExpression(Constants.PasswordPattern,
+            ErrorMessage = "Password format not valid")]*/
         public string Password { get; set; } = string.Empty;
 
         [Required] public string RepeatPassword { get; set; } = string.Empty;

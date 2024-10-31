@@ -6,6 +6,7 @@ using Taller1.Authenticate;
 using Taller1.Authenticate.Token;
 using Taller1.Data;
 using Taller1.Data.Seeder;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Service;
 using Taller1.src.Models;
@@ -14,6 +15,7 @@ using Taller1.Update.Model;
 using Taller1.Util;
 
 var builder = WebApplication.CreateBuilder(args);
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 void InstallServices(params ServiceMember[] members)
 {
@@ -34,9 +36,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 }
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 InstallServices(
     ServiceMember.NewInstance<IObjectRepository<User>, UserRepository>(),
     ServiceMember.NewInstance<IImageService, ImageService>(),
+    ServiceMember.NewInstance<IMapperFactory, MapperFactory>(),
     ServiceMember.NewInstance<IUpdateModel<Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<User>, UserEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<Role>, RoleEditModel>(),
@@ -97,9 +110,12 @@ using (var scope = app.Services.CreateScope())
     roleDataSeeder.Seed();
     userDataSeeder.Seed();
     productDataSeeder.Seed();
+
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();

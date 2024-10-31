@@ -20,13 +20,13 @@ Product>
             return _emptyProduct;
         }
 
-        var absoluteUri = parameters.GetString("absoluteUri");
-        var idImage = parameters.GetString("idImage");        
+        var absoluteUri = parameters.GetString("AbsoluteUri");
+        var idImage = parameters.GetString("ImageId");        
 
 
         return new Product
         {
-            Name = element.Name,
+            Name = element.EName,
             Price = element.Price,
             ProductType = element.ProductType,
             Stock = element.Stock,

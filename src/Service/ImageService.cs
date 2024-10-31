@@ -20,17 +20,20 @@ namespace Taller1.Service
         private const string Gravity = "face";
         private const string Folder = "ucn-store";
 
-        private readonly Cloudinary _cloudinary;
+        private readonly IOptions<CloudinarySettings> _config;
+        private Cloudinary _cloudinary;
 
         public ImageService(IOptions<CloudinarySettings> config)
         {
-            var account = new Account(
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecret
-            );
+            _config = config;
+            Connect();
+        }
 
-            _cloudinary = new Cloudinary(account);
+        public void Connect()
+        {
+            
+            Console.WriteLine("URL = " + _config.Value.Url);
+            _cloudinary = new Cloudinary(_config.Value.Url);
         }
 
         public async Task<ImageUploadResult> Upload(IFormFile formFile)
@@ -42,6 +45,7 @@ namespace Taller1.Service
             if (!(MinSize <= length && length <= MaxSize) || 
                 !(ExtensionAble.Contains(extension)))
             {
+                Console.WriteLine("ERROR");
                 return result;
             }
 
@@ -56,6 +60,8 @@ namespace Taller1.Service
                     .Gravity(Gravity),
                 Folder = Folder
             };
+            
+            Console.WriteLine("UPLOADING ASYNC");
 
             return await _cloudinary.UploadAsync(parameters);
         }

@@ -15,6 +15,7 @@ public class DbSetSearchBuilder<T> where T : class
 
     public DbSetSearchBuilder(DbSet<T> dbSet)
     {
+        
         _dbSet = dbSet;
         _enumerable = _dbSet;
     }
@@ -27,6 +28,7 @@ public class DbSetSearchBuilder<T> where T : class
     
     public DbSetSearchBuilder<T> Filter(Func<T, bool> predicate)
     {
+        
         _enumerable = _dbSet.Where(predicate);
         return this;
     }
@@ -59,6 +61,7 @@ public class DbSetSearchBuilder<T> where T : class
     public DbSetSearchBuilder<T> OrderByAscending(Func<T, object> predicate)
     {
         _enumerable = _enumerable.OrderBy(predicate);
+        
         return this;
     }
 

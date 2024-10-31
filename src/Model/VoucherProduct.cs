@@ -5,7 +5,7 @@ using Taller1.src.Models;
 namespace Taller1.Model;
 
 
-public class VoucherProduct
+public class ItemVoucher
 {
     
     public int Id { get; set; }
@@ -15,13 +15,13 @@ public class VoucherProduct
     public required ProductType Type { get; set; }
     public required int Price { get; set; }
     public required int Elements { get; set; }
-
     public int VoucherId { get; set; } 
+    
     public Voucher Voucher { get; set; }
     
 }
 
-public class VoucherProductCreation
+public class ItemVoucherCreation
 {
     
     [MaxLength(120)]
@@ -32,7 +32,7 @@ public class VoucherProductCreation
     
 }
 
-public class VoucherProductView
+public class ItemVoucherView
 {
     
     [MaxLength(120)]

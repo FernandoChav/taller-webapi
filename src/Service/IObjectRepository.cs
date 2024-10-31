@@ -37,6 +37,14 @@ namespace Taller1.Service
         
         TEntity? FindById(int id);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        
+        Task<TEntity?> FindByIdAsync(int id);
+
         
         
         TEntity? Edit(int id, 

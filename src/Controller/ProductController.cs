@@ -23,12 +23,12 @@ namespace Taller1.Controller
     /// <param name="applicationDbContext">A database manager</param>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class ProductController(
         IObjectRepository<Product> service,
         ImageService imageService,
         ApplicationDbContext applicationDbContext,
-        MapperFactory mapperFactory)
+        IMapperFactory mapperFactory)
         : ControllerBase
     {
         private readonly DbSet<Product> _products = applicationDbContext.Products;
@@ -43,16 +43,24 @@ namespace Taller1.Controller
         /// Store a product from a new request product
         /// </summary>
         /// <param name="creationProduct">A product for create</param>
+        /// <param name="image">The image</param>
         /// <returns>A wrapper from product created</returns>
         [HttpPost]
         [Route("/product/create")]
-        public async Task<ActionResult<ProductView>> Post([FromBody] CreationProduct creationProduct)
+        public async Task<ActionResult<ProductView>> Post([FromForm] CreationProduct creationProduct,
+            [FromForm] IFormFile image)
         {
-            var result = await imageService.Upload(creationProduct.Image);
-
+            
+            var result = await imageService.Upload(image);
+ 
+            
+            
             var publicId = result.PublicId;
+            Console.WriteLine("Public Id: " + publicId);
             var absoluteUri = result.SecureUrl.AbsoluteUri;
 
+            Console.WriteLine("URL = " + absoluteUri);
+            
             var product
                 = _creationProductMapper.Mapper(creationProduct,
                     ObjectParameters.Create()
@@ -62,8 +70,9 @@ namespace Taller1.Controller
             await service.PushAsync(product);
             await applicationDbContext.SaveChangesAsync();
             return Ok(
-                    _productViewMapper.Mapper(product)
-                );
+                _productViewMapper.Mapper(product)
+            );
+            
         }
 
         /// <summary>
@@ -78,11 +87,10 @@ namespace Taller1.Controller
             var productDeleted = service.Delete(id);
             if (productDeleted == null)
             {
-                return NotFound("Product not found"); 
+                return NotFound("Product not found");
             }
 
-            return _productViewMapper.
-                Mapper(productDeleted);
+            return _productViewMapper.Mapper(productDeleted);
         }
 
         [HttpPut]
@@ -97,7 +105,7 @@ namespace Taller1.Controller
             {
                 return NotFound("Product not found");
             }
-            
+
             return _productViewMapper.Mapper(product);
         }
 
@@ -109,11 +117,11 @@ namespace Taller1.Controller
         /// <returns></returns>
         [HttpGet]
         [Route("/product/find/{id}")]
-        public ActionResult<ProductView> Find(
+        public async Task<ActionResult<ProductView>> Find(
             int id)
 
         {
-            var product = service.FindById(id);
+            var product = await service.FindByIdAsync(id);
             if (product == null)
             {
                 return NotFound("Element not found");
@@ -156,18 +164,18 @@ namespace Taller1.Controller
             {
                 builder = builder.OrderBy(product => product.Price, ascending);
             }
-
+            
             var elementsShowed = _productViewMapper.
                 Mapper(builder.BuildAndGetAll());
-
-            return EntityGroup<ProductView>.Create(
+            
+            return Ok(EntityGroup<ProductView>.Create(
                 elementsShowed,
                 new Dictionary<string, string>
                 {
                     ["Page"] = page.ToString(),
                     ["Elements"] = elements.ToString()
                 }
-            );
+            ));
         }
     }
 }

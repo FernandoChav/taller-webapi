@@ -10,11 +10,11 @@ VoucherView>
     public VoucherView Mapper(Voucher element, ObjectParameters? parameters)
     {
         
-        var products = new List<VoucherProductView>();
+        var products = new List<ItemVoucherView>();
         foreach (var product in element.AllProducts)
         {
             products.Add(
-                new VoucherProductView
+                new ItemVoucherView 
                 {
                     Name = product.Name,
                     Type = product.Type,

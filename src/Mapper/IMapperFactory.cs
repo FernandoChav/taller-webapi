@@ -3,9 +3,8 @@
 public interface IMapperFactory
 {
 
-    void NewMapper(Type typeObject,
-        Type typeResult,
-        IObjectMapper<Type, Type> mapper);
+    void NewMapper<TObject, TResult>(
+        IObjectMapper<TObject, TResult> mapper);
 
     IObjectMapper<TObject, TResult> Get<TObject, TResult>();
 

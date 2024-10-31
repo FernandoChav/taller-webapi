@@ -26,6 +26,9 @@ namespace Taller1.Authenticate.Token
 
         public string Token(User user)
         {
+
+            var roleId = user.RoleId;
+            Console.WriteLine("Role Id = " + roleId);
             var role = _roleRepository.FindById(user.RoleId);
             
             var claims = new List<Claim>

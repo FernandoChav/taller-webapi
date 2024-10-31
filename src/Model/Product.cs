@@ -80,6 +80,13 @@ namespace Taller1.src.Models
       
     }
 
+    public class ProductV
+    {
+        public required ProductType ProductType { get; set; } = ProductType.Book;
+
+  
+    }
+    
     public class CreationProduct
     {
         
@@ -88,7 +95,7 @@ namespace Taller1.src.Models
             MinimumLength = 10,
             ErrorMessage = "The length name should be between 10 and 64 characters")
         ]
-        public required string Name { get; set; } = string.Empty;
+        public required string EName { get; set; } = string.Empty;
 
         public required ProductType ProductType { get; set; } = ProductType.Book;
 
@@ -103,36 +110,6 @@ namespace Taller1.src.Models
             ErrorMessage = "The stock must be a non-negative integer less than 100,000.")
         ]
         public required int Stock { get; set; }
-
-        public required IFormFile Image { get; set; }
-        
-    }
-    
-    public class ProductEdit
-    {
-        
-        [StringLength(
-            64,
-            MinimumLength = 10,
-            ErrorMessage = "The length name should be between 10 and 64 characters")
-        ]
-        public string? Name { get; set; } 
-
-        public ProductType? ProductType { get; set; } 
-
-        [Range(
-            1, 99999999,
-            ErrorMessage = "The price must be a positive integer less than 100 million.")
-        ]
-        public int? Price { get; set; }
-
-        [Range(
-            0, 99999,
-            ErrorMessage = "The stock must be a non-negative integer less than 100,000.")
-        ]
-        public int? Stock { get; set; }
-
-        public IFormFile? Image { get; set; }
         
     }
     

@@ -20,7 +20,7 @@ namespace Taller1.Data
 
         public DbSet<Voucher> Vouchers { get; set; } = null!;
 
-        public DbSet<VoucherProduct> VoucherProducts { get; set; } = null!;
+        public DbSet<ItemVoucher> VoucherProducts { get; set; } = null!;
 
         protected override void OnModelCreating(
             ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace Taller1.Data
                 .WithOne(v => v.User)
                 .HasForeignKey(v => v.UserId);
 
-            modelBuilder.Entity<VoucherProduct>()
+            modelBuilder.Entity<ItemVoucher>()
                 .Property(v => v.Id)
                 .ValueGeneratedOnAdd();
 

@@ -5,8 +5,7 @@ public class Voucher
 
     public int Id { get; set; }
     public DateTime Date { get; set; }
-    public ICollection<VoucherProduct> AllProducts { get; set; } = null!;
-
+    public ICollection<ItemVoucher> AllProducts { get; set; } = null!;
     public int UserId { get; set; } = 0;
     public User User { get; set; } = null!;
     
@@ -16,7 +15,7 @@ public class VoucherCreation
 {
  
     public DateTime Date { get; set; }
-    public ICollection<VoucherProductCreation> Products { get; set; }
+    public ICollection<ItemVoucherCreation> Products { get; set; }
     public int UserId { get; set; }
     
 }
@@ -25,7 +24,7 @@ public class VoucherView
 {
     
     public DateTime CreatedVoucherDate { get; set; }
-    public ICollection<VoucherProductView> Products { get; set; }
+    public ICollection<ItemVoucherView> Products { get; set; }
     
 }
 

@@ -13,7 +13,6 @@ namespace Taller1.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Administrator")]
     public class UserController(
         IObjectRepository<User> userService,
         ApplicationDbContext applicationDbContext,
@@ -26,6 +25,7 @@ namespace Taller1.Controller
             User, UserView>();
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         [Route("/user/all/")]
         public ActionResult<EntityGroup<UserView>> All(
             [FromQuery] int page = 1,
@@ -112,7 +112,7 @@ namespace Taller1.Controller
 
         [HttpDelete]
         [Route("/user/delete/{id}")]
-        public ActionResult<User> Delete(int id)
+        public ActionResult<UserView> Delete(int id)
         {
             var userDeleted = userService.Delete(id);
             if (userDeleted == null)
@@ -120,8 +120,9 @@ namespace Taller1.Controller
                 return NotFound("User not found");
             }
 
-            return userDeleted;
+            return _userViewerMapper
+                .Mapper(userDeleted);
         }
+        
     }
-    
 }

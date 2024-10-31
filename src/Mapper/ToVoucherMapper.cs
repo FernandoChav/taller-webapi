@@ -11,11 +11,11 @@ Voucher>
         ObjectParameters? parameters)
     {
 
-        var products = new List<VoucherProduct>();
+        var products = new List<ItemVoucher>();
         
         foreach (var productCreation in element.Products)
         {
-            var voucherProduct = new VoucherProduct
+            var voucherProduct = new ItemVoucher 
             {
                 Name = productCreation.Name,
                 Type = productCreation.Type,

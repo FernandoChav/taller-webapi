@@ -30,7 +30,12 @@ namespace Taller1.Service
             return _users.FirstOrDefault(u => u.Id == id).
                 OrDefault(null);
         }
-        
+
+        public Task<User?> FindByIdAsync(int id)
+        { 
+            return _users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
         public User? Edit(int id, ObjectParameters parameters)
         {
             var user = FindById(id);

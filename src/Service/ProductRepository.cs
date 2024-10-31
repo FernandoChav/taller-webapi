@@ -41,18 +41,25 @@ namespace Taller1.Service
             {
                 return null;
             }
-            
+
             _products.Remove(product);
             _applicationDbContext.SaveChanges();
             return product;
         }
-        
+
         public Product? FindById(int id)
         {
             return _products
                 .SingleOrDefault(
                     product => product.Id == id
                 );
+        }
+
+        public Task<Product?> FindByIdAsync(int id)
+        {
+            return _products.SingleOrDefaultAsync(
+                product => product.Id == id
+            );
         }
 
         public Product? Edit(int id, ObjectParameters parameters)
@@ -62,7 +69,7 @@ namespace Taller1.Service
             {
                 return null;
             }
-            
+
             _updateModel.Edit(parameters, product);
             _applicationDbContext.SaveChanges();
 

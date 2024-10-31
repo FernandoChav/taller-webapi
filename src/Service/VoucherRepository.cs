@@ -11,13 +11,11 @@ public class VoucherRepository : IObjectRepository<Voucher>
 {
 
     private readonly DbSet<Voucher> _vouchers;
-    private readonly DbSet<VoucherProduct> _voucherProducts;
     private readonly ApplicationDbContext _applicationDbContext;
 
     public VoucherRepository(ApplicationDbContext applicationDbContext)
     {
         _vouchers = applicationDbContext.Vouchers;
-        _voucherProducts = applicationDbContext.VoucherProducts;
         _applicationDbContext = applicationDbContext;
     }
     
@@ -66,12 +64,14 @@ public class VoucherRepository : IObjectRepository<Voucher>
             .FirstOrDefault(v => v.Id == id);
     }
 
-    public Voucher? Edit(int id, ObjectParameters parameters)
+    public Task<Voucher?> FindByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return _vouchers
+            .Include(v => v.AllProducts)
+            .FirstOrDefaultAsync(v => v.Id == id);
     }
 
-    public void Edit(int id, VoucherEdit entityEdit)
+    public Voucher? Edit(int id, ObjectParameters parameters)
     {
         throw new NotImplementedException();
     }

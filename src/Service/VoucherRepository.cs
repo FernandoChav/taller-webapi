@@ -44,12 +44,12 @@ public class VoucherRepository : IObjectRepository<Voucher>
         return voucher;
     }
 
-    public Voucher Delete(int id)
+    public Voucher? Delete(int id)
     {
         var voucher = FindById(id);
         if (voucher == null)
         {
-            throw new ElementNotFound();
+            return null;
         }
 
         _vouchers.Remove(voucher);

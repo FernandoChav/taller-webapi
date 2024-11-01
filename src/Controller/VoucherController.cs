@@ -19,6 +19,13 @@ public class VoucherController(
     private readonly IObjectMapper<Voucher, VoucherView> _toMapperVoucherView = mapperFactory.Get<
         Voucher, VoucherView>();
 
+    
+    /// <summary>
+    /// Create a new voucher and save
+    /// </summary>
+    /// <param name="creationVoucher">A voucher creating request</param>
+    /// <returns>The voucher created element</returns>
+    
     [HttpPost]
     [Route("/voucher/create")]
     public VoucherCreation Create(VoucherCreation creationVoucher)
@@ -29,6 +36,12 @@ public class VoucherController(
         return creationVoucher;
     }
 
+    /// <summary>
+    /// Find a voucher from id
+    /// </summary>
+    /// <param name="id">Voucher id</param>
+    /// <returns>A element voucher found</returns>
+    
     [HttpGet]
     [Route("/voucher/find/{id}")]
     public ActionResult<VoucherView> Find(int id)
@@ -43,7 +56,13 @@ public class VoucherController(
 
         return _toMapperVoucherView.Mapper(voucher);
     }
-
+    
+    /// <summary>
+    /// Delete a voucher from her id
+    /// </summary>
+    /// <param name="id">A id voucher</param>
+    /// <returns>The voucher deleted</returns>
+    
     [HttpDelete]
     [Route("/voucher/delete/{id}")]
     public ActionResult<VoucherView> Delete(int id)

@@ -39,15 +39,15 @@ public class RoleRepository : IObjectRepository<Role>
         return entity;
     }
 
-    public Role Delete(int roleId)
+    public Role? Delete(int roleId)
     {
-        var role = DbSetSearchBuilder<Role>.NewBuilder(_roles)
+        var role = DbSearchBuilder<Role>.NewBuilder(_roles)
             .Filter(role => role.Id == roleId)
             .BuildAndGetFirst();
 
         if (role == null)
         {
-            throw new ElementNotFound();
+            return null;
         }
         
         _roles.Remove(role);
@@ -63,7 +63,7 @@ public class RoleRepository : IObjectRepository<Role>
             return roleCached;
         }
 
-        var role = DbSetSearchBuilder<Role>.NewBuilder(_roles)
+        var role = DbSearchBuilder<Role>.NewBuilder(_roles)
             .Filter(role => role.Id == roleId)
             .BuildAndGetFirst();
 

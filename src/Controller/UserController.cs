@@ -11,6 +11,14 @@ using Taller1.Util;
 
 namespace Taller1.Controller
 {
+    
+    /// <summary>
+    /// This is a controller for manage users
+    /// </summary>
+    /// <param name="userService">A user service handler</param>
+    /// <param name="applicationDbContext">A handler databases</param>
+    /// <param name="mapperFactory">A factory for transformation object to other</param>
+    
     [ApiController]
     [Route("api/[controller]")]
     public class UserController(
@@ -24,15 +32,22 @@ namespace Taller1.Controller
         private readonly IObjectMapper<User, UserView> _userViewerMapper = mapperFactory.Get<
             User, UserView>();
 
+        /// <summary>
+        /// Retrieve a collection from users 
+        /// </summary>
+        /// <param name="page">The page searched </param>
+        /// <param name="elements">Quantity elements for return</param>
+        /// <returns></returns>
+        
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         [Route("/user/all/")]
-        public ActionResult<EntityGroup<UserView>> All(
+        public async Task<ActionResult<EntityGroup<UserView>>> All(
             [FromQuery] int page = 1,
             [FromQuery] int elements = 10
         )
         {
-            var entities = new DbSetSearchBuilder<User>(_users)
+            var entities = await new AsyncDbSearchBuilder<User>(_users)
                 .Page(page, elements)
                 .BuildAndGetAll();
 
@@ -45,6 +60,13 @@ namespace Taller1.Controller
                     ["Elements"] = elements.ToString()
                 });
         }
+        
+        /// <summary>
+        /// Change visibility for a user, if is active or no active
+        /// </summary>
+        /// <param name="id">The id user</param>
+        /// <param name="isActive">A boolean is active</param>
+        /// <returns>The user updated</returns>
 
         [HttpPut]
         [Route("/user/change-visibility/{id}")]
@@ -68,6 +90,13 @@ namespace Taller1.Controller
             );
         }
 
+        /// <summary>
+        /// Change password user
+        /// </summary>
+        /// <param name="id">Id user</param>
+        /// <param name="changePasswordUser">A object that contains data for change the password</param>
+        /// <returns>The user updated</returns>
+        
         [HttpPut]
         [Route("/user/update-password/{id}")]
         public ActionResult<UserView> UpdatePassword(
@@ -94,6 +123,13 @@ namespace Taller1.Controller
             );
         }
 
+        /// <summary>
+        /// Update data user 
+        /// </summary>
+        /// <param name="id">The id user</param>
+        /// <param name="parameters">The collection of parameters for update</param>
+        /// <returns>A user updated</returns>
+        
         [HttpPut]
         [Route("/user/update/{id}")]
         public ActionResult<UserView> Update(int id,
@@ -110,6 +146,12 @@ namespace Taller1.Controller
             );
         }
 
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="id">A user id</param>
+        /// <returns>The user deleted</returns>
+        
         [HttpDelete]
         [Route("/user/delete/{id}")]
         public ActionResult<UserView> Delete(int id)

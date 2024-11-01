@@ -30,7 +30,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
         var email = credentials.Email();
         var password = credentials.Password();
 
-        var userSelected = DbSetSearchBuilder<User>
+        var userSelected = DbSearchBuilder<User>
             .NewBuilder(_users)
             .Filter(user => user.Email == email)
             .BuildAndGetFirst();

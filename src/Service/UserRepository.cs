@@ -63,13 +63,13 @@ namespace Taller1.Service
             return user;
         }
 
-        public User Delete(int id)
+        public User? Delete(int id)
 
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
-                throw new ElementNotFound();
+                return null;
             }
 
             _users.Remove(user);

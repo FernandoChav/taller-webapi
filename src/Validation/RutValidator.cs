@@ -3,7 +3,7 @@
 namespace Taller1.Validation;
 
 /// <summary>
-/// This is a implementation for validate is a rut is valid
+/// This is implementation for validate is a rut is valid
 /// </summary>
 [AttributeUsage(AttributeTargets.Property |
                 AttributeTargets.Field, AllowMultiple = false)]

@@ -6,7 +6,7 @@ using Taller1.Model;
 
 namespace Taller1.Service
 {
-    public class ImageService : IImageService
+    public class CloudinaryImageService : IImageService
     {
         private const int MaxSize = 10 * 1024 * 1024;
         private const int MinSize = 0;
@@ -23,7 +23,7 @@ namespace Taller1.Service
         private readonly IOptions<CloudinarySettings> _config;
         private Cloudinary _cloudinary;
 
-        public ImageService(IOptions<CloudinarySettings> config)
+        public CloudinaryImageService(IOptions<CloudinarySettings> config)
         {
             _config = config;
             Connect();

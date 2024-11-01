@@ -1,5 +1,9 @@
 ﻿namespace Taller1.Util;
 
+/// <summary>
+/// A set of constants 
+/// </summary>
+
 public class Constants
 {
 

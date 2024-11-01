@@ -26,7 +26,8 @@ User>
             Password = password,
             Email = element.Email,
             Gender = element.GenderType,
-            IsActive = true
+            IsActive = true,
+            RoleId = 0
         };
         
     }

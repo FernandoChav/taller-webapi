@@ -9,7 +9,13 @@ namespace Taller1.Model
     public class CloudinarySettings
     {
 
-        public string Url { get; set; }
+        /// <summary>
+        /// This is a URL used for connecting to API Clodinary
+        /// This URL follow the next format:
+        ///     cloudinary://my_key:my_secret@my_cloud_name
+        /// </summary>
+        
+        public required string Url { get; set; }
 
     }
     

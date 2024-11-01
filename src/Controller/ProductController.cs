@@ -19,14 +19,14 @@ namespace Taller1.Controller
     /// This is the main constructor 
     /// </summary>
     /// <param name="service">A repository with product</param>
-    /// <param name="imageService">A image handler </param>
+    /// <param name="cloudinaryImageService">A image handler </param>
     /// <param name="applicationDbContext">A database manager</param>
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "Administrator")]
     public class ProductController(
         IObjectRepository<Product> service,
-        ImageService imageService,
+        CloudinaryImageService cloudinaryImageService,
         ApplicationDbContext applicationDbContext,
         IMapperFactory mapperFactory)
         : ControllerBase
@@ -51,7 +51,7 @@ namespace Taller1.Controller
             [FromForm] IFormFile image)
         {
             
-            var result = await imageService.Upload(image);
+            var result = await cloudinaryImageService.Upload(image);
  
             
             
@@ -141,7 +141,7 @@ namespace Taller1.Controller
         /// <returns>A wrapper that contains a set elements product</returns>
         [HttpGet]
         [Route("/product/all")]
-        public ActionResult<EntityGroup<ProductView>> All(
+        public async Task<ActionResult<EntityGroup<ProductView>>> All(
             [FromQuery] int page = 1,
             [FromQuery] int elements = 10,
             [FromQuery] bool isOrderingByPrice = false,
@@ -149,8 +149,9 @@ namespace Taller1.Controller
             [FromQuery] string filteringByNameProduct = ""
         )
         {
+            
             var builder =
-                DbSetSearchBuilder<Product>.NewBuilder(
+                AsyncDbSearchBuilder<Product>.NewBuilder(
                         _products
                     ).Page(page, elements)
                     .Filter(product => product.StockAvailable());
@@ -164,9 +165,11 @@ namespace Taller1.Controller
             {
                 builder = builder.OrderBy(product => product.Price, ascending);
             }
+
+            var allElements = await builder.BuildAndGetAll();
             
             var elementsShowed = _productViewMapper.
-                Mapper(builder.BuildAndGetAll());
+                Mapper(allElements);
             
             return Ok(EntityGroup<ProductView>.Create(
                 elementsShowed,

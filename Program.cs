@@ -48,7 +48,7 @@ builder.Services.AddCors(options =>
 
 InstallServices(
     ServiceMember.NewInstance<IObjectRepository<User>, UserRepository>(),
-    ServiceMember.NewInstance<IImageService, ImageService>(),
+    ServiceMember.NewInstance<IImageService, CloudinaryImageService>(),
     ServiceMember.NewInstance<IMapperFactory, MapperFactory>(),
     ServiceMember.NewInstance<IUpdateModel<Product>, ProductEditModel>(),
     ServiceMember.NewInstance<IUpdateModel<User>, UserEditModel>(),
@@ -86,7 +86,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
-builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<CloudinaryImageService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

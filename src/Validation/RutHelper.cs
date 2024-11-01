@@ -1,10 +1,27 @@
-﻿namespace Taller1.Validation;
+﻿using Taller1.Util;
+
+namespace Taller1.Validation;
+
+
+/// <summary>
+/// Utility class for calculate element associated with a rut
+/// </summary>
+
 
 public class RutHelper
 {
     
     private RutHelper() {}
-
+    
+    /// <summary>
+    /// Calculate last digit rut, a rut is a set numbers for identify a person
+    /// country chilean
+    /// The way for calculate this last rut is using the "Modulo 11", here a
+    /// explain: https://validarutchile.cl/como-calcular-el-digito-verificador-del-rut-de-forma-manual-utilizando-el-algoritmo-del-modulo-11/
+    /// </summary>
+    /// <param name="numbers">A rut as string</param>
+    /// <returns>The last digit</returns>
+    
     public static char CalculateLastDigit(string numbers)
     {
         var numberAsStringReversed = numbers.Reverse();

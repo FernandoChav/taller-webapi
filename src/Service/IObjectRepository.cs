@@ -30,6 +30,14 @@ namespace Taller1.Service
         TEntity? Delete(int id);
 
         /// <summary>
+        /// Delete element asynchronously 
+        /// </summary>
+        /// <param name="id">Id element</param>
+        /// <returns>The entity deleted</returns>
+        
+        Task<TEntity?> DeleteAsync(int id);
+
+        /// <summary>
         /// Retrieve a element from her id
         /// </summary>
         /// <param name="id"></param>

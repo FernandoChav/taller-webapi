@@ -24,7 +24,6 @@ namespace Taller1.Service
             _users = applicationDbContext.Users;
             _updateModel = updateModel;
         }
-
         public User? FindById(int id)
         {
             return _users.FirstOrDefault(u => u.Id == id).
@@ -66,7 +65,7 @@ namespace Taller1.Service
         public User? Delete(int id)
 
         {
-            var user = _users.FirstOrDefault(u => u.Id == id);
+            var user = FindById(id);
             if (user == null)
             {
                 return null;
@@ -77,5 +76,19 @@ namespace Taller1.Service
             return user;
         }
         
+        public async Task<User?> DeleteAsync(int id)
+        {
+            var user = await FindByIdAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            _users.Remove(user);
+            await _applicationDb.SaveChangesAsync();
+            return user;
+        }
+        
     }
+    
 }

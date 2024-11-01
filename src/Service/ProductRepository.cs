@@ -27,6 +27,7 @@ namespace Taller1.Service
         public async Task<Product> PushAsync(Product entity)
         {
             await _products.AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
             return entity;
         }
 
@@ -48,6 +49,20 @@ namespace Taller1.Service
             _imageService.Destroy(product.IdImage);
             _products.Remove(product);
             _applicationDbContext.SaveChanges();
+            return product;
+        }
+
+        public async Task<Product?> DeleteAsync(int id)
+        {
+            var product = await FindByIdAsync(id);
+            if (product == null)
+            {
+                return null;
+            }
+
+            await _imageService.Destroy(product.IdImage);
+            _products.Remove(product);
+            await _applicationDbContext.SaveChangesAsync();
             return product;
         }
 

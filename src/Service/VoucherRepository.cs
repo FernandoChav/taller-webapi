@@ -9,7 +9,6 @@ namespace Taller1.Service;
 
 public class VoucherRepository : IObjectRepository<Voucher>
 {
-
     private readonly DbSet<Voucher> _vouchers;
     private readonly ApplicationDbContext _applicationDbContext;
 
@@ -18,16 +17,16 @@ public class VoucherRepository : IObjectRepository<Voucher>
         _vouchers = applicationDbContext.Vouchers;
         _applicationDbContext = applicationDbContext;
     }
-    
+
     public void Push(Voucher voucher)
     {
         _vouchers.Add(voucher);
-        
+
         foreach (var product in voucher.AllProducts)
         {
             product.VoucherId = voucher.Id;
         }
-        
+
         _applicationDbContext.SaveChanges();
     }
 
@@ -57,6 +56,20 @@ public class VoucherRepository : IObjectRepository<Voucher>
         return voucher;
     }
 
+    public async Task<Voucher?> DeleteAsync(int id)
+    {
+        var voucher = await FindByIdAsync(id);
+        if (voucher == null)
+        {
+            return null;
+        }
+
+        _vouchers.Remove(voucher);
+        await _applicationDbContext.SaveChangesAsync();
+        
+        return voucher;
+    }
+
     public Voucher? FindById(int id)
     {
         return _vouchers
@@ -75,5 +88,4 @@ public class VoucherRepository : IObjectRepository<Voucher>
     {
         throw new NotImplementedException();
     }
-    
 }

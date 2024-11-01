@@ -56,6 +56,23 @@ public class RoleRepository : IObjectRepository<Role>
         return role;
     }
 
+    public async Task<Role?> DeleteAsync(int id)
+    {
+        var role = await AsyncDbSearchBuilder<Role>.NewBuilder(_roles)
+            .Filter(role => role.Id == id)
+            .BuildAndGetFirst();
+        
+        
+        if (role == null)
+        {
+            return null;
+        }
+        
+        _roles.Remove(role);
+        await _applicationDbContext.SaveChangesAsync();
+        return role;
+    }
+
     public Role? FindById(int roleId)
     {
         if (_cache.TryGetValue(roleId, out Role? roleCached))

@@ -31,8 +31,6 @@ namespace Taller1.Service
 
         public void Connect()
         {
-            
-            Console.WriteLine("URL = " + _config.Value.Url);
             _cloudinary = new Cloudinary(_config.Value.Url);
         }
 
@@ -41,8 +39,8 @@ namespace Taller1.Service
             var result = new ImageUploadResult();
             var length = formFile.Length;
             var extension = Path.GetExtension(formFile.FileName);
-            
-            if (!(MinSize <= length && length <= MaxSize) || 
+
+            if (!(MinSize <= length && length <= MaxSize) ||
                 !(ExtensionAble.Contains(extension)))
             {
                 Console.WriteLine("ERROR");
@@ -60,12 +58,14 @@ namespace Taller1.Service
                     .Gravity(Gravity),
                 Folder = Folder
             };
-            
-            Console.WriteLine("UPLOADING ASYNC");
 
             return await _cloudinary.UploadAsync(parameters);
         }
-        
+
+        public async Task<DeletionResult> Destroy(string id)
+        {
+            var parameters = new DeletionParams(id);
+            return await _cloudinary.DestroyAsync(parameters);
+        }
     }
-    
 }

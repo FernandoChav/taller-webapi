@@ -12,13 +12,16 @@ namespace Taller1.Service
         private readonly DbSet<Product> _products;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IUpdateModel<Product> _updateModel;
+        private readonly IImageService _imageService;
 
         public ProductRepository(ApplicationDbContext applicationDbContext,
-            IUpdateModel<Product> updateModel)
+            IUpdateModel<Product> updateModel,
+            IImageService imageService)
         {
             _applicationDbContext = applicationDbContext;
             _products = applicationDbContext.Products;
             _updateModel = updateModel;
+            _imageService = imageService;
         }
 
         public async Task<Product> PushAsync(Product entity)
@@ -42,6 +45,7 @@ namespace Taller1.Service
                 return null;
             }
 
+            _imageService.Destroy(product.IdImage);
             _products.Remove(product);
             _applicationDbContext.SaveChanges();
             return product;

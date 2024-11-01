@@ -18,9 +18,17 @@ public interface IImageService
     /// <summary>
     /// Upload a image 
     /// </summary>
-    /// <param name="formFile">A image as file</param>
+    /// <param name="formFile">Image as file</param>
     /// <returns>A result image</returns>
 
     Task<ImageUploadResult> Upload(IFormFile formFile);
+
+    /// <summary>
+    /// Destroy image
+    /// </summary>
+    /// <param name="id">Image id for deleted</param>
+    /// <returns>A collection of data about image deleted</returns>
+    
+    Task<DeletionResult> Destroy(string id);
 
 }

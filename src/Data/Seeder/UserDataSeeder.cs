@@ -36,7 +36,8 @@ public class UserDataSeeder : IDataSeeder<User>
             Rut = "204166994",
             Email = "admin@idwm.cl",
             Gender = GenderType.Male,
-            Password = _strategy.Encrypt("P4sswOrd")
+            Password = _strategy.Encrypt("P4sswOrd"),
+            RoleId = 2
         });
         
         var userFaker = new Faker<User>()
@@ -45,7 +46,8 @@ public class UserDataSeeder : IDataSeeder<User>
             .RuleFor(u => u.Birthdate, f => f.Date.Recent())
             .RuleFor(u => u.RoleId, f => 0)
             .RuleFor(u => u.Password, f => _strategy.Encrypt(f.Internet.Password()))
-            .RuleFor(u => u.Gender, f => GenderType.Other);
+            .RuleFor(u => u.Gender, f => GenderType.Other)
+            .RuleFor(u => u.RoleId, f => 1);
 
         userFaker.Generate(QuantityUsers).ForEach(user =>
         {

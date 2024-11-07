@@ -27,7 +27,7 @@ User>
             Email = element.Email,
             Gender = element.GenderType,
             IsActive = true,
-            RoleId = 0
+            RoleId = 1
         };
         
     }

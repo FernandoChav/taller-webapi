@@ -4,13 +4,15 @@ using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
+using Taller1.Util;
 
 namespace Taller1.Authenticate;
 
 public class DefaultRegistrationHandler(
     IObjectRepository<User> userRepository,
     ApplicationDbContext applicationDbContext,
-    IMapperFactory mapperFactory
+    IMapperFactory mapperFactory,
+    IEncryptStrategy encryptStrategy
     ) : IRegistrationHandler
 {
 
@@ -41,8 +43,13 @@ public class DefaultRegistrationHandler(
             return RegistrationResponse.Error(
                 "The user already exists");
         }
+
+        var passwordEncrypt = encryptStrategy.Encrypt(password);
         
-        var user = _toUserMapper.Mapper(userCreation);
+        var user = _toUserMapper.Mapper(userCreation,
+                ObjectParameters.Create()
+                    .AddParameter("password", passwordEncrypt)
+            );
         
         userRepository.Push(user);
         return RegistrationResponse.

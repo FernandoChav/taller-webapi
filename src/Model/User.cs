@@ -4,51 +4,154 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bogus.DataSets;
 using System.ComponentModel.DataAnnotations;
+using Taller1.Util;
+using Taller1.Validation;
+
 namespace Taller1.Model
 {
-    public enum GenderType {
+    /// <summary>
+    /// This is enum class that represent all gender types defined
+    /// </summary>
+    public enum GenderType
+    {
         Female,
         Male,
         Other,
         NotSpecified
     }
-    
+
+    /// <summary>
+    /// This is a class that represent a model user, a user is a client in UCN Store
+    /// </summary>
     public class User
     {
-        [Key]
-        public int Id {get;set;}
-        
-        [StringLength(255, MinimumLength = 8, ErrorMessage = "The lenth name should be between 8 and 255 characters")]
-        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
-        public string Name {get;set;} = string.Empty;
-        
-        [Key] 
-        [Required(ErrorMessage = "RUT is required")]
-        [MaxLength(16)]
-        public string Rut {get;set;} = string.Empty;
+        /// <value> This attribute is integer that represent a Role assigned to User</value>
+        public int RoleId { get; set; } = 0;
 
-        public DateTime Birthdate {get;set;} = DateTime.Now;
-        [Required]
-        [EmailAddress(ErrorMessage = "The mail address is invalid.")]
-        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Formato de correo electrónico no válido.")]
-        public string Email {get;set;} = string.Empty;
-        
-        
-        [Required(ErrorMessage = "Gender is required")]
-        public GenderType Gender {get;set;} = GenderType.NotSpecified;
-        
-        
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters")]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]+$", ErrorMessage = "La contraseña debe ser alfanumérica.")]
-        public string Password {get;set;} = string.Empty;
+        /// <value> This attribute is a auto incremental Identifier</value>
+        public int Id { get; set; }
 
-        // No es responsabbilidad del Usuario esta verificación
-         public static ValidationResult ValidateBirthdate(DateTime birthdate, ValidationContext context)
-         {
-             return birthdate >= DateTime.Now ?
-                 new ValidationResult("Birthdae must be in the past") : ValidationResult.Success;
-        }
+        /// <value> This attribute is string that represent the username</value>
+        public string Name { get; set; } = string.Empty;
+
+        /// <value> This attribute is a string that represent a 
+        /// Rut, this is a code unique for chileans,
+        /// This following this follow format:
+        /// [numbers]-[1,2,3,4,5,6,7,8,9,0,K]</value>
+        public string Rut { get; set; } = string.Empty;
+
+        /// <value> This attribute is a date that represent a birthdate user</value>
+        public DateTime Birthdate { get; set; } = DateTime.Now;
+
+        /// <value> This attribute is a string that represent email user</value>
+        public string Email { get; set; } = string.Empty;
+
+        /// <value> This attribute is a GenderType that represent gender user</value>
+
+        public GenderType Gender { get; set; } = GenderType.NotSpecified;
+
+        /// <value> This attribute is a password user encrypt</value>
+        public string Password { get; set; } = string.Empty;
+
+        /// <value> This attribute is a boolean that determine if a user is active</value>
+
+        public bool IsActive { get; set; } = true;
+
+        public ICollection<Voucher> Vouchers { get; set; }
 
     }
+
+    public class UserEditGeneral
+    {
+        /// <value> This attribute is string that represent the username</value>
+        public string? Name { get; set; }
+
+        /// <value> This attribute is a date that represent a birthdate user</value>
+        public DateTime? Birthdate { get; set; }
+
+        /// <value> This attribute is a GenderType that represent gender user</value>
+
+        public GenderType? Gender { get; set; }
+
+        /// <value> This attribute is a boolean that determine if a user is active</value>
+
+        public bool? IsActive { get; set; }
+
+        [RegularExpression(Constants.PasswordPattern,
+            ErrorMessage = "Password format not valid")]
+        public string? Password { get; set; } = string.Empty;
+
+        public string? RepeatPassword { get; set; } = string.Empty;
+    }
+
+    public class UserEdit
+    {
+        /// <value> This attribute is string that represent the username</value>
+        public string? Name { get; set; }
+
+        /// <value> This attribute is a date that represent a birthdate user</value>
+        public DateTime? Birthdate { get; set; }
+
+        /// <value> This attribute is a GenderType that represent gender user</value>
+
+        public GenderType? Gender { get; set; }
+    }
+
+    public class ChangePasswordUser
+    {
+        
+        public required string Password { get; set; }
+        
+        public required string RepeatPassword { get; set; }
+        
+    }
+
+    public class UserCreation
+    {
+        
+        [Required]
+        [MaxLength(16)]
+        [RutValidator]
+        public string Rut { get; set; } = string.Empty;
+
+        [StringLength(255, MinimumLength = 8,
+            ErrorMessage = "The length name should be between 8 and 255 characters")]
+        [RegularExpression(Constants.NamePattern,
+            ErrorMessage = "Name just can contains letter and spaces.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required]
+        /*[RegularExpression(Constants.EmailPattern,
+            ErrorMessage = "Email format not valid")]*/
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        /*[RegularExpression(Constants.PasswordPattern,
+            ErrorMessage = "Password format not valid")]*/
+        public string Password { get; set; } = string.Empty;
+
+        [Required] public string RepeatPassword { get; set; } = string.Empty;
+
+        [PastDateValidation] [Required] public DateTime Birthdate { get; set; } = DateTime.Now;
+
+        [Required] public GenderType GenderType { get; set; } = GenderType.NotSpecified;
+    }
+
+    public class AuthenticationCredential
+    {
+        [Required] public string Email { get; set; } = string.Empty;
+        [Required] public string Password { get; set; } = string.Empty;
+    }
+
+    public class UserView
+    {
+        
+        public string Rut { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public DateTime Birthdate { get; set; }
+        public GenderType GenderType { get; set; }
+        public bool IsActive { get; set; }
+        
+    }
+    
 }

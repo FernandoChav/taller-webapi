@@ -1,68 +1,170 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Taller1.Data;
+using Taller1.Mapper;
 using Taller1.Model;
+using Taller1.Search;
 using Taller1.Service;
+using Taller1.TException;
+using Taller1.Util;
 
-namespace Taller1.src.Controller
+namespace Taller1.Controller
 {
+    
+    /// <summary>
+    /// This is a controller for manage users
+    /// </summary>
+    /// <param name="userService">A user service handler</param>
+    /// <param name="applicationDbContext">A handler databases</param>
+    /// <param name="mapperFactory">A factory for transformation object to other</param>
+    
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController(
+        IObjectRepository<User> userService,
+        ApplicationDbContext applicationDbContext,
+        IMapperFactory mapperFactory
+    ) : ControllerBase
     {
-        private readonly IObjectService<User> _userService;
+        private readonly DbSet<User> _users = applicationDbContext.Users;
 
-        
-        public UserController(IObjectService<User> userService)
-        {
-            _userService = userService;
-        }
+        private readonly IObjectMapper<User, UserView> _userViewerMapper = mapperFactory.Get<
+            User, UserView>();
 
+        /// <summary>
+        /// Retrieve a collection from users 
+        /// </summary>
+        /// <param name="page">The page searched </param>
+        /// <param name="elements">Quantity elements for return</param>
+        /// <returns></returns>
         
-        [HttpPost("add")]
-        public IActionResult AddUser([FromBody] User newUser)
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        [Route("/user/all/")]
+        public async Task<ActionResult<EntityGroup<UserView>>> All(
+            [FromQuery] int page = 1,
+            [FromQuery] int elements = 10
+        )
         {
-            if (ModelState.IsValid)
-            {
-                try
+            var entities = await new AsyncDbSearchBuilder<User>(_users)
+                .Page(page, elements)
+                .BuildAndGetAll();
+
+            var entitiesAsView = _userViewerMapper.Mapper(entities);
+
+            return EntityGroup<UserView>.Create(
+                entitiesAsView, new Dictionary<string, string>
                 {
-                    _userService.Push(newUser);
-                    return Ok(new { message = "User created successfully." });
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = $"Error: {ex.Message}" });
-                }
+                    ["Page"] = page.ToString(),
+                    ["Elements"] = elements.ToString()
+                });
+        }
+        
+        /// <summary>
+        /// Change visibility for a user, if is active or no active
+        /// </summary>
+        /// <param name="id">The id user</param>
+        /// <param name="isActive">A boolean is active</param>
+        /// <returns>The user updated</returns>
+
+        [HttpPut]
+        [Route("/user/change-visibility/{id}")]
+        public ActionResult<UserView> ChangeVisibility(
+            int id,
+            [FromQuery] bool isActive
+        )
+        {
+            var userUpdated = userService.Edit(id, ObjectParameters
+                .Create()
+                .AddParameter("IsActive", false)
+            );
+
+            if (userUpdated == null)
+            {
+                return NotFound("User not found");
             }
-            return BadRequest(ModelState);
+
+            return _userViewerMapper.Mapper(
+                userUpdated
+            );
         }
 
+        /// <summary>
+        /// Change password user
+        /// </summary>
+        /// <param name="id">Id user</param>
+        /// <param name="changePasswordUser">A object that contains data for change the password</param>
+        /// <returns>The user updated</returns>
         
-        [HttpGet("get/{id}")]
-        public IActionResult GetUserById(int id)
+        [HttpPut]
+        [Route("/user/update-password/{id}")]
+        public ActionResult<UserView> UpdatePassword(
+            int id,
+            [FromBody] ChangePasswordUser changePasswordUser)
         {
-            try
+            if (changePasswordUser.Password != changePasswordUser.RepeatPassword)
             {
-                var user = _userService.FindById(id);
-                return Ok(user);
+                return BadRequest("The password not equals");
             }
-            catch (KeyNotFoundException ex)
+
+            var userUpdated = userService.Edit(
+                id, ObjectParameters.Create()
+                    .AddParameter("Password", changePasswordUser.Password)
+                    .AddParameter("RepeatPassword", changePasswordUser.RepeatPassword));
+
+            if (userUpdated == null)
             {
-                return NotFound(new { message = ex.Message });
+                return NotFound("User not found");
             }
+
+            return Ok(
+                _userViewerMapper.Mapper(userUpdated)
+            );
         }
 
+        /// <summary>
+        /// Update data user 
+        /// </summary>
+        /// <param name="id">The id user</param>
+        /// <param name="parameters">The collection of parameters for update</param>
+        /// <returns>A user updated</returns>
         
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteUser(int id)
+        [HttpPut]
+        [Route("/user/update/{id}")]
+        public ActionResult<UserView> Update(int id,
+            [FromBody] ObjectParameters parameters)
         {
-            try
+            var userUpdated = userService.Edit(id, parameters);
+            if (userUpdated == null)
             {
-                _userService.Delete(id);
-                return Ok(new { message = "User deleted successfully." });
+                return NotFound("User not found");
             }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
+
+            return Ok(
+                _userViewerMapper.Mapper(userUpdated)
+            );
         }
+
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="id">A user id</param>
+        /// <returns>The user deleted</returns>
+        
+        [HttpDelete]
+        [Route("/user/delete/{id}")]
+        public ActionResult<UserView> Delete(int id)
+        {
+            var userDeleted = userService.Delete(id);
+            if (userDeleted == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return _userViewerMapper
+                .Mapper(userDeleted);
+        }
+        
     }
 }

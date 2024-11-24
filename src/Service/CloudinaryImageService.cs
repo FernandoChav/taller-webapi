@@ -6,6 +6,9 @@ using Taller1.Model;
 
 namespace Taller1.Service
 {
+    /// <summary>
+    /// Service for handling image uploads and deletions using Cloudinary.
+    /// </summary>
     public class CloudinaryImageService : IImageService
     {
         private const int MaxSize = 10 * 1024 * 1024;
@@ -23,17 +26,30 @@ namespace Taller1.Service
         private readonly IOptions<CloudinarySettings> _config;
         private Cloudinary _cloudinary;
 
+        /// <summary>
+        /// Initializes the CloudinaryImageService with Cloudinary settings.
+        /// </summary>
+        /// <param name="config">Cloudinary settings.</param>
         public CloudinaryImageService(IOptions<CloudinarySettings> config)
         {
             _config = config;
             Connect();
         }
 
+        /// <summary>
+        /// Connects to Cloudinary using the settings provided in the configuration.
+        /// </summary>
         public void Connect()
         {
             _cloudinary = new Cloudinary(_config.Value.Url);
         }
 
+        /// <summary>
+        /// Uploads an image to Cloudinary with transformations applied.
+        /// Validates file size and extension before uploading.
+        /// </summary>
+        /// <param name="formFile">The image file to be uploaded.</param>
+        /// <returns>ImageUploadResult containing the result of the upload operation.</returns>
         public async Task<ImageUploadResult> Upload(IFormFile formFile)
         {
             var result = new ImageUploadResult();
@@ -62,6 +78,11 @@ namespace Taller1.Service
             return await _cloudinary.UploadAsync(parameters);
         }
 
+        /// <summary>
+        /// Deletes an image from Cloudinary using the provided image ID.
+        /// </summary>
+        /// <param name="id">The ID of the image to be deleted.</param>
+        /// <returns>DeletionResult containing the result of the delete operation.</returns>
         public async Task<DeletionResult> Destroy(string id)
         {
             var parameters = new DeletionParams(id);

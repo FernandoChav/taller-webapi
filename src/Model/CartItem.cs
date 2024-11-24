@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Taller1.Model
 {
+    /// <summary>
+    /// Represents an item in a shopping cart.
+    /// </summary>
     public class CartItem
     {
         public int ProductId { get; set; } = 0;

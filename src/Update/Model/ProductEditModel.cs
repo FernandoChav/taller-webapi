@@ -3,16 +3,27 @@ using Taller1.src.Models;
 using Taller1.Util;
 
 namespace Taller1.Update.Model;
-
+/// <summary>
+/// Represents the logic for updating a Product object.
+/// </summary>
 public class ProductEditModel : IUpdateModel<Product>
 {
     private readonly IImageService _imageService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProductEditModel"/> class.
+    /// </summary>
+    /// <param name="imageService">The image service used to upload product images.</param>
     public ProductEditModel(IImageService imageService)
     {
         _imageService = imageService;
     }
 
+    /// <summary>
+    /// Edits the properties of a Product object based on the provided parameters.
+    /// </summary>
+    /// <param name="parameters">The parameters containing the values to update in the Product object.</param>
+    /// <param name="modelObject">The Product object to be updated.</param>
     public async void Edit(ObjectParameters parameters
         , Product modelObject)
     {

@@ -8,6 +8,13 @@ using Taller1.Util;
 
 namespace Taller1.Authenticate;
 
+/// <summary>
+/// Initializes a new instance of the <see cref="DefaultRegistrationHandler"/> class.
+/// </summary>
+/// <param name="userRepository">The repository for accessing user data.</param>
+/// <param name="applicationDbContext">The application database context.</param>
+/// <param name="mapperFactory">The factory for creating object mappers.</param>
+/// <param name="encryptStrategy">The strategy used for password encryption.</param>
 public class DefaultRegistrationHandler(
     IObjectRepository<User> userRepository,
     ApplicationDbContext applicationDbContext,
@@ -22,6 +29,11 @@ public class DefaultRegistrationHandler(
     private readonly IObjectMapper<UserCreation, User> _toUserMapper =
         mapperFactory.Get<UserCreation, User>();
     
+    /// <summary>
+    /// Registers a new user in the system.
+    /// </summary>
+    /// <param name="userCreation">The user creation data, including email, password, and other necessary details.</param>
+    /// <returns>A <see cref="RegistrationResponse"/> indicating the success or failure of the registration.</returns>
     public RegistrationResponse Register(UserCreation userCreation)
     {
         

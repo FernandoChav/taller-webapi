@@ -26,8 +26,8 @@ namespace Taller1.Service
         }
         public User? FindById(int id)
         {
-            return _users.FirstOrDefault(u => u.Id == id).
-                OrDefault(null);
+            return _users.FirstOrDefault(u => u.Id == id);
+           
         }
 
         public Task<User?> FindByIdAsync(int id)

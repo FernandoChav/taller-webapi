@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "6055a0f3-71ee-4355-9783-d9b18688282a",
+		"name": "Taller 1 IDWM API",
+		"description": "Esta colección contiene los endpoints para gestionar usuarios y productos en la tienda de la Universidad Católica del Norte.EndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34959422"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"item": [
+				{
+					"name": "/api/authenticate/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@idwm.cl\",\r\n  \"password\": \"P4sswOrd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/api/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/register/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"rut\": \"21544970-K\",\r\n   \"name\": \"BenjaDev\",\r\n  \"password\": \"hola55\",\r\n  \"repeatPassword\": \"hola55\",\r\n   \"birthdate\": \"2004-03-20T01:24:56.010Z\",\r\n   \"genderType\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "/api/Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/api/Cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"api",
+								"Cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "/*/",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"productId\": 1,\r\n    \"productName\": \"Licensed Rubber Chips\",\r\n    \"quantity\": 1,\r\n    \"price\": 18161\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/api/Cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"api",
+								"Cart"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/Cart/{productId}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5026/api/Cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"api",
+								"Cart",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/Cart/{productId}",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "/api/Product/all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/product/all?page=1&elements=10&isOrderingByPrice=false&ascending=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"product",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "elements",
+									"value": "10"
+								},
+								{
+									"key": "isOrderingByPrice",
+									"value": "false"
+								},
+								{
+									"key": "ascending",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Product/find/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/product/find/10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"product",
+								"find",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Product/Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSWduYWNpbyBNYW5jaWxsYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQGlkd20uY2wiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiZXhwIjoxNzMyNTA1Mzk2fQ.MzfzMeliAnw_TWMxF8t9pjec766k_6dHqP10yvAJEUA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"PLatanano ultra bananoso 1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/product/update/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"product",
+								"update",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Product/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/product/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/Product/delete/{id}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSWduYWNpbyBNYW5jaWxsYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQGlkd20uY2wiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiZXhwIjoxNzMyNTA1Mzk2fQ.MzfzMeliAnw_TWMxF8t9pjec766k_6dHqP10yvAJEUA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/product/delete/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"product",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "api/User/all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSWduYWNpbyBNYW5jaWxsYSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFkbWluQGlkd20uY2wiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiZXhwIjoxNzMyNTA1Mzk2fQ.MzfzMeliAnw_TWMxF8t9pjec766k_6dHqP10yvAJEUA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/user/all?page=1&elements=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"user",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "elements",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/User/change-visibility",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/user/change-visibility/100?isActive=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"user",
+								"change-visibility",
+								"100"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/User/updrate-password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"21180530fe\",\r\n  \"repeatPassword\": \"21180530fe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/user/update-password/110",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"user",
+								"update-password",
+								"110"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "api/User/update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"rut\": \"21180530-7\",\r\n    \"name\": \"Fernando\",\r\n    \"birthdate\": \"2002-11-18T00:00:00\",\r\n    \"genderType\": 1,\r\n    \"isActive\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/user/update/110",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"user",
+								"update",
+								"110"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Voucher",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2024-11-25\",\r\n  \"products\": [\r\n    {\r\n      \"name\": \"Refined Rubber Computer\",\r\n      \"type\": 4,\r\n      \"price\": 18161,\r\n      \"elements\": 1\r\n    }\r\n  ],\r\n  \"userId\": 109\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5026/voucher/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"voucher",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5026/voucher/find/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5026",
+							"path": [
+								"voucher",
+								"find",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -5,6 +5,10 @@ using Taller1.Util;
 
 namespace Taller1.Data.Seeder;
 
+/// <summary>
+/// Seeder class responsible for populating the Users table with initial user data.
+/// It adds a predefined administrator user and generates additional random users using Faker.
+/// </summary>
 public class UserDataSeeder : IDataSeeder<User>
 {
 
@@ -15,6 +19,11 @@ public class UserDataSeeder : IDataSeeder<User>
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly IEncryptStrategy _strategy;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserDataSeeder"/> class.
+    /// </summary>
+    /// <param name="dbContext">The instance of the application database context to interact with the database.</param>
+    /// <param name="strategy">The encryption strategy used to encrypt user passwords.</param>
     public UserDataSeeder(ApplicationDbContext dbContext,
         IEncryptStrategy strategy)
     {
@@ -23,6 +32,10 @@ public class UserDataSeeder : IDataSeeder<User>
         _applicationDbContext = dbContext;
     }
 
+    /// <summary>
+    /// Seeds the Users table with initial data if it is empty.
+    /// Adds a predefined administrator user and generates additional random users using Faker.
+    /// </summary>
     public void Seed()
     {
         if (_dbSet.Any())
@@ -57,6 +70,10 @@ public class UserDataSeeder : IDataSeeder<User>
         _applicationDbContext.SaveChanges();
     }
     
+    /// <summary>
+    /// Retrieves the DbSet of Users from the database.
+    /// </summary>
+    /// <returns>The DbSet representing the Users table.</returns>
     public DbSet<User> Get()
     { 
         return _dbSet;

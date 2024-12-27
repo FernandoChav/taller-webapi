@@ -149,7 +149,7 @@ namespace Taller1.Controller
 
             if (!string.IsNullOrWhiteSpace(filteringByNameProduct))
             {
-                builder = builder.Filter(product => product.Name == filteringByNameProduct);
+                builder = builder.Filter(product => product.Name.Contains(filteringByNameProduct));
             }
 
             if (isOrderingByPrice)

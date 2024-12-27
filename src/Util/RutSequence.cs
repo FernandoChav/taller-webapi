@@ -71,4 +71,5 @@ public class RutSequence : IEnumerator<int>
     {
         throw new NotImplementedException();
     }
+    
 }

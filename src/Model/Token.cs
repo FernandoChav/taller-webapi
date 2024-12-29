@@ -13,4 +13,6 @@ public class Token
 
     public string TokenContent { get; set; } = string.Empty;
 
+    public Role Role { get; set; } = new Role();
+
 }

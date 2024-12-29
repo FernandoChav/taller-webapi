@@ -145,7 +145,7 @@ namespace Taller1.Model
 
     public class UserView
     {
-        
+        public int Id { get; set; } = 0;
         public string Rut { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public DateTime Birthdate { get; set; }

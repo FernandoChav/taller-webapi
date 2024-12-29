@@ -24,6 +24,7 @@ UserView>
     {
         return new UserView
         {
+            Id = element.Id,
             Rut = element.Rut,
             Name = element.Name,
             Birthdate = element.Birthdate,

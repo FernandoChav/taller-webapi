@@ -18,9 +18,10 @@ namespace Taller1.Authenticate;
 public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 {
     private readonly DbSet<User> _users;
+    private readonly IObjectRepository<Role> _roleRepository;
     private readonly IEncryptStrategy _encryptStrategy;
     private readonly IUserTokenProvider _tokenProvider;
-    
+
     /// <summary>
     /// Initializes the authentication handler with the necessary dependencies.
     /// </summary>
@@ -28,9 +29,11 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
     /// <param name="encryptStrategy">The encryption strategy for password verification.</param>
     public DefaultAuthenticatorHandler(ApplicationDbContext applicationDbContext,
         IEncryptStrategy encryptStrategy,
-        IUserTokenProvider tokenProvider)
+        IUserTokenProvider tokenProvider,
+        IObjectRepository<Role> roleRepository)
     {
         _users = applicationDbContext.Users;
+        _roleRepository = roleRepository;
         _encryptStrategy = encryptStrategy;
         _tokenProvider = tokenProvider;
     }
@@ -46,7 +49,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
     /// <returns>A JWT token string if authentication is successful.</returns>
     /// <exception cref="AuthenticationUserException">Thrown if the user is not found or the user is inactive.</exception>
     /// <exception cref="AuthenticationException">Thrown if the password does not match.</exception>
-    public string Authenticate(Credentials credentials)
+    public Model.Token Authenticate(Credentials credentials)
     {
         var email = credentials.Email();
         var password = credentials.Password();
@@ -71,8 +74,13 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
             throw new AuthenticationException("Credentials incorrect");
         }
 
-        return _tokenProvider.
-            Token(userSelected);
+        var tokenAsString = _tokenProvider.Token(userSelected);
+        var roleSearched = _roleRepository.FindById(userSelected.RoleId);
+
+        return new Model.Token
+        {
+            TokenContent = tokenAsString,
+            Role = roleSearched
+        };
     }
-    
 }

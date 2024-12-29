@@ -26,7 +26,7 @@ public class VoucherController(
     /// <returns>The voucher created element</returns>
     [HttpPost]
     [Route("/voucher/create")]
-    public VoucherCreation Create(VoucherCreation creationVoucher)
+    public VoucherCreation Create([FromBody] VoucherCreation creationVoucher)
     {
         var voucher = _toMapperVoucher.Mapper(creationVoucher);
         voucherRepository.Push(voucher);

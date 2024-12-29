@@ -12,8 +12,8 @@ public interface IAuthenticatorHandler
     /// for generate access session token
     /// </summary>
     /// <param name="credentials">A set credentials for access</param>
-    /// <returns>a string with contains access session token</returns>
+    /// <returns>a string with contains authentication data</returns>
 
-    string Authenticate(Credentials credentials);
+    Model.Token Authenticate(Credentials credentials);
 
 }

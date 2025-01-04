@@ -39,7 +39,8 @@ public class UserEditModel : IUpdateModel<User>
 
         parameters.ExecuteIfExists("IsActive", obj =>
         {
-            var isActive = (bool)obj;
+            var str = obj as string;
+            var isActive = bool.Parse(str);
             modelObject.IsActive = isActive;
         });
 

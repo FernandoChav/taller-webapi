@@ -143,19 +143,23 @@ namespace Taller1.Controller
             [FromQuery] bool ascending = false,
             [FromQuery] string filteringByNameProduct = "")
         {
+            filteringByNameProduct = filteringByNameProduct.ToLower();
+            
             var builder = AsyncDbSearchBuilder<Product>.NewBuilder(_products)
-                .Page(page, elements)
                 .Filter(product => product.StockAvailable());
 
             if (!string.IsNullOrWhiteSpace(filteringByNameProduct))
             {
-                builder = builder.Filter(product => product.Name.Contains(filteringByNameProduct));
+                builder = builder.Filter(product => product.Name.ToLower().
+                    Contains(filteringByNameProduct));
             }
 
             if (isOrderingByPrice)
             {
                 builder = builder.OrderBy(product => product.Price, ascending);
             }
+
+            builder = builder.Page(page, elements);
 
             var allElements = await builder.BuildAndGetAll();
             var elementsShowed = _productViewMapper.Mapper(allElements);

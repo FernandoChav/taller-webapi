@@ -40,7 +40,7 @@ public class AuthenticatorController : ControllerBase
             }
         );
         
-        var token = "";
+        Token token = null;
         try
 
         {
@@ -51,10 +51,7 @@ public class AuthenticatorController : ControllerBase
             return BadRequest(exception.Message);
         }
 
-        return new Token
-        {
-            TokenContent = token
-        };
+        return Ok(token);
     }
 
     /// <summary>

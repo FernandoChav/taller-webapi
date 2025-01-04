@@ -62,8 +62,8 @@ namespace Taller1.Controller
         /// </summary>
         /// <param name="productId">The ID of the product to remove from the cart.</param>
         /// <returns>The updated shopping cart as a list of <see cref="CartItem"/> objects.</returns>
-        [HttpDelete("{productId}")]
-        [Route("/api/delete")]
+        [HttpDelete()]
+        [Route("/api/delete/{productId}")]
         public IActionResult RemoveFromCart(int productId)
         {
             var cart = GetCartFromCookies();
@@ -83,8 +83,8 @@ namespace Taller1.Controller
         /// <param name="productId">The ID of the product whose quantity is to be updated.</param>
         /// <param name="quantity">The new quantity of the product.</param>
         /// <returns>The updated shopping cart as a list of <see cref="CartItem"/> objects.</returns>
-        [HttpPut("{productId}")]
-        [Route("/api/update")]
+        [HttpPut()]
+        [Route("/api/update/{productId}")]
         public IActionResult UpdateQuantity(int productId, [FromBody] int quantity)
         {
             var cart = GetCartFromCookies();

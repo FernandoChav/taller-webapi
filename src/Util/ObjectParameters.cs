@@ -82,7 +82,12 @@ public class ObjectParameters(IDictionary<string, object> objects)
     
     public static ObjectParameters Create()
     {
-        return new ObjectParameters(new Dictionary<string, object>());
+        return Create(new Dictionary<string, object>());
+    }
+
+    public static ObjectParameters Create(IDictionary<string, object> values)
+    {
+        return new ObjectParameters(values);
     }
     
 }

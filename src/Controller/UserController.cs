@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using Taller1.Data;
 using Taller1.Mapper;
 using Taller1.Model;
@@ -135,9 +136,10 @@ namespace Taller1.Controller
         [HttpPut]
         [Route("/user/update/{id}")]
         public ActionResult<UserView> Update(int id,
-            [FromBody] ObjectParameters parameters)
+            [FromBody] IDictionary<string, object> values)
         {
-            var userUpdated = userService.Edit(id, parameters);
+            var parametersCreated = ParametersParse.Parse(values);
+            var userUpdated = userService.Edit(id, parametersCreated);
             if (userUpdated == null)
             {
                 return NotFound("User not found");

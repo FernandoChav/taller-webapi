@@ -61,17 +61,17 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 
         if (userSelected is null)
         {
-            throw new AuthenticationUserException("Credentials incorrect");
+            throw new AuthenticationUserException("Credenciales incorrectas");
         }
 
         if (!userSelected.IsActive)
         {
-            throw new AuthenticationUserException("User is inactive");
+            throw new AuthenticationUserException("Usuario inactivo");
         }
 
         if (!_encryptStrategy.Verify(password, userSelected.Password))
         {
-            throw new AuthenticationException("Credentials incorrect");
+            throw new AuthenticationException("Credenciales incorrectas");
         }
 
         var tokenAsString = _tokenProvider.Token(userSelected);

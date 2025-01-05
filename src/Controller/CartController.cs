@@ -105,6 +105,7 @@ namespace Taller1.Controller
         private List<CartItem> GetCartFromCookies()
         {
             var cookieValue = Request.Cookies[CartCookieKey];
+            Console.WriteLine("COOKIE VALUE = " + cookieValue);
             if (!string.IsNullOrEmpty(cookieValue))
             {
                 return JsonSerializer.Deserialize<List<CartItem>>(cookieValue) ?? new List<CartItem>();

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Taller1.Util;
 
 namespace Taller1.Validation;
 
@@ -53,7 +54,7 @@ public class RutValidator : ValidationAttribute
             return false;
         }
 
-        var lastDigit  = RutHelper.CalculateLastDigit(numbersAsString);
+        var lastDigit  = Ruts.CalculateLastDigit(numbersAsString);
         return lastDigitAsString == lastDigit;
     }
 }

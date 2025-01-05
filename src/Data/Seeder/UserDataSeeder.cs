@@ -12,6 +12,7 @@ namespace Taller1.Data.Seeder;
 public class UserDataSeeder : IDataSeeder<User>
 {
 
+    private const int LengthRut = 8;
     private const int QuantityUsers = 50;
     private readonly Random _random = new Random();
     
@@ -42,6 +43,8 @@ public class UserDataSeeder : IDataSeeder<User>
         {
             return;
         }
+        
+        Console.WriteLine("MAKING SEEDER");
 
         _dbSet.Add(new User
         {
@@ -54,6 +57,7 @@ public class UserDataSeeder : IDataSeeder<User>
         });
         
         var userFaker = new Faker<User>()
+            .RuleFor(u => u.Rut, u => Ruts.Create(LengthRut))
             .RuleFor(u => u.Name, f => f.Internet.UserName())
             .RuleFor(u => u.Email, f => f.Internet.Email())
             .RuleFor(u => u.Birthdate, f => f.Date.Recent())

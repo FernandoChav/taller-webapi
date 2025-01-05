@@ -39,7 +39,7 @@ namespace Taller1.Controller
         /// <param name="searchByName">Quantity elements for return</param>
         /// <returns></returns>
         [HttpGet]
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         [Route("/user/all/")]
         public async Task<ActionResult<EntityGroup<UserView>>> All(
             [FromQuery] int page = 1,
@@ -74,6 +74,7 @@ namespace Taller1.Controller
         /// <param name="isActive">A boolean is active</param>
         /// <returns>The user updated</returns>
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         [Route("/user/change-visibility/{id}")]
         public ActionResult<UserView> ChangeVisibility(
             int id,

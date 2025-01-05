@@ -10,6 +10,8 @@ namespace Taller1.Data.Seeder;
 /// </summary>
 public class ProductDataSeeder : IDataSeeder<Product>
 {
+
+    private const string ImageRandomEndpoint = "https://picsum.photos/200/300";
     private const int QuantityProducts = 50;
     private readonly ApplicationDbContext _applicationDbContext;
     private readonly DbSet<Product> _products;
@@ -41,7 +43,7 @@ public class ProductDataSeeder : IDataSeeder<Product>
             .RuleFor(u => u.Price, _random.Next(2000, 20000))
             .RuleFor(u => u.Stock, _random.Next(0, 100))
             .RuleFor(u => u.ProductType, ProductType.Book)
-            .RuleFor(u => u.AbsoluteUri, f => f.Internet.Url())
+            .RuleFor(u => u.AbsoluteUri, f => ImageRandomEndpoint)
             .RuleFor(u => u.IdImage, f => "d");
 
         productFaker.Generate(QuantityProducts)

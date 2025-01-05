@@ -1,17 +1,31 @@
-﻿using Taller1.Util;
+﻿using System.Text;
 
-namespace Taller1.Validation;
+namespace Taller1.Util;
 
-
-/// <summary>
-/// Utility class for calculate element associated with a rut
-/// </summary>
-
-
-public class RutHelper
+public class Ruts
 {
+
+    private static readonly Random Random = new Random();
     
-    private RutHelper() {}
+    private Ruts()
+    {
+    }
+
+    public static string Create(int length)
+    {
+        var builder = new StringBuilder();
+        for (var i = 0; i < length; i++)
+        {
+            builder.Append(
+                Random.NextInt64(0, 9)
+            );
+        }
+
+        var numbersAsString = builder.ToString();
+        
+        var lastDigit = CalculateLastDigit(numbersAsString);
+        return numbersAsString + lastDigit;
+    }
     
     /// <summary>
     /// Calculate last digit rut, a rut is a set numbers for identify a person
@@ -57,5 +71,6 @@ public class RutHelper
 
         return (char)result;
     }
+
     
 }

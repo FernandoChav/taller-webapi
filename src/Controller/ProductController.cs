@@ -47,7 +47,7 @@ namespace Taller1.Controller
         /// <returns>A wrapper for the created product.</returns>
         [HttpPost]
         [Route("/product/create")]
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ProductView>> Post([FromForm] CreationProduct creationProduct,
             [FromForm] IFormFile image)
         {
@@ -93,9 +93,42 @@ namespace Taller1.Controller
         /// <returns>The updated product.</returns>
         [HttpPut]
         [Route("/product/update/{id}")]
-        [Authorize(Roles = "Administrator")]
-        public ActionResult<ProductView> Update(int id, [FromBody] ObjectParameters parameters)
+        //[Authorize(Roles = "Administrator")]
+        public ActionResult<ProductView> Update(int id, 
+            [FromForm] string? name, 
+            [FromForm] int? stock,
+            [FromForm] int? price,
+            [FromForm] int? productType,
+            [FromForm] IFormFile? image)
         {
+
+            var parameters = ObjectParameters.Create();
+
+            if (name != null)
+            {
+                parameters.AddParameter("Name", name);
+            }
+
+            if (stock != null)
+            {
+                parameters.AddParameter("Stock", stock);
+            }
+
+            if (price != null)
+            {
+                parameters.AddParameter("Price", price);
+            }
+
+            if (productType != null)
+            {
+                parameters.AddParameter("ProductType", Converter.ConvertToProductType(productType.Value));
+            }
+
+            if (image != null)
+            {
+                parameters.AddParameter("Image", image);
+            }
+         
             var product = _service.Edit(id, parameters);
             if (product == null)
             {

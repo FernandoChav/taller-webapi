@@ -14,6 +14,6 @@ public interface IAuthenticatorHandler
     /// <param name="credentials">A set credentials for access</param>
     /// <returns>a string with contains authentication data</returns>
 
-    Model.Token Authenticate(Credentials credentials);
+    Model.AuthenticationResponse Authenticate(Credentials credentials);
 
 }

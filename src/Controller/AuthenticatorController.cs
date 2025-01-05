@@ -31,7 +31,7 @@ public class AuthenticatorController : ControllerBase
     /// <returns>A token wrapped with autentication</returns>
     [HttpPost]
     [Route("/api/authenticate")]
-    public ActionResult<Token> Authenticate([FromBody] AuthenticationCredential authenticationCredential)
+    public ActionResult<AuthenticationResponse> Authenticate([FromBody] AuthenticationCredential authenticationCredential)
     {
         var credentials = new Credentials(
             new Dictionary<string, string>
@@ -41,11 +41,11 @@ public class AuthenticatorController : ControllerBase
             }
         );
         
-        Token token = null;
+        AuthenticationResponse authenticationResponse = null;
         try
 
         {
-            token = _authenticator.Authenticate(credentials);
+            authenticationResponse = _authenticator.Authenticate(credentials);
         }
         catch (AuthenticationUserException exception)
         {
@@ -61,7 +61,7 @@ public class AuthenticatorController : ControllerBase
             return StatusCode(500, new { message = "Error interno del servidor" });
         }
 
-        return Ok(token);
+        return Ok(authenticationResponse);
     }
 
     /// <summary>

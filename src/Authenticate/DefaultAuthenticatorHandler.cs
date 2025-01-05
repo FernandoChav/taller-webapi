@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Taller1.Authenticate.Token;
 using Taller1.Data;
+using Taller1.Mapper;
 using Taller1.Model;
 using Taller1.Search;
 using Taller1.Service;
@@ -21,6 +22,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
     private readonly IObjectRepository<Role> _roleRepository;
     private readonly IEncryptStrategy _encryptStrategy;
     private readonly IUserTokenProvider _tokenProvider;
+    private readonly IObjectMapper<User, UserView> toUserMapper;
 
     /// <summary>
     /// Initializes the authentication handler with the necessary dependencies.
@@ -30,12 +32,15 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
     public DefaultAuthenticatorHandler(ApplicationDbContext applicationDbContext,
         IEncryptStrategy encryptStrategy,
         IUserTokenProvider tokenProvider,
-        IObjectRepository<Role> roleRepository)
+        IObjectRepository<Role> roleRepository,
+        IMapperFactory mapperFactory)
     {
         _users = applicationDbContext.Users;
         _roleRepository = roleRepository;
         _encryptStrategy = encryptStrategy;
         _tokenProvider = tokenProvider;
+        toUserMapper = mapperFactory.Get<User, 
+            UserView>();
     }
 
 
@@ -49,7 +54,7 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
     /// <returns>A JWT token string if authentication is successful.</returns>
     /// <exception cref="AuthenticationUserException">Thrown if the user is not found or the user is inactive.</exception>
     /// <exception cref="AuthenticationException">Thrown if the password does not match.</exception>
-    public Model.Token Authenticate(Credentials credentials)
+    public Model.AuthenticationResponse Authenticate(Credentials credentials)
     {
         var email = credentials.Email();
         var password = credentials.Password();
@@ -76,11 +81,16 @@ public class DefaultAuthenticatorHandler : IAuthenticatorHandler
 
         var tokenAsString = _tokenProvider.Token(userSelected);
         var roleSearched = _roleRepository.FindById(userSelected.RoleId);
-
-        return new Model.Token
+        var userView = toUserMapper.Mapper(userSelected);
+        
+        return new AuthenticationResponse
         {
-            TokenContent = tokenAsString,
-            Role = roleSearched
+            Token = new Model.Token
+            {
+                TokenContent = tokenAsString
+            },
+            UserView = userView,
+            Role = roleSearched,
         };
     }
 }

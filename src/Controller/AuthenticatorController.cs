@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Taller1.Authenticate;
 using Taller1.Model;
 using Taller1.TException;
@@ -48,7 +49,16 @@ public class AuthenticatorController : ControllerBase
         }
         catch (AuthenticationUserException exception)
         {
-            return BadRequest(exception.Message);
+            return BadRequest(new { message = exception.Message });
+        }
+        catch (AuthenticationException exception)
+        {
+            return BadRequest(new { message = exception.Message });
+        }
+        catch (Exception exception)
+        {
+            // Esto captura cualquier otro error inesperado
+            return StatusCode(500, new { message = "Error interno del servidor" });
         }
 
         return Ok(token);
